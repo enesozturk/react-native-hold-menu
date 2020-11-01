@@ -1,15 +1,17 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
-import StyleGuide from "./StyleGuide";
-import MenuBackDrop from "./MenuBackDrop";
+import StyleGuide from "../components/StyleGuide";
 import MessageItem from "./MessageItem";
 
-import { Messages } from "../variables";
+import { Messages } from "./variables";
 
-interface HoldMenuProps {}
+// React Native Hold Menu Components
+import { MenuBackDrop } from "../../react-native-hold-menu";
 
-const HoldMenu = () => {
+interface ChatPageProps {}
+
+const ChatPage = () => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
   const [isMenuClosed, setIsMenuClosed] = React.useState(false);
 
@@ -44,7 +46,7 @@ const HoldMenu = () => {
   );
 };
 
-export default HoldMenu;
+export default ChatPage;
 
 const styles = StyleSheet.create({
   container: {

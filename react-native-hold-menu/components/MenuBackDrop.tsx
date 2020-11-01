@@ -6,7 +6,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import StyleGuide from "../components/StyleGuide";
+import StyleGuide from "./StyleGuide";
 import { BlurView } from "expo-blur";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
@@ -17,7 +17,7 @@ export interface MenuBackDropProps {
   setIsMenuClosed: any;
 }
 
-const MenuBackDrop = ({
+export const MenuBackDrop = ({
   toggle,
   onCloseMenu,
   setIsMenuClosed,
@@ -43,8 +43,6 @@ const MenuBackDrop = ({
     </Animated.View>
   );
 };
-
-export default MenuBackDrop;
 
 const styles = StyleSheet.create({
   background: {

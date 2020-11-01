@@ -5,7 +5,7 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useTiming } from "react-native-redash";
 
 import StyleGuide from "../components/StyleGuide";
-import MenuItem from "./MenuItem";
+import { MenuItem } from "./MenuItem";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
@@ -47,7 +47,7 @@ const MenuItems = [
   },
 ];
 
-const Menu = ({ toggle, rtl }: MenuProps) => {
+export const Menu = ({ toggle, rtl }: MenuProps) => {
   const MenuHeight = 240;
   const transition = useTiming(toggle, { duration: 200 });
 
@@ -75,8 +75,6 @@ const Menu = ({ toggle, rtl }: MenuProps) => {
     </View>
   );
 };
-
-export default Menu;
 
 const styles = StyleSheet.create({
   wrapper: {

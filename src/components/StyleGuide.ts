@@ -23,9 +23,6 @@ const StyleGuide = {
       seenCheckColor: "rgb(110,193,242)",
       deliveredCheckColor: "gray",
     },
-    messageBackground: "rgb(230, 211, 214)",
-    messageItemBackground: "rgb(218, 248, 201)",
-    messageText: "rgb(67, 70, 65)",
   },
   typography: {
     body: {

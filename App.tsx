@@ -4,13 +4,13 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import StyleGuide from "./src/components/StyleGuide";
 
-import HoldMenu from "./react-native-hold-menu";
+import ChatPage from "./src/Whatsapp";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <HoldMenu />
+      <ChatPage />
     </View>
   );
 }

@@ -7,6 +7,22 @@ export const MenuItemHeight = () => {
   return StyleGuide.typography.callout.lineHeight + StyleGuide.spacing * 2.5;
 };
 
+export interface MenuItemProps {
+  item: {
+    title: string;
+    icon: string;
+  };
+}
+
+export const MenuItem = ({ item }: MenuItemProps) => {
+  return (
+    <TouchableOpacity activeOpacity={0.4} style={[styles.container]}>
+      <Text style={styles.text}>{item.title}</Text>
+      <Feather name={item.icon} size={18} />
+    </TouchableOpacity>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -23,21 +39,3 @@ const styles = StyleSheet.create({
     ...StyleGuide.typography.callout,
   },
 });
-
-export interface MenuItemProps {
-  item: {
-    title: string;
-    icon: string;
-  };
-}
-
-const MenuItem = ({ item }: MenuItemProps) => {
-  return (
-    <TouchableOpacity activeOpacity={0.4} style={[styles.container]}>
-      <Text style={styles.text}>{item.title}</Text>
-      <Feather name={item.icon} size={18} />
-    </TouchableOpacity>
-  );
-};
-
-export default MenuItem;

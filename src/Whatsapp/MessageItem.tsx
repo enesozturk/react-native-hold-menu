@@ -2,9 +2,11 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 import StyleGuide from "../components/StyleGuide";
-import Menu from "./Menu";
-import { MessageProps } from "../types";
+import { MessageProps } from "./types";
 import { MaterialIcons } from "@expo/vector-icons";
+
+// React Native Hold Menu Components
+import { Menu } from "../../react-native-hold-menu";
 
 interface MessageItemProps {
   message: MessageProps;
