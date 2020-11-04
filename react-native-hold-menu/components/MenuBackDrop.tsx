@@ -12,12 +12,14 @@ import { BlurView } from "expo-blur";
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
 export interface MenuBackDropProps {
+  tint?: "dark" | "light";
   toggle: boolean;
   onCloseMenu: any;
   setIsMenuClosed: any;
 }
 
 export const MenuBackDrop = ({
+  tint = "dark",
   toggle,
   onCloseMenu,
   setIsMenuClosed,
@@ -34,7 +36,11 @@ export const MenuBackDrop = ({
 
   return (
     <Animated.View style={[styles.background, {}, style]}>
-      <BlurView intensity={100} tint="dark" style={StyleSheet.absoluteFill}>
+      <BlurView
+        tint={tint}
+        intensity={100}
+        style={StyleSheet.absoluteFillObject}
+      >
         <TouchableWithoutFeedback
           style={{ width: "100%", height: "100%" }}
           onPress={onCloseMenu}

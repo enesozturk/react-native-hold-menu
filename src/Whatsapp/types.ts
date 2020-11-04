@@ -3,4 +3,5 @@ export type MessageProps = {
   text: string;
   fromMe: boolean;
   time: string;
+  isOverflowing?: boolean;
 };

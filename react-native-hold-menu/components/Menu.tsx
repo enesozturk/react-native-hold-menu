@@ -9,6 +9,11 @@ import { MenuItem } from "./MenuItem";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
+// export const CalculateMenuHeight = (itemLength: number) =>
+//   (StyleGuide.spacing * 2 * 2 + StyleGuide.typography.callout.lineHeight) *
+//   itemLength;
+export const CalculateMenuHeight = (itemLength: number) => 240;
+
 export interface MenuProps {
   toggle: boolean;
   rtl: boolean;
@@ -48,7 +53,7 @@ const MenuItems = [
 ];
 
 export const Menu = ({ toggle, rtl }: MenuProps) => {
-  const MenuHeight = 240;
+  const MenuHeight = CalculateMenuHeight(MenuItems.length);
   const transition = useTiming(toggle, { duration: 200 });
 
   const style = useAnimatedStyle(() => {
@@ -78,6 +83,8 @@ export const Menu = ({ toggle, rtl }: MenuProps) => {
 
 const styles = StyleSheet.create({
   wrapper: {
+    position: "absolute",
+    bottom: -1 * StyleGuide.spacing,
     width: MENU_WIDTH,
     backgroundColor: "blue",
     marginTop: StyleGuide.spacing,
