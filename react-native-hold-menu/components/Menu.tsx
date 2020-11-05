@@ -5,67 +5,32 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useTiming } from "react-native-redash";
 
 import StyleGuide from "../components/StyleGuide";
+import { MenuProps } from "../types";
+import {
+  CalculateMenuHeight,
+  MenuAnimationAnchor,
+} from "../utils/Calculations";
+import { MenuItems } from "../variables";
 import { MenuItem } from "./MenuItem";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
-// export const CalculateMenuHeight = (itemLength: number) =>
-//   (StyleGuide.spacing * 2 * 2 + StyleGuide.typography.callout.lineHeight) *
-//   itemLength;
-export const CalculateMenuHeight = (itemLength: number) => 240;
-
-export interface MenuProps {
-  toggle: boolean;
-  rtl: boolean;
-  itemHeight: number;
-}
-
-const MenuItems = [
-  {
-    id: 1,
-    title: "Star",
-    icon: "star",
-  },
-  {
-    id: 2,
-    title: "Answer",
-    icon: "corner-up-left",
-  },
-  {
-    id: 3,
-    title: "Forward",
-    icon: "corner-up-right",
-  },
-  {
-    id: 4,
-    title: "Copy",
-    icon: "copy",
-  },
-  {
-    id: 5,
-    title: "Info",
-    icon: "info",
-  },
-  {
-    id: 6,
-    title: "Delete",
-    icon: "trash",
-  },
-];
-
-export const Menu = ({ itemHeight, toggle, rtl }: MenuProps) => {
+export const Menu = ({ itemHeight, toggle, anchorPoint }: MenuProps) => {
   const MenuHeight = CalculateMenuHeight(MenuItems.length);
   const transition = useTiming(toggle, { duration: 200 });
-  const leftOrRight = rtl ? { right: 0 } : { left: 0 };
+  const leftOrRight = anchorPoint.includes("right")
+    ? { right: 0 }
+    : { left: 0 };
 
+  const Translate = MenuAnimationAnchor(anchorPoint);
   const style = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateX: (MENU_WIDTH / 2) * (rtl ? 1 : -1) },
-        { translateY: (-1 * MenuHeight) / 2 },
+        { translateX: Translate.begginingTransformations.translateX },
+        { translateY: Translate.begginingTransformations.translateY },
         { scale: transition.value },
-        { translateX: (MENU_WIDTH / 2) * (rtl ? -1 : 1) },
-        { translateY: MenuHeight / 2 },
+        { translateX: Translate.endingTransformations.translateX },
+        { translateY: Translate.endingTransformations.translateY },
       ],
     };
   });

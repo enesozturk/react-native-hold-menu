@@ -14,15 +14,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 // React Native Hold Menu Components
 import { Menu } from "../../react-native-hold-menu";
-import { CalculateMenuHeight } from "../../react-native-hold-menu/components/Menu";
+import { CalculateMenuHeight } from "../../react-native-hold-menu/utils/Calculations";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { MenuItems } from "../../react-native-hold-menu/variables";
 
 const DeviceHeight = Dimensions.get("screen").height;
-const MenuHeight = CalculateMenuHeight(6);
+const MenuHeight = CalculateMenuHeight(MenuItems.length);
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -65,6 +66,7 @@ const MessageItem = ({
     }
   };
 
+  // Animation for message wrapper component
   const parentStyle = useAnimatedStyle(() => {
     return {
       position: isSelectedMessage ? "absolute" : "relative",
@@ -73,17 +75,29 @@ const MessageItem = ({
     };
   });
 
-  const positionStyle = useAnimatedStyle(() => {
+  // Animation for message item
+  const messageStyle = useAnimatedStyle(() => {
     return {
       top: messageYPosition.value,
     };
   });
 
+  // Different styles for message if message sender or not
+  const messageStylesPerMessageSender = fromMe
+    ? {
+        right: 0,
+        borderBottomRightRadius: StyleGuide.spacing / 4,
+        backgroundColor: StyleGuide.palette.whatsapp.messageBackgroundSender,
+      }
+    : {
+        left: 0,
+        borderBottomLeftRadius: StyleGuide.spacing / 4,
+        backgroundColor: StyleGuide.palette.whatsapp.messageBackgroundReceiver,
+      };
+
   React.useEffect(() => {
     if (!isSelectedMessage) messageYPosition.value = withTiming(0);
   }, [isSelectedMessage]);
-
-  const leftOrRight = fromMe ? { right: 0 } : { left: 0 };
 
   return (
     <View
@@ -105,14 +119,9 @@ const MessageItem = ({
         style={[
           styles.message,
           {
-            ...leftOrRight,
-            backgroundColor: fromMe
-              ? StyleGuide.palette.whatsapp.messageBackgroundSender
-              : StyleGuide.palette.whatsapp.messageBackgroundReceiver,
-            borderBottomRightRadius: StyleGuide.spacing / (fromMe ? 4 : 1),
-            borderBottomLeftRadius: StyleGuide.spacing / (fromMe ? 1 : 4),
+            ...messageStylesPerMessageSender,
           },
-          { ...positionStyle },
+          { ...messageStyle },
         ]}
         activeOpacity={0.8}
         onPress={() => {
@@ -138,7 +147,7 @@ const MessageItem = ({
           <Menu
             itemHeight={parentHeight.value}
             toggle={isSelectedMessage && isMenuActive}
-            rtl={fromMe ? true : false}
+            anchorPoint={fromMe ? "top-right" : "top-left"}
           />
         )}
       </AnimatedTouchable>

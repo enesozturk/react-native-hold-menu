@@ -2,10 +2,7 @@ import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import StyleGuide from "../components/StyleGuide";
 import { Feather } from "@expo/vector-icons";
-
-export const MenuItemHeight = () => {
-  return StyleGuide.typography.callout.lineHeight + StyleGuide.spacing * 2.5;
-};
+import { MenuItemHeight } from "../utils/Calculations";
 
 export interface MenuItemProps {
   item: {
