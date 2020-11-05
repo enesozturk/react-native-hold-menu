@@ -17,6 +17,7 @@ export const CalculateMenuHeight = (itemLength: number) => 240;
 export interface MenuProps {
   toggle: boolean;
   rtl: boolean;
+  itemHeight: number;
 }
 
 const MenuItems = [
@@ -52,9 +53,10 @@ const MenuItems = [
   },
 ];
 
-export const Menu = ({ toggle, rtl }: MenuProps) => {
+export const Menu = ({ itemHeight, toggle, rtl }: MenuProps) => {
   const MenuHeight = CalculateMenuHeight(MenuItems.length);
   const transition = useTiming(toggle, { duration: 200 });
+  const leftOrRight = rtl ? { right: 0 } : { left: 0 };
 
   const style = useAnimatedStyle(() => {
     return {
@@ -69,9 +71,21 @@ export const Menu = ({ toggle, rtl }: MenuProps) => {
   });
 
   return (
-    <View style={styles.wrapper}>
+    <View
+      style={[
+        styles.wrapper,
+        {
+          ...leftOrRight,
+          top: itemHeight + 8,
+        },
+      ]}
+    >
       <Animated.View
-        style={[styles.container, { height: MenuHeight, ...style }]}
+        style={[
+          styles.container,
+          { height: MenuHeight, ...leftOrRight },
+          { ...style },
+        ]}
       >
         {MenuItems.map((item, index) => {
           return <MenuItem key={index} item={item} />;
@@ -84,10 +98,7 @@ export const Menu = ({ toggle, rtl }: MenuProps) => {
 const styles = StyleSheet.create({
   wrapper: {
     position: "absolute",
-    bottom: -1 * StyleGuide.spacing,
-    width: MENU_WIDTH,
-    backgroundColor: "blue",
-    marginTop: StyleGuide.spacing,
+    width: StyleGuide.dimensionWidth - StyleGuide.spacing * 4,
     zIndex: 10,
   },
   container: {

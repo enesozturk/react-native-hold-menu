@@ -134,10 +134,13 @@ const MessageItem = ({
             color={StyleGuide.palette.whatsapp.seenCheckColor}
           />
         </View>
-        <Menu
-          toggle={isSelectedMessage && isMenuActive}
-          rtl={fromMe ? true : false}
-        />
+        {parentHeight.value > 0 && (
+          <Menu
+            itemHeight={parentHeight.value}
+            toggle={isSelectedMessage && isMenuActive}
+            rtl={fromMe ? true : false}
+          />
+        )}
       </AnimatedTouchable>
     </View>
   );
@@ -156,8 +159,6 @@ const styles = StyleSheet.create({
   },
   message: {
     position: "relative",
-    top: 0,
-    right: 0,
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
