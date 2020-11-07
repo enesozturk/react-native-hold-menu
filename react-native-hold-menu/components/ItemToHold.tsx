@@ -27,7 +27,7 @@ interface ItemToHoldProps {
   onOpenMenu: any;
   onCloseMenu: any;
   isSelected: boolean;
-  setIsMenuClosed: any;
+  setIsMenuClosed?: any;
   menuProps?: MenuProps;
   children: React.ReactNode;
   containerStyle?: ViewStyle | ViewStyle[];
@@ -38,7 +38,6 @@ export const ItemToHold = ({
   onOpenMenu,
   onCloseMenu,
   isSelected,
-  setIsMenuClosed,
   menuProps,
   children,
   containerStyle = {},
@@ -54,8 +53,9 @@ export const ItemToHold = ({
   const messageRef = React.useRef(null);
 
   React.useEffect(() => {
-    if (isSelected) setWasActive(true);
-    else setToggleMenu(false);
+    if (isSelected) {
+      setWasActive(true);
+    } else setToggleMenu(false);
   }, [isSelected]);
 
   const handleLongPress = () => {
@@ -98,7 +98,6 @@ export const ItemToHold = ({
       messageYPosition.value = withTiming(0, {}, (finished: boolean) => {
         if (finished) {
           setWasActive(false);
-          onCloseMenu();
         }
       });
   }, [isSelected]);

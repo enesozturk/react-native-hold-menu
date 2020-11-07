@@ -13,7 +13,6 @@ interface ChatPageProps {}
 
 const ChatPage = () => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
-  const [isMenuClosed, setIsMenuClosed] = React.useState(true);
 
   const handleOpenMenu = (messageId: number) => {
     setSelectedMessage(messageId);
@@ -21,7 +20,6 @@ const ChatPage = () => {
 
   const handleCloseMenu = () => {
     setSelectedMessage(0);
-    //setToggleHoldMenu(false);
   };
 
   const messageStyles = (fromMe: boolean) =>
@@ -47,7 +45,6 @@ const ChatPage = () => {
             onOpenMenu={() => handleOpenMenu(message.id)}
             onCloseMenu={handleCloseMenu}
             isSelected={selectedMessage == message.id}
-            setIsMenuClosed={setIsMenuClosed}
             containerStyle={[
               styles.messageContainer,
               { alignItems: message.fromMe ? "flex-end" : "flex-start" },
