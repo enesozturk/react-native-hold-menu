@@ -15,14 +15,18 @@ import { MenuItem } from "./MenuItem";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
-export const Menu = ({ itemHeight, toggle, anchorPoint }: MenuProps) => {
+export const Menu = ({
+  itemHeight,
+  toggle,
+  anchorPoint,
+  ...props
+}: MenuProps) => {
   const MenuHeight = CalculateMenuHeight(MenuItems.length);
-  const transition = useTiming(toggle, { duration: 200 });
-  const leftOrRight = anchorPoint.includes("right")
-    ? { right: 0 }
-    : { left: 0 };
+  const transition = useTiming(toggle ? true : false, { duration: 150 });
+  const leftOrRight =
+    anchorPoint && anchorPoint.includes("right") ? { right: 0 } : { left: 0 };
 
-  const Translate = MenuAnimationAnchor(anchorPoint);
+  const Translate = MenuAnimationAnchor(anchorPoint || "top-right");
   const style = useAnimatedStyle(() => {
     return {
       transform: [
@@ -41,7 +45,8 @@ export const Menu = ({ itemHeight, toggle, anchorPoint }: MenuProps) => {
         styles.wrapper,
         {
           ...leftOrRight,
-          top: itemHeight + 8,
+          zIndex: toggle ? 5 : 10,
+          top: (itemHeight || 0) + StyleGuide.spacing,
         },
       ]}
     >
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
   wrapper: {
     position: "absolute",
     width: StyleGuide.dimensionWidth - StyleGuide.spacing * 4,
-    zIndex: 10,
+    zIndex: 5,
   },
   container: {
     position: "absolute",

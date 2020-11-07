@@ -31,6 +31,7 @@ export const MenuBackDrop = ({
           if (!toggle) setIsMenuClosed(true);
         }
       }),
+      zIndex: toggle ? 6 : 5,
     };
   });
 

@@ -13,6 +13,10 @@ const StyleGuide = {
     },
   },
   typography: {
+    body: {
+      fontSize: 17,
+      lineHeight: 20,
+    },
     callout: {
       fontSize: 16,
       lineHeight: 20,
