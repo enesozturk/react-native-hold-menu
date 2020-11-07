@@ -73,7 +73,7 @@ const ChatPage = () => {
         );
       })}
       <MenuBackDrop
-        toggle={selectedMessage > 0 ? !isMenuClosed : false}
+        toggle={selectedMessage > 0}
         onCloseMenu={handleCloseMenu}
       />
     </View>

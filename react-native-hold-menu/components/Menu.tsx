@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
@@ -18,12 +17,7 @@ import { MenuItem } from "./MenuItem";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
-export const Menu = ({
-  itemHeight,
-  toggle,
-  anchorPoint,
-  ...props
-}: MenuProps) => {
+export const Menu = ({ itemHeight, toggle, anchorPoint }: MenuProps) => {
   const MenuHeight = CalculateMenuHeight(MenuItems.length);
   const leftOrRight =
     anchorPoint && anchorPoint.includes("right") ? { right: 0 } : { left: 0 };

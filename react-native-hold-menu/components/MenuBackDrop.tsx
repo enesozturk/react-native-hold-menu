@@ -15,14 +15,12 @@ export interface MenuBackDropProps {
   tint?: "dark" | "light";
   toggle: boolean;
   onCloseMenu: any;
-  setIsMenuClosed?: any;
 }
 
 export const MenuBackDrop = ({
   tint = "dark",
   toggle,
   onCloseMenu,
-  setIsMenuClosed,
 }: MenuBackDropProps) => {
   const style = useAnimatedStyle(() => {
     return {
