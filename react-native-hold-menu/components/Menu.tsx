@@ -29,7 +29,7 @@ export const Menu = ({ itemHeight, toggle, anchorPoint }: MenuProps) => {
         { translateX: Translate.begginingTransformations.translateX },
         { translateY: Translate.begginingTransformations.translateY },
         {
-          scale: withTiming(toggle ? 1 : 0),
+          scale: withTiming(toggle ? 1 : 0, { duration: 150 }),
         },
         { translateX: Translate.endingTransformations.translateX },
         { translateY: Translate.endingTransformations.translateY },

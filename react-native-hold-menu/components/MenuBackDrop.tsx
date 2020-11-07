@@ -24,17 +24,17 @@ export const MenuBackDrop = ({
 }: MenuBackDropProps) => {
   const style = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(toggle ? 1 : 0, { duration: 300 }),
-      zIndex: toggle ? 10 : 5,
+      opacity: withTiming(toggle ? 1 : 0),
+      zIndex: 10,
     };
   });
 
   return (
-    <Animated.View style={[styles.background, {}, style]}>
+    <Animated.View style={[styles.background, { ...style }]}>
       <BlurView
         tint={tint}
         intensity={100}
-        style={StyleSheet.absoluteFillObject}
+        style={[StyleSheet.absoluteFillObject]}
       >
         <TouchableWithoutFeedback
           style={{ width: "100%", height: "100%" }}

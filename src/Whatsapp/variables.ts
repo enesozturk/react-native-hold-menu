@@ -49,18 +49,18 @@ export const Messages: MessageProps[] = [
     fromMe: true,
     time: "22:03",
   },
-  // {
-  //   id: 8,
-  //   text:
-  //     "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.",
-  //   fromMe: false,
-  //   time: "22:02",
-  // },
-  // {
-  //   id: 9,
-  //   text: "Lorem ipsum dolor sit amet.",
-  //   fromMe: true,
-  //   time: "22:03",
-  //   isOverflowing: true,
-  // },
+  {
+    id: 8,
+    text:
+      "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.",
+    fromMe: false,
+    time: "22:02",
+  },
+  {
+    id: 9,
+    text: "Lorem ipsum dolor sit amet.",
+    fromMe: true,
+    time: "22:03",
+    isOverflowing: true,
+  },
 ];

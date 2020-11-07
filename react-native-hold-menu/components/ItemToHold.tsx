@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  StyleSheet,
   View,
   LayoutChangeEvent,
   Dimensions,
@@ -17,6 +16,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { MenuItems } from "../../react-native-hold-menu/variables";
 import { MenuProps } from "../types";
+import { MenuBackDrop } from "./MenuBackDrop";
 
 const DeviceHeight = Dimensions.get("screen").height;
 const MenuHeight = CalculateMenuHeight(MenuItems.length);
@@ -44,6 +44,7 @@ export const ItemToHold = ({
   wrapperStyle = {},
 }: ItemToHoldProps) => {
   const [toggleMenu, setToggleMenu] = React.useState<boolean>(false);
+  const [toggleBackdrop, setToggleBackdrop] = React.useState<boolean>(false);
   const [wasActive, setWasActive] = React.useState<boolean>(false);
 
   const messageYPosition = useSharedValue(0);
@@ -53,9 +54,16 @@ export const ItemToHold = ({
   const messageRef = React.useRef(null);
 
   React.useEffect(() => {
-    if (isSelected) {
-      setWasActive(true);
-    } else setToggleMenu(false);
+    if (isSelected) setWasActive(true);
+    else {
+      setToggleMenu(false);
+      messageYPosition.value = withTiming(0, {}, (finished: boolean) => {
+        if (finished) {
+          setToggleBackdrop(false);
+          setWasActive(false);
+        }
+      });
+    }
   }, [isSelected]);
 
   const handleLongPress = () => {
@@ -63,18 +71,16 @@ export const ItemToHold = ({
 
     const differanceOfOverflow: number =
       parentPosition.value + parentHeight.value + MenuHeight - DeviceHeight;
+    const newPositionValue = -1 * (differanceOfOverflow * 1.5);
 
-    if (differanceOfOverflow > 0) {
-      messageYPosition.value = withTiming(
-        -1 * (differanceOfOverflow * 1.5),
-        { duration: 300 },
-        (finished: boolean) => {
-          if (finished && onOpenMenu) setToggleMenu(true);
-        }
-      );
-    } else {
-      if (onOpenMenu) setToggleMenu(true);
-    }
+    setToggleBackdrop(true);
+    messageYPosition.value = withTiming(
+      differanceOfOverflow > 0 ? newPositionValue : 0,
+      {},
+      (finished: boolean) => {
+        if (finished) setToggleMenu(true);
+      }
+    );
   };
 
   // Animation for message wrapper component
@@ -93,49 +99,41 @@ export const ItemToHold = ({
     };
   });
 
-  React.useEffect(() => {
-    if (!isSelected)
-      messageYPosition.value = withTiming(0, {}, (finished: boolean) => {
-        if (finished) {
-          setWasActive(false);
-        }
-      });
-  }, [isSelected]);
-
-  React.useEffect(() => {
-    console.log("WAS ACTIVE", wasActive);
-  }, [wasActive]);
-
   return (
-    <View
-      ref={messageRef}
-      onLayout={(layout: LayoutChangeEvent) => {
-        parentHeight.value = layout.nativeEvent.layout.height;
-        parentPosition.value = layout.nativeEvent.layout.y;
-      }}
-      style={[
-        containerStyle,
-        {
-          zIndex: isSelected || wasActive ? 15 : 6,
-        },
-        { ...parentStyle },
-      ]}
-    >
-      <AnimatedTouchable
-        style={[wrapperStyle, { ...itemStyle }]}
-        activeOpacity={0.8}
-        onPress={onCloseMenu}
-        onLongPress={handleLongPress}
+    <>
+      <View
+        ref={messageRef}
+        onLayout={(layout: LayoutChangeEvent) => {
+          parentHeight.value = layout.nativeEvent.layout.height;
+          parentPosition.value = layout.nativeEvent.layout.y;
+        }}
+        style={[
+          containerStyle,
+          {
+            zIndex: wasActive || isSelected ? 15 : 6,
+          },
+          { ...parentStyle },
+        ]}
       >
-        {children}
-        {parentHeight.value > 0 && (
-          <Menu
-            anchorPoint={"top-right"}
-            itemHeight={parentHeight.value}
-            toggle={toggleMenu}
-          />
-        )}
-      </AnimatedTouchable>
-    </View>
+        <AnimatedTouchable
+          style={[wrapperStyle, { ...itemStyle }]}
+          activeOpacity={0.8}
+          onPress={onCloseMenu}
+          onLongPress={handleLongPress}
+        >
+          {children}
+          {parentHeight.value > 0 && (
+            <Menu
+              anchorPoint={"top-right"}
+              itemHeight={parentHeight.value}
+              toggle={toggleMenu}
+            />
+          )}
+        </AnimatedTouchable>
+      </View>
+      {isSelected && (
+        <MenuBackDrop toggle={toggleBackdrop} onCloseMenu={onCloseMenu} />
+      )}
+    </>
   );
 };
