@@ -1,8 +1,11 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
-import { useTiming } from "react-native-redash";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 import StyleGuide from "../components/StyleGuide";
 import { MenuProps } from "../types";
@@ -22,7 +25,6 @@ export const Menu = ({
   ...props
 }: MenuProps) => {
   const MenuHeight = CalculateMenuHeight(MenuItems.length);
-  const transition = useTiming(toggle ? true : false, { duration: 150 });
   const leftOrRight =
     anchorPoint && anchorPoint.includes("right") ? { right: 0 } : { left: 0 };
 
@@ -32,7 +34,9 @@ export const Menu = ({
       transform: [
         { translateX: Translate.begginingTransformations.translateX },
         { translateY: Translate.begginingTransformations.translateY },
-        { scale: transition.value },
+        {
+          scale: withTiming(toggle ? 1 : 0),
+        },
         { translateX: Translate.endingTransformations.translateX },
         { translateY: Translate.endingTransformations.translateY },
       ],

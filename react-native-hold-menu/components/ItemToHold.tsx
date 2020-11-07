@@ -26,9 +26,8 @@ const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 interface ItemToHoldProps {
   onOpenMenu: any;
   onCloseMenu: any;
-  setToggleHoldMenu: any;
   isSelected: boolean;
-  isMenuClosed: boolean;
+  setIsMenuClosed: any;
   menuProps?: MenuProps;
   children: React.ReactNode;
   containerStyle?: ViewStyle | ViewStyle[];
@@ -38,15 +37,15 @@ interface ItemToHoldProps {
 export const ItemToHold = ({
   onOpenMenu,
   onCloseMenu,
-  setToggleHoldMenu,
   isSelected,
-  isMenuClosed,
+  setIsMenuClosed,
   menuProps,
   children,
   containerStyle = {},
   wrapperStyle = {},
 }: ItemToHoldProps) => {
   const [toggleMenu, setToggleMenu] = React.useState<boolean>(false);
+  const [wasActive, setWasActive] = React.useState<boolean>(false);
 
   const messageYPosition = useSharedValue(0);
   const parentHeight = useSharedValue(0);
@@ -55,21 +54,20 @@ export const ItemToHold = ({
   const messageRef = React.useRef(null);
 
   React.useEffect(() => {
-    if (isSelected) {
-      setToggleMenu(true);
-    } else setToggleMenu(false);
-  }, [isMenuClosed, isSelected]);
+    if (isSelected) setWasActive(true);
+    else setToggleMenu(false);
+  }, [isSelected]);
 
   const handleLongPress = () => {
     onOpenMenu();
 
     const differanceOfOverflow: number =
       parentPosition.value + parentHeight.value + MenuHeight - DeviceHeight;
-    setToggleHoldMenu(true);
+
     if (differanceOfOverflow > 0) {
       messageYPosition.value = withTiming(
         -1 * (differanceOfOverflow * 1.5),
-        { duration: 150 },
+        { duration: 300 },
         (finished: boolean) => {
           if (finished && onOpenMenu) setToggleMenu(true);
         }
@@ -96,8 +94,18 @@ export const ItemToHold = ({
   });
 
   React.useEffect(() => {
-    if (!isSelected) messageYPosition.value = withTiming(0);
+    if (!isSelected)
+      messageYPosition.value = withTiming(0, {}, (finished: boolean) => {
+        if (finished) {
+          setWasActive(false);
+          onCloseMenu();
+        }
+      });
   }, [isSelected]);
+
+  React.useEffect(() => {
+    console.log("WAS ACTIVE", wasActive);
+  }, [wasActive]);
 
   return (
     <View
@@ -109,7 +117,7 @@ export const ItemToHold = ({
       style={[
         containerStyle,
         {
-          zIndex: isSelected ? 15 : 6,
+          zIndex: isSelected || wasActive ? 15 : 6,
         },
         { ...parentStyle },
       ]}
@@ -117,18 +125,15 @@ export const ItemToHold = ({
       <AnimatedTouchable
         style={[wrapperStyle, { ...itemStyle }]}
         activeOpacity={0.8}
-        onPress={() => {
-          messageYPosition.value = withTiming(0);
-          onCloseMenu();
-        }}
+        onPress={onCloseMenu}
         onLongPress={handleLongPress}
       >
         {children}
         {parentHeight.value > 0 && (
           <Menu
+            anchorPoint={"top-right"}
             itemHeight={parentHeight.value}
             toggle={toggleMenu}
-            {...menuProps}
           />
         )}
       </AnimatedTouchable>

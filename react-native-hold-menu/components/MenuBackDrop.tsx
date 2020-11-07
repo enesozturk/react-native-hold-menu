@@ -15,7 +15,7 @@ export interface MenuBackDropProps {
   tint?: "dark" | "light";
   toggle: boolean;
   onCloseMenu: any;
-  setIsMenuClosed: any;
+  setIsMenuClosed?: any;
 }
 
 export const MenuBackDrop = ({
@@ -26,12 +26,8 @@ export const MenuBackDrop = ({
 }: MenuBackDropProps) => {
   const style = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(toggle ? 1 : 0, { duration: 100 }, (finished) => {
-        if (finished) {
-          if (!toggle) setIsMenuClosed(true);
-        }
-      }),
-      zIndex: toggle ? 6 : 5,
+      opacity: withTiming(toggle ? 1 : 0, { duration: 300 }),
+      zIndex: toggle ? 10 : 5,
     };
   });
 

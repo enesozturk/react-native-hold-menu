@@ -13,16 +13,15 @@ interface ChatPageProps {}
 
 const ChatPage = () => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
-  const [isMenuClosed, setIsMenuClosed] = React.useState(false);
-  const [toggleHoldMenu, setToggleHoldMenu] = React.useState<boolean>(false);
+  const [isMenuClosed, setIsMenuClosed] = React.useState(true);
 
   const handleOpenMenu = (messageId: number) => {
-    setIsMenuClosed(false);
     setSelectedMessage(messageId);
   };
+
   const handleCloseMenu = () => {
     setSelectedMessage(0);
-    setToggleHoldMenu(false);
+    //setToggleHoldMenu(false);
   };
 
   const messageStyles = (fromMe: boolean) =>
@@ -44,18 +43,18 @@ const ChatPage = () => {
       {Messages.map((message, index) => {
         return (
           <ItemToHold
+            key={index}
             onOpenMenu={() => handleOpenMenu(message.id)}
             onCloseMenu={handleCloseMenu}
-            setToggleHoldMenu={setToggleHoldMenu}
             isSelected={selectedMessage == message.id}
-            isMenuClosed={isMenuClosed}
+            setIsMenuClosed={setIsMenuClosed}
             containerStyle={[
               styles.messageContainer,
               { alignItems: message.fromMe ? "flex-end" : "flex-start" },
             ]}
-            menuProps={{
-              anchorPoint: message.fromMe ? "top-right" : "top-left",
-            }}
+            // menuProps={{
+            //   anchorPoint: message.fromMe ? "top-right" : "top-left",
+            // }}
             wrapperStyle={[
               styles.message,
               { ...messageStyles(message.fromMe), right: 0 },
@@ -74,9 +73,8 @@ const ChatPage = () => {
         );
       })}
       <MenuBackDrop
-        toggle={toggleHoldMenu}
+        toggle={selectedMessage > 0 ? !isMenuClosed : false}
         onCloseMenu={handleCloseMenu}
-        setIsMenuClosed={setIsMenuClosed}
       />
     </View>
   );
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
-    backgroundColor: "red",
+    // backgroundColor: "red",
     marginTop: StyleGuide.spacing,
   },
   message: {
