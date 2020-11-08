@@ -2,6 +2,7 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 
 import Animated, {
+  runOnUI,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
@@ -23,7 +24,7 @@ export const Menu = ({ itemHeight, toggle, anchorPoint }: MenuProps) => {
     anchorPoint && anchorPoint.includes("right") ? { right: 0 } : { left: 0 };
 
   const Translate = MenuAnimationAnchor(anchorPoint || "top-right");
-  const style = useAnimatedStyle(() => {
+  const messageStyles = useAnimatedStyle(() => {
     return {
       transform: [
         { translateX: Translate.begginingTransformations.translateX },
@@ -52,7 +53,7 @@ export const Menu = ({ itemHeight, toggle, anchorPoint }: MenuProps) => {
         style={[
           styles.container,
           { height: MenuHeight, ...leftOrRight },
-          { ...style },
+          { ...messageStyles },
         ]}
       >
         {MenuItems.map((item, index) => {
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   wrapper: {
     position: "absolute",
     width: StyleGuide.dimensionWidth - StyleGuide.spacing * 4,
-    zIndex: 5,
+    zIndex: 150,
   },
   container: {
     position: "absolute",

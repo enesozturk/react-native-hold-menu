@@ -24,8 +24,8 @@ export const MenuBackDrop = ({
 }: MenuBackDropProps) => {
   const style = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(toggle ? 1 : 0),
-      zIndex: 10,
+      opacity: withTiming(toggle ? 1 : 0, { duration: toggle ? 300 : 0 }),
+      zIndex: toggle ? 10 : 5,
     };
   });
 

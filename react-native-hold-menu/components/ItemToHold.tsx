@@ -3,20 +3,26 @@ import {
   View,
   LayoutChangeEvent,
   Dimensions,
-  TouchableOpacity,
   ViewStyle,
+  TouchableOpacity,
 } from "react-native";
-
-import { Menu } from "../../react-native-hold-menu";
-import { CalculateMenuHeight } from "../../react-native-hold-menu/utils/Calculations";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+// import {
+//   PanGestureHandler,
+//   TouchableOpacity,
+// } from "react-native-gesture-handler";
+
+import { Menu } from "./Menu";
+import { MenuBackDrop } from "./MenuBackDrop";
+
+import { CalculateMenuHeight } from "../utils/Calculations";
 import { MenuItems } from "../../react-native-hold-menu/variables";
 import { MenuProps } from "../types";
-import { MenuBackDrop } from "./MenuBackDrop";
+import StyleGuide from "../../src/components/StyleGuide";
 
 const DeviceHeight = Dimensions.get("screen").height;
 const MenuHeight = CalculateMenuHeight(MenuItems.length);
@@ -57,12 +63,16 @@ export const ItemToHold = ({
     if (isSelected) setWasActive(true);
     else {
       setToggleMenu(false);
-      messageYPosition.value = withTiming(0, {}, (finished: boolean) => {
-        if (finished) {
-          setToggleBackdrop(false);
-          setWasActive(false);
+      messageYPosition.value = withTiming(
+        0,
+        { duration: 150 },
+        (finished: boolean) => {
+          if (finished) {
+            setToggleBackdrop(false);
+            setWasActive(false);
+          }
         }
-      });
+      );
     }
   }, [isSelected]);
 
@@ -71,16 +81,19 @@ export const ItemToHold = ({
 
     const differanceOfOverflow: number =
       parentPosition.value + parentHeight.value + MenuHeight - DeviceHeight;
-    const newPositionValue = -1 * (differanceOfOverflow * 1.5);
+    const newPositionValue =
+      -1 * (differanceOfOverflow + StyleGuide.spacing * 2);
 
     setToggleBackdrop(true);
-    messageYPosition.value = withTiming(
-      differanceOfOverflow > 0 ? newPositionValue : 0,
-      {},
-      (finished: boolean) => {
-        if (finished) setToggleMenu(true);
-      }
-    );
+    if (differanceOfOverflow > 0)
+      messageYPosition.value = withTiming(
+        newPositionValue,
+        { duration: 150 },
+        (finished: boolean) => {
+          if (finished) setToggleMenu(true);
+        }
+      );
+    else setToggleMenu(true);
   };
 
   // Animation for message wrapper component
@@ -131,9 +144,6 @@ export const ItemToHold = ({
           )}
         </AnimatedTouchable>
       </View>
-      {isSelected && (
-        <MenuBackDrop toggle={toggleBackdrop} onCloseMenu={onCloseMenu} />
-      )}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 
 import StyleGuide from "../components/StyleGuide";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -7,7 +7,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Messages } from "./variables";
 
 // React Native Hold Menu Components
-import { MenuBackDrop, ItemToHold } from "../../react-native-hold-menu";
+import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
 
 interface ChatPageProps {}
 
@@ -37,40 +37,48 @@ const ChatPage = () => {
         };
 
   return (
-    <View style={styles.container}>
-      {Messages.map((message, index) => {
-        return (
-          <ItemToHold
-            key={index}
-            onOpenMenu={() => handleOpenMenu(message.id)}
-            onCloseMenu={handleCloseMenu}
-            isSelected={selectedMessage == message.id}
-            containerStyle={[
-              styles.messageContainer,
-              { alignItems: message.fromMe ? "flex-end" : "flex-start" },
-            ]}
-            // menuProps={{
-            //   anchorPoint: message.fromMe ? "top-right" : "top-left",
-            // }}
-            wrapperStyle={[
-              styles.message,
-              { ...messageStyles(message.fromMe), right: 0 },
-            ]}
-          >
-            <Text style={styles.messageText}>{message.text}</Text>
-            <View style={styles.messageTimeAndSeenContainer}>
-              <Text style={styles.messageTimeText}>{message.time}</Text>
-              <MaterialIcons
-                name="done-all"
-                size={16}
-                color={StyleGuide.palette.whatsapp.seenCheckColor}
-              />
-            </View>
-          </ItemToHold>
-        );
-      })}
-      {/* <MenuBackDrop toggle={true} onCloseMenu={() => {}} /> */}
-    </View>
+    <>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        scrollEnabled={!selectedMessage}
+      >
+        {Messages.map((message, index) => {
+          return (
+            <ItemToHold
+              key={index}
+              onOpenMenu={() => handleOpenMenu(message.id)}
+              onCloseMenu={handleCloseMenu}
+              isSelected={selectedMessage == message.id}
+              containerStyle={[
+                styles.messageContainer,
+                { alignItems: message.fromMe ? "flex-end" : "flex-start" },
+              ]}
+              // menuProps={{
+              //   anchorPoint: message.fromMe ? "top-right" : "top-left",
+              // }}
+              wrapperStyle={[
+                styles.message,
+                { ...messageStyles(message.fromMe), right: 0 },
+              ]}
+            >
+              <Text style={styles.messageText}>{message.text}</Text>
+              <View style={styles.messageTimeAndSeenContainer}>
+                <Text style={styles.messageTimeText}>{message.time}</Text>
+                <MaterialIcons
+                  name="done-all"
+                  size={16}
+                  color={StyleGuide.palette.whatsapp.seenCheckColor}
+                />
+              </View>
+            </ItemToHold>
+          );
+        })}
+        <MenuBackDrop
+          toggle={selectedMessage > 0}
+          onCloseMenu={handleCloseMenu}
+        />
+      </ScrollView>
+    </>
   );
 };
 
@@ -78,8 +86,7 @@ export default ChatPage;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: "100%",
+    width: StyleGuide.dimensionWidth,
     paddingTop: StyleGuide.spacing * 10,
     backgroundColor: StyleGuide.palette.whatsapp.chatBackground,
     display: "flex",
@@ -87,6 +94,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "flex-start",
     paddingHorizontal: StyleGuide.spacing * 2,
+    zIndex: 6,
   },
   messageContainer: {
     position: "relative",

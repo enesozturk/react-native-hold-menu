@@ -2,11 +2,14 @@ import StyleGuide from "../components/StyleGuide";
 import { MenuItems } from "../variables";
 
 export const MenuItemHeight = () => {
+  "worklet";
   return StyleGuide.typography.callout.lineHeight + StyleGuide.spacing * 2.5;
 };
 
-export const CalculateMenuHeight = (itemLength: number) =>
-  MenuItemHeight() * itemLength;
+export const CalculateMenuHeight = (itemLength: number) => {
+  "worklet";
+  return MenuItemHeight() * itemLength;
+};
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
 export type TransformOriginAnchorPoint =
@@ -20,6 +23,7 @@ export type TransformOriginAnchorPoint =
 export const MenuAnimationAnchor = (
   anchorPoint: TransformOriginAnchorPoint
 ) => {
+  "worklet";
   const MenuHeight = CalculateMenuHeight(MenuItems.length);
 
   const Center = 0;

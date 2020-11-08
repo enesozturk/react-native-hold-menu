@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import StyleGuide from "../components/StyleGuide";
 import { Feather } from "@expo/vector-icons";
-import { MenuItemHeight } from "../utils/Calculations";
+import { MenuItemHeight, MENU_WIDTH } from "../utils/Calculations";
 
 export interface MenuItemProps {
   item: {
@@ -22,7 +22,7 @@ export const MenuItem = ({ item }: MenuItemProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: MENU_WIDTH,
     height: MenuItemHeight(),
     borderBottomWidth: 1,
     borderBottomColor: StyleGuide.palette.secondary,
