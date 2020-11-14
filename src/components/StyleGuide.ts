@@ -23,6 +23,9 @@ const StyleGuide = {
       seenCheckColor: "rgb(110,193,242)",
       deliveredCheckColor: "gray",
     },
+    telegram: {
+      chatBackground: "rgb(230, 211, 214)",
+    },
   },
   typography: {
     body: {

@@ -8,6 +8,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "0.1.10",
+    "@react-navigation/bottom-tabs": "^5.11.1",
+    "@react-navigation/native": "^5.8.9",
     "expo": "~39.0.2",
     "expo-blur": "~8.2.0",
     "expo-status-bar": "~1.0.2",
@@ -17,6 +20,8 @@
     "react-native-gesture-handler": "~1.7.0",
     "react-native-reanimated": "2.0.0-alpha.6.1",
     "react-native-redash": "^15.11.1",
+    "react-native-safe-area-context": "3.1.4",
+    "react-native-screens": "~2.10.1",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {

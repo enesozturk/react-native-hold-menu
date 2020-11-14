@@ -5,13 +5,21 @@ import { StyleSheet, View } from "react-native";
 import StyleGuide from "./src/components/StyleGuide";
 
 import ChatPage from "./src/Whatsapp";
+import Telegram from "./src/Telegram";
+
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <ChatPage />
-    </View>
+    <>
+      <NavigationContainer>
+        {/* <View style={styles.container}>
+        <StatusBar style="auto" />
+        <ChatPage />
+      </View> */}
+        <Telegram />
+      </NavigationContainer>
+    </>
   );
 }
 
