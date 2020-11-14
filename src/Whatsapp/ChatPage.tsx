@@ -36,15 +36,22 @@ const ChatPage = () => {
             StyleGuide.palette.whatsapp.messageBackgroundReceiver,
         };
 
+  const [scrollY, setScrollY] = React.useState(0);
+
   return (
     <>
       <ScrollView
         contentContainerStyle={styles.container}
         scrollEnabled={!selectedMessage}
+        scrollEventThrottle={50}
+        onScroll={(event) => {
+          setScrollY(event.nativeEvent.contentOffset.y);
+        }}
       >
         {Messages.map((message, index) => {
           return (
             <ItemToHold
+              id={scrollY}
               key={index}
               onOpenMenu={() => handleOpenMenu(message.id)}
               onCloseMenu={handleCloseMenu}
@@ -53,9 +60,9 @@ const ChatPage = () => {
                 styles.messageContainer,
                 { alignItems: message.fromMe ? "flex-end" : "flex-start" },
               ]}
-              // menuProps={{
-              //   anchorPoint: message.fromMe ? "top-right" : "top-left",
-              // }}
+              menuProps={{
+                anchorPoint: message.fromMe ? "top-right" : "top-left",
+              }}
               wrapperStyle={[
                 styles.message,
                 { ...messageStyles(message.fromMe), right: 0 },
@@ -87,7 +94,6 @@ export default ChatPage;
 const styles = StyleSheet.create({
   container: {
     width: StyleGuide.dimensionWidth,
-    paddingTop: StyleGuide.spacing * 10,
     backgroundColor: StyleGuide.palette.whatsapp.chatBackground,
     display: "flex",
     flexDirection: "column",

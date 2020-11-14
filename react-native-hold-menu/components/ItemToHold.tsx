@@ -11,13 +11,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-// import {
-//   PanGestureHandler,
-//   TouchableOpacity,
-// } from "react-native-gesture-handler";
 
 import { Menu } from "./Menu";
-import { MenuBackDrop } from "./MenuBackDrop";
 
 import { CalculateMenuHeight } from "../utils/Calculations";
 import { MenuItems } from "../../react-native-hold-menu/variables";
@@ -30,6 +25,7 @@ const MenuHeight = CalculateMenuHeight(MenuItems.length);
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 interface ItemToHoldProps {
+  id: number;
   onOpenMenu: any;
   onCloseMenu: any;
   isSelected: boolean;
@@ -41,6 +37,7 @@ interface ItemToHoldProps {
 }
 
 export const ItemToHold = ({
+  id,
   onOpenMenu,
   onCloseMenu,
   isSelected,
@@ -80,9 +77,12 @@ export const ItemToHold = ({
     onOpenMenu();
 
     const differanceOfOverflow: number =
-      parentPosition.value + parentHeight.value + MenuHeight - DeviceHeight;
+      parentPosition.value +
+      parentHeight.value +
+      MenuHeight -
+      (DeviceHeight + id);
     const newPositionValue =
-      -1 * (differanceOfOverflow + StyleGuide.spacing * 2);
+      -1 * (differanceOfOverflow + StyleGuide.spacing * 4);
 
     setToggleBackdrop(true);
     if (differanceOfOverflow > 0)
@@ -137,7 +137,7 @@ export const ItemToHold = ({
           {children}
           {parentHeight.value > 0 && (
             <Menu
-              anchorPoint={"top-right"}
+              anchorPoint={menuProps?.anchorPoint}
               itemHeight={parentHeight.value}
               toggle={toggleMenu}
             />

@@ -18,7 +18,11 @@ import { MenuItem } from "./MenuItem";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
-export const Menu = ({ itemHeight, toggle, anchorPoint }: MenuProps) => {
+export const Menu = ({
+  itemHeight,
+  toggle,
+  anchorPoint = "top-center",
+}: MenuProps) => {
   const MenuHeight = CalculateMenuHeight(MenuItems.length);
   const leftOrRight =
     anchorPoint && anchorPoint.includes("right") ? { right: 0 } : { left: 0 };
