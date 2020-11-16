@@ -24,7 +24,7 @@ const StyleGuide = {
       deliveredCheckColor: "gray",
     },
     telegram: {
-      chatBackground: "rgb(230, 211, 214)",
+      chatBackground: "#C8D9EA",
     },
   },
   typography: {

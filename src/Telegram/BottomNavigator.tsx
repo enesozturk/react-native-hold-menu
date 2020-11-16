@@ -1,62 +1,47 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavButton } from "./NavButton";
-
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+import { CustomNavButton } from "./NavButton";
+import { MaterialIcons } from "@expo/vector-icons";
+import { CallsScreen, ChatScreen, PeopleScreen, SettingsScreen } from "./Pages";
 
 const Tab = createBottomTabNavigator();
 
-export default function BottomTabs() {
+export default function BottomTabs({}) {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator tabBar={(props) => <CustomNavButton {...props} />}>
       <Tab.Screen
         name="People"
         options={{
-          tabBarButton: () => (
-            <NavButton active={true} title="People" icon="user" />
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons size={24} name={"account-circle"} color={color} />
           ),
         }}
-        component={HomeScreen}
+        component={PeopleScreen}
       />
       <Tab.Screen
         name="Calls"
         options={{
-          tabBarButton: () => (
-            <NavButton active={false} title="Calls" icon="phone-call" />
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons size={24} name={"phone"} color={color} />
           ),
         }}
-        component={HomeScreen}
+        component={CallsScreen}
       />
       <Tab.Screen
         name="Chat"
         options={{
-          tabBarButton: () => (
-            <NavButton active={false} title="Chat" icon="message-circle" />
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons size={24} name={"question-answer"} color={color} />
           ),
         }}
-        component={HomeScreen}
+        component={ChatScreen}
       />
       <Tab.Screen
         name="Settings"
         options={{
-          tabBarButton: () => (
-            <NavButton active={false} title="Settings" icon="settings" />
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons size={24} name={"settings"} color={color} />
           ),
         }}
         component={SettingsScreen}
