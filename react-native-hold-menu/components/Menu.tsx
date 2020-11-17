@@ -17,15 +17,24 @@ import { MenuItems } from "../variables";
 import { MenuItem } from "./MenuItem";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
+export const MENU_CONTAINER_WIDTH =
+  StyleGuide.dimensionWidth - StyleGuide.spacing * 4;
 
 export const Menu = ({
   itemHeight,
   toggle,
   anchorPoint = "top-center",
+  containerStyles = {},
+  menuStyles = {},
 }: MenuProps) => {
   const MenuHeight = CalculateMenuHeight(MenuItems.length);
-  const leftOrRight =
-    anchorPoint && anchorPoint.includes("right") ? { right: 0 } : { left: 0 };
+  const leftOrRight = anchorPoint
+    ? anchorPoint.includes("right")
+      ? { right: 0 }
+      : anchorPoint.includes("left")
+      ? { left: 0 }
+      : { left: -MENU_WIDTH / 4 }
+    : {};
 
   const Translate = MenuAnimationAnchor(anchorPoint || "top-right");
   const messageStyles = useAnimatedStyle(() => {
@@ -49,14 +58,15 @@ export const Menu = ({
         {
           ...leftOrRight,
           zIndex: toggle ? 5 : 10,
-          top: (itemHeight || 0) + StyleGuide.spacing,
+          top: -1 * (MenuHeight + StyleGuide.spacing * 2),
+          ...containerStyles,
         },
       ]}
     >
       <Animated.View
         style={[
           styles.container,
-          { height: MenuHeight, ...leftOrRight },
+          { height: MenuHeight, ...leftOrRight, ...menuStyles },
           { ...messageStyles },
         ]}
       >
@@ -71,7 +81,7 @@ export const Menu = ({
 const styles = StyleSheet.create({
   wrapper: {
     position: "absolute",
-    width: StyleGuide.dimensionWidth - StyleGuide.spacing * 4,
+    width: MENU_CONTAINER_WIDTH,
     zIndex: 150,
   },
   container: {

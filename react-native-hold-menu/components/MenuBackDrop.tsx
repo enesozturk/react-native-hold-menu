@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 
 import Animated, {
   useAnimatedStyle,
@@ -15,12 +15,14 @@ export interface MenuBackDropProps {
   tint?: "dark" | "light";
   toggle: boolean;
   onCloseMenu: any;
+  containerStyle?: ViewStyle;
 }
 
 export const MenuBackDrop = ({
   tint = "dark",
   toggle,
   onCloseMenu,
+  containerStyle,
 }: MenuBackDropProps) => {
   const style = useAnimatedStyle(() => {
     return {
@@ -30,7 +32,9 @@ export const MenuBackDrop = ({
   });
 
   return (
-    <Animated.View style={[styles.background, { ...style }]}>
+    <Animated.View
+      style={[styles.background, { ...containerStyle }, { ...style }]}
+    >
       <BlurView
         tint={tint}
         intensity={100}
@@ -47,6 +51,8 @@ export const MenuBackDrop = ({
 
 const styles = StyleSheet.create({
   background: {
+    width: StyleGuide.dimensionWidth,
+    height: StyleGuide.dimensionHeight,
     ...StyleSheet.absoluteFillObject,
     zIndex: 5,
   },

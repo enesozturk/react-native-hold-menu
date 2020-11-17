@@ -1,7 +1,7 @@
 import React from "react";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { CustomNavButton } from "./NavButton";
+import { NavButton } from "./NavButton";
 import { MaterialIcons } from "@expo/vector-icons";
 import { CallsScreen, ChatScreen, PeopleScreen, SettingsScreen } from "./Pages";
 
@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator();
 
 export default function BottomTabs({}) {
   return (
-    <Tab.Navigator tabBar={(props) => <CustomNavButton {...props} />}>
+    <Tab.Navigator tabBar={(props) => <NavButton {...props} />}>
       <Tab.Screen
         name="People"
         options={{
