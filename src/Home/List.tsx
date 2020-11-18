@@ -27,6 +27,7 @@ const List = ({ onPress }: ListProps) => {
   return (
     <FlatList
       data={ListItems}
+      keyExtractor={(item: ListItemProps) => String(item.id)}
       renderItem={({ item }: { item: ListItemProps }) => {
         return <ListItem item={item} onPress={() => onPress(item.route)} />;
       }}

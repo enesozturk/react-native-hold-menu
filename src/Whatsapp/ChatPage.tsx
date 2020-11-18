@@ -1,26 +1,24 @@
 import React from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  LayoutChangeEvent,
+} from "react-native";
 
 import StyleGuide from "../components/StyleGuide";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { Messages } from "./variables";
-import { HoldMenuActions } from "../data/HoldMenuActions";
 
 // React Native Hold Menu Components
-import { ItemToHold } from "../../react-native-hold-menu";
+import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
 
 interface ChatPageProps {}
 
 const ChatPage = () => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
-
-  React.useEffect(() => {
-    HoldMenuActions.SetBackDropState({
-      toggle: selectedMessage > 0,
-      onCloseMenu: () => setSelectedMessage(0),
-    });
-  }, [selectedMessage]);
 
   const handleOpenMenu = (messageId: number) => {
     setSelectedMessage(messageId);
@@ -45,6 +43,7 @@ const ChatPage = () => {
         };
 
   const [scrollY, setScrollY] = React.useState(0);
+  const [containerHeight, setContainerHeight] = React.useState(0);
 
   return (
     <>
@@ -52,6 +51,9 @@ const ChatPage = () => {
         contentContainerStyle={styles.container}
         scrollEnabled={!selectedMessage}
         scrollEventThrottle={50}
+        onLayout={(layout: LayoutChangeEvent) => {
+          setContainerHeight(layout.nativeEvent.layout.height);
+        }}
         onScroll={(event) => {
           setScrollY(event.nativeEvent.contentOffset.y);
         }}
@@ -59,7 +61,10 @@ const ChatPage = () => {
         {Messages.map((message, index) => {
           return (
             <ItemToHold
-              id={scrollY}
+              containerProps={{
+                scrollY: scrollY,
+                height: containerHeight,
+              }}
               key={index}
               onOpenMenu={() => handleOpenMenu(message.id)}
               onCloseMenu={handleCloseMenu}
@@ -88,10 +93,10 @@ const ChatPage = () => {
             </ItemToHold>
           );
         })}
-        {/* <MenuBackDrop
+        <MenuBackDrop
           toggle={selectedMessage > 0}
           onCloseMenu={handleCloseMenu}
-        /> */}
+        />
       </ScrollView>
     </>
   );
@@ -101,6 +106,7 @@ export default ChatPage;
 
 const styles = StyleSheet.create({
   container: {
+    position: "relative",
     width: StyleGuide.dimensionWidth,
     backgroundColor: StyleGuide.palette.whatsapp.chatBackground,
     display: "flex",

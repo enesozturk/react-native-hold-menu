@@ -24,17 +24,15 @@ export const MenuBackDrop = ({
   onCloseMenu,
   containerStyle,
 }: MenuBackDropProps) => {
-  const [animateBackdrop, setAnimateBackdrop] = React.useState(false);
+  const [willAnimate, setWillAnimate] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    setAnimateBackdrop(toggle);
+    setWillAnimate(toggle ? true : false);
   }, [toggle]);
 
   const style = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(animateBackdrop ? 1 : 0, {
-        duration: toggle ? 300 : 0,
-      }),
+      opacity: withTiming(willAnimate ? 1 : 0, { duration: toggle ? 300 : 0 }),
       zIndex: toggle ? 10 : 5,
     };
   });
@@ -59,8 +57,6 @@ export const MenuBackDrop = ({
 
 const styles = StyleSheet.create({
   background: {
-    width: StyleGuide.dimensionWidth,
-    height: StyleGuide.dimensionHeight,
     ...StyleSheet.absoluteFillObject,
     zIndex: 5,
   },

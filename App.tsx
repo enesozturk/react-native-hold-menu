@@ -5,18 +5,12 @@ import StyleGuide from "./src/components/StyleGuide";
 
 import { NavigationContainer } from "@react-navigation/native";
 import Navigator from "./src/components/Navigator";
-import BackdropContainer from "./src/components/BackdropContainer";
-import { Provider } from "react-redux";
-import { store } from "./Store";
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Navigator />
-        <BackdropContainer />
-      </NavigationContainer>
-    </Provider>
+    <NavigationContainer>
+      <Navigator />
+    </NavigationContainer>
   );
 }
 

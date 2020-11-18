@@ -25,7 +25,10 @@ const MenuHeight = CalculateMenuHeight(MenuItems.length);
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 interface ItemToHoldProps {
-  id: number;
+  containerProps: {
+    height: number;
+    scrollY: number;
+  };
   onOpenMenu: any;
   onCloseMenu: any;
   isSelected: boolean;
@@ -37,7 +40,7 @@ interface ItemToHoldProps {
 }
 
 export const ItemToHold = ({
-  id,
+  containerProps,
   onOpenMenu,
   onCloseMenu,
   isSelected,
@@ -73,14 +76,24 @@ export const ItemToHold = ({
     }
   }, [isSelected]);
 
+  /** isMenuOnTop
+   * If the context menu is opening from bottom to top,
+   * it means that the user wants to open it above the parent item,
+   * that is why MenuHeight will be negative on calculation of the now position of parent item
+   */
+  const isMenuOnTop =
+    menuProps && menuProps.anchorPoint
+      ? menuProps.anchorPoint.split("-")[0] == "bottom"
+      : false;
+
   const handleLongPress = () => {
     onOpenMenu();
 
     const differanceOfOverflow: number =
       parentPosition.value +
       parentHeight.value +
-      MenuHeight -
-      (DeviceHeight + id);
+      (isMenuOnTop ? -1 * MenuHeight : MenuHeight) -
+      (containerProps.height + containerProps.scrollY);
     const newPositionValue =
       -1 * (differanceOfOverflow + StyleGuide.spacing * 4);
 

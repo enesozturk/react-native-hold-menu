@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  LayoutChangeEvent,
+} from "react-native";
 import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
 
 import StyleGuide from "../components/StyleGuide";
@@ -21,6 +27,9 @@ export function NavButton({
   handleOpenMenu,
   handleCloseMenu,
 }: CustomTabBarProps) {
+  const [scrollY, setScrollY] = React.useState(0);
+  const [containerHeight, setContainerHeight] = React.useState(0);
+
   return (
     <>
       <View
@@ -29,6 +38,9 @@ export function NavButton({
           paddingBottom: StyleGuide.spacing * 3,
           paddingTop: StyleGuide.spacing,
           zIndex: 16,
+        }}
+        onLayout={(layout: LayoutChangeEvent) => {
+          setContainerHeight(layout.nativeEvent.layout.height);
         }}
       >
         {state.routes.map((route: any, index: number) => {
@@ -64,8 +76,8 @@ export function NavButton({
 
           return (
             <ItemToHold
-              id={0}
               key={index}
+              containerProps={{ height: containerHeight, scrollY: 0 }}
               onOpenMenu={() => handleOpenMenu(route.key)}
               onCloseMenu={() => {
                 onPress();
