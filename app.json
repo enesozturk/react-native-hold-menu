@@ -1,8 +1,5 @@
 {
   "expo": {
-    "experiments": {
-      "turboModules": true
-    },
     "name": "react-native-hold-menu",
     "slug": "react-native-hold-menu",
     "version": "1.0.0",
