@@ -1,23 +1,16 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import StyleGuide from "./src/components/StyleGuide";
 
-import ChatPage from "./src/Whatsapp";
-import Telegram from "./src/Telegram";
-
 import { NavigationContainer } from "@react-navigation/native";
+import Navigator from "./src/components/Navigator";
 
 export default function App() {
   return (
     <>
       <NavigationContainer>
-        {/* <View style={styles.container}>
-        <StatusBar style="auto" />
-        <ChatPage />
-      </View> */}
-        <Telegram />
+        <Navigator />
       </NavigationContainer>
     </>
   );

@@ -35,6 +35,10 @@ export const Menu = ({
       ? { left: 0 }
       : { left: -MENU_WIDTH / 4 }
     : {};
+  const topValue =
+    anchorPoint.split("-")[0] == "top"
+      ? (itemHeight || 0) + StyleGuide.spacing
+      : -1 * (MenuHeight + StyleGuide.spacing * 2);
 
   const Translate = MenuAnimationAnchor(anchorPoint || "top-right");
   const messageStyles = useAnimatedStyle(() => {
@@ -58,7 +62,7 @@ export const Menu = ({
         {
           ...leftOrRight,
           zIndex: toggle ? 5 : 10,
-          top: -1 * (MenuHeight + StyleGuide.spacing * 2),
+          top: topValue,
           ...containerStyles,
         },
       ]}

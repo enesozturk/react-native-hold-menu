@@ -107,7 +107,6 @@ export function NavButton({
         containerStyle={{ position: "absolute" }}
         onCloseMenu={handleCloseMenu}
         toggle={activeRoute !== ""}
-        tint="light"
       />
     </>
   );
