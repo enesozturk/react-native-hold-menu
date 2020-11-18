@@ -9,7 +9,7 @@ interface HomeProps {
 
 const Home = ({ navigation }: HomeProps) => {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, zIndex: 6 }}>
       <Text style={styles.title}>Examples</Text>
       <List onPress={(route: string) => navigation.navigate(route)} />
     </View>

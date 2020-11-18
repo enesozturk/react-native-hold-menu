@@ -24,14 +24,22 @@ export const MenuBackDrop = ({
   onCloseMenu,
   containerStyle,
 }: MenuBackDropProps) => {
+  const [animateBackdrop, setAnimateBackdrop] = React.useState(false);
+
+  React.useEffect(() => {
+    setAnimateBackdrop(toggle);
+  }, [toggle]);
+
   const style = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(toggle ? 1 : 0, { duration: toggle ? 300 : 0 }),
+      opacity: withTiming(animateBackdrop ? 1 : 0, {
+        duration: toggle ? 300 : 0,
+      }),
       zIndex: toggle ? 10 : 5,
     };
   });
 
-  return (
+  return toggle ? (
     <Animated.View
       style={[styles.background, { ...containerStyle }, { ...style }]}
     >
@@ -46,7 +54,7 @@ export const MenuBackDrop = ({
         />
       </BlurView>
     </Animated.View>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({

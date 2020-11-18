@@ -5,14 +5,22 @@ import StyleGuide from "../components/StyleGuide";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { Messages } from "./variables";
+import { HoldMenuActions } from "../data/HoldMenuActions";
 
 // React Native Hold Menu Components
-import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
+import { ItemToHold } from "../../react-native-hold-menu";
 
 interface ChatPageProps {}
 
 const ChatPage = () => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    HoldMenuActions.SetBackDropState({
+      toggle: selectedMessage > 0,
+      onCloseMenu: () => setSelectedMessage(0),
+    });
+  }, [selectedMessage]);
 
   const handleOpenMenu = (messageId: number) => {
     setSelectedMessage(messageId);
@@ -80,10 +88,10 @@ const ChatPage = () => {
             </ItemToHold>
           );
         })}
-        <MenuBackDrop
+        {/* <MenuBackDrop
           toggle={selectedMessage > 0}
           onCloseMenu={handleCloseMenu}
-        />
+        /> */}
       </ScrollView>
     </>
   );
