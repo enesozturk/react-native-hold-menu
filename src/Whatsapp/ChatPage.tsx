@@ -74,6 +74,7 @@ const ChatPage = () => {
                 { alignItems: message.fromMe ? "flex-end" : "flex-start" },
               ]}
               menuProps={{
+                items: [],
                 anchorPoint: message.fromMe ? "top-right" : "top-left",
               }}
               wrapperStyle={[

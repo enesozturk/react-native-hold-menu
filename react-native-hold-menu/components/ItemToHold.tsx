@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  LayoutChangeEvent,
-  Dimensions,
-  ViewStyle,
-  TouchableOpacity,
-} from "react-native";
+import { View, LayoutChangeEvent, TouchableOpacity } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,12 +9,8 @@ import Animated, {
 import { Menu } from "./Menu";
 
 import { CalculateMenuHeight } from "../utils/Calculations";
-import { MenuItems } from "../../react-native-hold-menu/variables";
 import { ItemToHoldProps } from "../types";
 import StyleGuide from "../../src/components/StyleGuide";
-
-const DeviceHeight = Dimensions.get("screen").height;
-const MenuHeight = CalculateMenuHeight(MenuItems.length);
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -34,6 +24,10 @@ export const ItemToHold = ({
   containerStyle = {},
   wrapperStyle = {},
 }: ItemToHoldProps) => {
+  const MenuHeight = CalculateMenuHeight(
+    menuProps.items.length > 0 ? menuProps.items.length : 1
+  );
+
   const [toggleMenu, setToggleMenu] = React.useState<boolean>(false);
   const [toggleBackdrop, setToggleBackdrop] = React.useState<boolean>(false);
   const [wasActive, setWasActive] = React.useState<boolean>(false);
@@ -139,7 +133,8 @@ export const ItemToHold = ({
           {children}
           {parentHeight.value > 0 && (
             <Menu
-              anchorPoint={menuProps?.anchorPoint}
+              items={menuProps.items}
+              anchorPoint={menuProps.anchorPoint}
               itemHeight={parentHeight.value}
               toggle={toggleMenu}
             />

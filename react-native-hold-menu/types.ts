@@ -30,7 +30,7 @@ export interface ItemToHoldProps {
   /**
    * Menu props is optional but you probably need to use it to set anchor point of context menu openning from. From top-right, top-left, bottom-center etc.
    */
-  menuProps?: MenuProps;
+  menuProps: MenuProps;
 
   /**
    * What do you want to render inside the hold item?
@@ -52,17 +52,17 @@ export interface ItemToHoldProps {
 
 export interface MenuProps {
   toggle?: boolean;
+  items: MenuItemProps[];
   itemHeight?: number;
-  anchorPoint?: TransformOriginAnchorPoint;
+  anchorPoint: TransformOriginAnchorPoint;
   containerStyles?: ViewStyle;
   menuStyles?: ViewStyle;
 }
 
 export interface MenuItemProps {
-  item: {
-    title: string;
-    icon: string;
-  };
+  id: number;
+  title: string;
+  icon: string;
 }
 
 export interface MenuBackDropProps {

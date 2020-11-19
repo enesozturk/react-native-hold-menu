@@ -1,8 +1,4 @@
-type MenuItemProps = {
-  id: number;
-  title: string;
-  icon: string;
-};
+import { MenuItemProps } from "./types";
 
 export const MenuItems: MenuItemProps[] = [
   {

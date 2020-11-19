@@ -2,13 +2,12 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 
 import Animated, {
-  runOnUI,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
 
 import StyleGuide from "../components/StyleGuide";
-import { MenuProps } from "../types";
+import { MenuItemProps, MenuProps } from "../types";
 import {
   CalculateMenuHeight,
   MenuAnimationAnchor,
@@ -21,13 +20,14 @@ export const MENU_CONTAINER_WIDTH =
   StyleGuide.dimensionWidth - StyleGuide.spacing * 4;
 
 export const Menu = ({
+  items,
   itemHeight,
   toggle,
   anchorPoint = "top-center",
   containerStyles = {},
   menuStyles = {},
 }: MenuProps) => {
-  const MenuHeight = CalculateMenuHeight(MenuItems.length);
+  const MenuHeight = CalculateMenuHeight(items.length > 0 ? items.length : 1);
   const leftOrRight = anchorPoint
     ? anchorPoint.includes("right")
       ? { right: 0 }
@@ -74,9 +74,13 @@ export const Menu = ({
           { ...messageStyles },
         ]}
       >
-        {MenuItems.map((item, index) => {
-          return <MenuItem key={index} item={item} />;
-        })}
+        {items && items.length > 0 ? (
+          items.map((item: MenuItemProps, index: number) => {
+            return <MenuItem key={index} item={item} />;
+          })
+        ) : (
+          <MenuItem item={{ id: 0, title: "Empty List", icon: "stars" }} />
+        )}
       </Animated.View>
     </View>
   );

@@ -6,7 +6,7 @@ import StyleGuide from "../components/StyleGuide";
 import { MenuItemHeight, MENU_WIDTH } from "../utils/Calculations";
 import { MenuItemProps } from "../types";
 
-export const MenuItem = ({ item }: MenuItemProps) => {
+export const MenuItem = ({ item }: { item: MenuItemProps }) => {
   return (
     <TouchableOpacity activeOpacity={0.4} style={[styles.container]}>
       <Text style={styles.text}>{item.title}</Text>

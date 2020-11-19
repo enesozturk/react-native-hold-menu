@@ -86,6 +86,7 @@ export function NavButton({
               isSelected={activeRoute == route.key}
               containerStyle={styles.container}
               menuProps={{
+                items: [],
                 anchorPoint:
                   index == 0 || index == 1
                     ? "bottom-left"
