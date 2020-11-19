@@ -1,5 +1,6 @@
+import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, StatusBar } from "react-native";
 import StyleGuide from "../components/StyleGuide";
 import List from "./List";
 
@@ -8,6 +9,10 @@ interface HomeProps {
 }
 
 const Home = ({ navigation }: HomeProps) => {
+  useFocusEffect(() => {
+    StatusBar.setHidden(false);
+  });
+
   return (
     <View style={{ flex: 1, zIndex: 6 }}>
       <Text style={styles.title}>Examples</Text>

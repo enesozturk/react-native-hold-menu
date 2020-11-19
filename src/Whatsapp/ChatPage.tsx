@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   View,
   StyleSheet,
   Text,
   ScrollView,
   LayoutChangeEvent,
+  StatusBar,
 } from "react-native";
 
 import StyleGuide from "../components/StyleGuide";
@@ -14,19 +15,33 @@ import { Messages } from "./variables";
 
 // React Native Hold Menu Components
 import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
+import { getConstants } from "../../react-native-hold-menu/utils/Constants";
+import Animated from "react-native-reanimated";
+import { useControls } from "../hooks/UseControls";
+import { DetachedHeader } from "../components/DetachedHeader";
 
 interface ChatPageProps {}
 
 const ChatPage = () => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
+  const { controlsStyles, setControlsHidden } = useControls();
 
-  const handleOpenMenu = (messageId: number) => {
+  const handleOpenMenu = useCallback((messageId: number) => {
+    "worklet";
+
+    setControlsHidden(true);
+    StatusBar.setHidden(true);
     setSelectedMessage(messageId);
-  };
+  }, []);
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
+    "worklet";
+
+    //delay for smooth hiding background opacity
     setSelectedMessage(0);
-  };
+    setControlsHidden(false);
+    StatusBar.setHidden(false);
+  }, []);
 
   const messageStyles = (fromMe: boolean) =>
     fromMe
@@ -45,10 +60,17 @@ const ChatPage = () => {
   const [scrollY, setScrollY] = React.useState(0);
   const [containerHeight, setContainerHeight] = React.useState(0);
 
+  const { APPBAR_HEIGHT, STATUSBAR_HEIGHT } = getConstants();
+
   return (
     <>
       <ScrollView
-        contentContainerStyle={styles.container}
+        contentContainerStyle={[
+          styles.container,
+          {
+            paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
+          },
+        ]}
         scrollEnabled={!selectedMessage}
         scrollEventThrottle={50}
         onLayout={(layout: LayoutChangeEvent) => {
@@ -99,6 +121,11 @@ const ChatPage = () => {
           onCloseMenu={handleCloseMenu}
         />
       </ScrollView>
+      <Animated.View style={controlsStyles}>
+        <DetachedHeader.Container>
+          <DetachedHeader />
+        </DetachedHeader.Container>
+      </Animated.View>
     </>
   );
 };

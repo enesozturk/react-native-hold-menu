@@ -66,6 +66,7 @@ export const ItemToHold = ({
       : false;
 
   const handleLongPress = () => {
+    "worklet";
     onOpenMenu();
 
     const differanceOfOverflow: number =

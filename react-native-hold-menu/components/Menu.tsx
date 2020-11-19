@@ -11,11 +11,11 @@ import { MenuItemProps, MenuProps } from "../types";
 import {
   CalculateMenuHeight,
   MenuAnimationAnchor,
+  MENU_WIDTH,
 } from "../utils/Calculations";
-import { MenuItems } from "../variables";
+
 import { MenuItem } from "./MenuItem";
 
-export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 export const MENU_CONTAINER_WIDTH =
   StyleGuide.dimensionWidth - StyleGuide.spacing * 4;
 
@@ -79,7 +79,9 @@ export const Menu = ({
             return <MenuItem key={index} item={item} />;
           })
         ) : (
-          <MenuItem item={{ id: 0, title: "Empty List", icon: "stars" }} />
+          <MenuItem
+            item={{ id: 0, title: "Empty List", icon: "help-circle" }}
+          />
         )}
       </Animated.View>
     </View>

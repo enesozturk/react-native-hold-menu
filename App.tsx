@@ -1,16 +1,25 @@
 import React from "react";
 
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import StyleGuide from "./src/components/StyleGuide";
 
 import { NavigationContainer } from "@react-navigation/native";
 import Navigator from "./src/components/Navigator";
+import { useHoldMenuInit } from "./react-native-hold-menu";
 
 export default function App() {
+  useHoldMenuInit();
   return (
-    <NavigationContainer>
-      <Navigator />
-    </NavigationContainer>
+    <>
+      <StatusBar
+        translucent
+        showHideTransition="fade"
+        barStyle="dark-content"
+      />
+      <NavigationContainer>
+        <Navigator />
+      </NavigationContainer>
+    </>
   );
 }
 
