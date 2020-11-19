@@ -8,15 +8,9 @@ import Animated, {
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import StyleGuide from "./StyleGuide";
 import { BlurView } from "expo-blur";
+import { MenuBackDropProps } from "../types";
 
 export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
-
-export interface MenuBackDropProps {
-  tint?: "dark" | "light";
-  toggle: boolean;
-  onCloseMenu: any;
-  containerStyle?: ViewStyle;
-}
 
 export const MenuBackDrop = ({
   tint = "dark",
@@ -24,20 +18,14 @@ export const MenuBackDrop = ({
   onCloseMenu,
   containerStyle,
 }: MenuBackDropProps) => {
-  const [willAnimate, setWillAnimate] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    setWillAnimate(toggle ? true : false);
-  }, [toggle]);
-
   const style = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(willAnimate ? 1 : 0, { duration: toggle ? 300 : 0 }),
+      opacity: withTiming(toggle ? 1 : 0, { duration: toggle ? 300 : 0 }),
       zIndex: toggle ? 10 : 5,
     };
   });
 
-  return toggle ? (
+  return (
     <Animated.View
       style={[styles.background, { ...containerStyle }, { ...style }]}
     >
@@ -52,7 +40,7 @@ export const MenuBackDrop = ({
         />
       </BlurView>
     </Animated.View>
-  ) : null;
+  );
 };
 
 const styles = StyleSheet.create({

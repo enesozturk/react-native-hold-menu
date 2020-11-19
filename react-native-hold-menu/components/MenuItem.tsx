@@ -1,15 +1,10 @@
 import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import StyleGuide from "../components/StyleGuide";
-import { Feather } from "@expo/vector-icons";
-import { MenuItemHeight, MENU_WIDTH } from "../utils/Calculations";
 
-export interface MenuItemProps {
-  item: {
-    title: string;
-    icon: string;
-  };
-}
+import { Feather } from "@expo/vector-icons";
+import StyleGuide from "../components/StyleGuide";
+import { MenuItemHeight, MENU_WIDTH } from "../utils/Calculations";
+import { MenuItemProps } from "../types";
 
 export const MenuItem = ({ item }: MenuItemProps) => {
   return (

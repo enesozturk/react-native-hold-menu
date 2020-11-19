@@ -16,60 +16,13 @@ import { Menu } from "./Menu";
 
 import { CalculateMenuHeight } from "../utils/Calculations";
 import { MenuItems } from "../../react-native-hold-menu/variables";
-import { MenuProps } from "../types";
+import { ItemToHoldProps } from "../types";
 import StyleGuide from "../../src/components/StyleGuide";
 
 const DeviceHeight = Dimensions.get("screen").height;
 const MenuHeight = CalculateMenuHeight(MenuItems.length);
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-
-interface ItemToHoldProps {
-  /**
-   * You are going to need pass this prop to the parent of the hold items(s) container because;
-   * when you use it in different views, it is needed to know parent height and scroll value
-   * to calculate correct new positions of the holded item.
-   */
-  containerProps: {
-    height: number;
-    scrollY: number;
-  };
-
-  /**
-   * Function that you want to call on hold the item. You are going to need pass handler to set context menu state on. Check out the examples.
-   */
-  onOpenMenu: any;
-
-  /**
-   * Function that you want to call on close the context menu. You are going to need pass handler to set context menu state off. Check out the examples.
-   */
-  onCloseMenu: any;
-
-  /**
-   * ItemToHold needs to know if context menu should open or not.
-   */
-  isSelected: boolean;
-
-  /**
-   * Menu props is optional but you probably need to use it to set anchor point of context menu openning from. From top-right, top-left, bottom-center etc.
-   */
-  menuProps?: MenuProps;
-
-  /**
-   * What do you want to render inside the hold item?
-   */
-  children: React.ReactNode;
-
-  /**
-   * To override the container of item(s) to hold
-   */
-  containerStyle?: ViewStyle | ViewStyle[];
-
-  /**
-   * To override the wrapper (parent) of item to hold
-   */
-  wrapperStyle?: ViewStyle | ViewStyle[];
-}
 
 export const ItemToHold = ({
   containerProps,
