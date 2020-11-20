@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { Header, StackHeaderProps } from "@react-navigation/stack";
 import { View } from "react-native";
+import { getConstants } from "../../react-native-hold-menu/utils/Constants";
 
 const headerPropsMap = new Map<string, StackHeaderProps>();
 const subs: Array<() => void> = [];
@@ -46,8 +47,18 @@ export function DetachedHeader() {
 }
 
 DetachedHeader.Container = ({ children }: { children: JSX.Element }) => {
+  const { HEADER_HEIGHT, STATUSBAR_HEIGHT } = getConstants();
+
   return (
-    <View style={{ position: "absolute", top: 0, left: 0, right: 0 }}>
+    <View
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        paddingTop: STATUSBAR_HEIGHT,
+      }}
+    >
       {children}
     </View>
   );

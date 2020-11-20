@@ -20,6 +20,7 @@ export const MenuBackDrop = ({
     return {
       opacity: withTiming(toggle ? 1 : 0, { duration: toggle ? 300 : 0 }),
       zIndex: toggle ? 10 : 5,
+      transform: [{ scale: toggle ? 1 : 0 }],
     };
   });
 

@@ -6,6 +6,7 @@ import {
   ScrollView,
   LayoutChangeEvent,
   StatusBar,
+  FlatList,
 } from "react-native";
 
 import StyleGuide from "../components/StyleGuide";
@@ -19,10 +20,11 @@ import { getConstants } from "../../react-native-hold-menu/utils/Constants";
 import Animated from "react-native-reanimated";
 import { useControls } from "../hooks/UseControls";
 import { DetachedHeader } from "../components/DetachedHeader";
+import { MessageProps } from "./types";
 
 interface ChatPageProps {}
 
-const ChatPage = () => {
+const ChatPage = ({}: {}) => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
   const { controlsStyles, setControlsHidden } = useControls();
 
@@ -43,8 +45,10 @@ const ChatPage = () => {
     StatusBar.setHidden(false);
   }, []);
 
-  const messageStyles = (fromMe: boolean) =>
-    fromMe
+  const messageStyles = (fromMe: boolean) => {
+    "worklet";
+
+    return fromMe
       ? {
           right: 0,
           borderBottomRightRadius: StyleGuide.spacing / 4,
@@ -56,14 +60,74 @@ const ChatPage = () => {
           backgroundColor:
             StyleGuide.palette.whatsapp.messageBackgroundReceiver,
         };
+  };
 
   const [scrollY, setScrollY] = React.useState(0);
   const [containerHeight, setContainerHeight] = React.useState(0);
 
   const { APPBAR_HEIGHT, STATUSBAR_HEIGHT } = getConstants();
 
+  const _renderItem = ({ item }: { item: MessageProps }) => (
+    <>
+      <ItemToHold
+        containerProps={{
+          scrollY: scrollY,
+          height: containerHeight,
+        }}
+        onOpenMenu={() => handleOpenMenu(item.id)}
+        onCloseMenu={handleCloseMenu}
+        isSelected={selectedMessage == item.id}
+        containerStyle={[
+          styles.messageContainer,
+          { alignItems: item.fromMe ? "flex-end" : "flex-start" },
+        ]}
+        menuProps={{
+          items: [],
+          anchorPoint: item.fromMe ? "top-right" : "top-left",
+        }}
+        wrapperStyle={[
+          styles.message,
+          { ...messageStyles(item.fromMe), right: 0 },
+        ]}
+      >
+        <Text style={styles.messageText}>{item.text}</Text>
+        <View style={styles.messageTimeAndSeenContainer}>
+          <Text style={styles.messageTimeText}>{item.time}</Text>
+          <MaterialIcons
+            name="done-all"
+            size={16}
+            color={StyleGuide.palette.whatsapp.seenCheckColor}
+          />
+        </View>
+      </ItemToHold>
+      <MenuBackDrop
+        toggle={selectedMessage > 0}
+        onCloseMenu={handleCloseMenu}
+      />
+    </>
+  );
+
   return (
     <>
+      {/* <FlatList
+        contentContainerStyle={[
+          styles.container,
+          {
+            paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
+          },
+        ]}
+        scrollEnabled={!selectedMessage}
+        scrollEventThrottle={50}
+        onLayout={(layout: LayoutChangeEvent) => {
+          setContainerHeight(layout.nativeEvent.layout.height);
+        }}
+        onScroll={(event) => {
+          setScrollY(event.nativeEvent.contentOffset.y);
+        }}
+        data={Messages}
+        keyExtractor={(message: MessageProps) => String(message.id)}
+        renderItem={_renderItem}
+      /> */}
       <ScrollView
         contentContainerStyle={[
           styles.container,
@@ -121,6 +185,7 @@ const ChatPage = () => {
           onCloseMenu={handleCloseMenu}
         />
       </ScrollView>
+
       <Animated.View style={controlsStyles}>
         <DetachedHeader.Container>
           <DetachedHeader />
@@ -135,13 +200,8 @@ export default ChatPage;
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    width: StyleGuide.dimensionWidth,
     backgroundColor: StyleGuide.palette.whatsapp.chatBackground,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-end",
-    justifyContent: "flex-start",
-    paddingHorizontal: StyleGuide.spacing * 2,
+    paddingHorizontal: StyleGuide.spacing,
     zIndex: 6,
   },
   messageContainer: {
