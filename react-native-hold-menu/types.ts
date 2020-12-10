@@ -50,6 +50,19 @@ export interface ItemToHoldProps {
   setHoldMenuProps?: any;
 }
 
+export type MenuBackDropMethods = {
+  /**
+   * Snap to the minimum provided point from `snapPoints`.
+   * @type () => void
+   */
+  collapse: () => void;
+  /**
+   * Close the bottom sheet.
+   * @type () => void
+   */
+  close: () => void;
+};
+
 export interface MenuProps {
   toggle?: boolean;
   items: MenuItemProps[];
