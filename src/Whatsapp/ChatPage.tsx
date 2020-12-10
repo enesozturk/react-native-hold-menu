@@ -109,25 +109,6 @@ const ChatPage = ({}: {}) => {
 
   return (
     <>
-      {/* <FlatList
-        contentContainerStyle={[
-          styles.container,
-          {
-            paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
-          },
-        ]}
-        scrollEnabled={!selectedMessage}
-        scrollEventThrottle={50}
-        onLayout={(layout: LayoutChangeEvent) => {
-          setContainerHeight(layout.nativeEvent.layout.height);
-        }}
-        onScroll={(event) => {
-          setScrollY(event.nativeEvent.contentOffset.y);
-        }}
-        data={Messages}
-        keyExtractor={(message: MessageProps) => String(message.id)}
-        renderItem={_renderItem}
-      /> */}
       <ScrollView
         contentContainerStyle={[
           styles.container,
@@ -160,7 +141,11 @@ const ChatPage = ({}: {}) => {
                 { alignItems: message.fromMe ? "flex-end" : "flex-start" },
               ]}
               menuProps={{
-                items: [],
+                items: [
+                  { id: 1, title: "Add", icon: "help-circle" },
+                  { id: 1, title: "Add 1", icon: "help-circle" },
+                  { id: 1, title: "Add 2", icon: "help-circle" },
+                ],
                 anchorPoint: message.fromMe ? "top-right" : "top-left",
               }}
               wrapperStyle={[
@@ -202,7 +187,7 @@ const styles = StyleSheet.create({
     position: "relative",
     backgroundColor: StyleGuide.palette.whatsapp.chatBackground,
     paddingHorizontal: StyleGuide.spacing,
-    zIndex: 6,
+    zIndex: 10,
   },
   messageContainer: {
     position: "relative",
@@ -210,7 +195,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
-    // backgroundColor: "red",
     marginTop: StyleGuide.spacing,
   },
   message: {
