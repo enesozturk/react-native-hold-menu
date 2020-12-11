@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View, LayoutChangeEvent, TouchableOpacity } from "react-native";
 import Animated, {
+  runOnJS,
+  runOnUI,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -38,17 +40,20 @@ export const ItemToHold = ({
 
   const messageRef = React.useRef(null);
 
+  // Effects
   React.useEffect(() => {
-    if (isSelected) setWasActive(true);
-    else {
-      setToggleMenu(false);
+    if (isSelected) {
+      setWasActive(true);
+      setToggleMenu(true);
+    } else {
       messageYPosition.value = withTiming(
         0,
         { duration: 150 },
         (finished: boolean) => {
           if (finished) {
-            setToggleBackdrop(false);
-            setWasActive(false);
+            runOnJS(setToggleMenu)(false);
+            runOnJS(setToggleBackdrop)(false);
+            runOnJS(setWasActive)(false);
           }
         }
       );
@@ -65,29 +70,51 @@ export const ItemToHold = ({
       ? menuProps.anchorPoint.split("-")[0] == "bottom"
       : false;
 
-  const handleLongPress = () => {
+  const calculateDistanceOfOverflow = () => {
     "worklet";
-    onOpenMenu();
-
     const differanceOfOverflow: number =
       parentPosition.value +
       parentHeight.value +
       (isMenuOnTop ? -1 * MenuHeight : MenuHeight) -
       (containerProps.height + containerProps.scrollY);
-    const newPositionValue =
-      -1 * (differanceOfOverflow + StyleGuide.spacing * 4);
+    return differanceOfOverflow;
+  };
 
-    setToggleBackdrop(true);
-    if (differanceOfOverflow > 0)
+  const calculateNewPositionValue = (distance: number) => {
+    "worklet";
+    return -1 * (distance + StyleGuide.spacing * 4);
+  };
+
+  const animateToPoint = useCallback(
+    (point: number, callback: () => void) => {
+      "worklet";
       messageYPosition.value = withTiming(
-        newPositionValue,
+        point,
         { duration: 150 },
         (finished: boolean) => {
-          if (finished) setToggleMenu(true);
+          if (finished) {
+            runOnJS(callback)();
+          }
         }
       );
-    else setToggleMenu(true);
-  };
+    },
+    [containerProps]
+  );
+
+  const handleLongPress = useCallback(() => {
+    const differanceOfOverflow: number = calculateDistanceOfOverflow();
+    const newPositionValue: number = calculateNewPositionValue(
+      differanceOfOverflow
+    );
+
+    onOpenMenu();
+    setToggleBackdrop(true);
+    if (differanceOfOverflow > 0) {
+      runOnUI(animateToPoint)(newPositionValue, () => {
+        setToggleMenu(false);
+      });
+    } else onOpenMenu();
+  }, [containerProps]);
 
   /**
    * Animation for parent component of item that you holding to open context menu
@@ -132,15 +159,13 @@ export const ItemToHold = ({
           onLongPress={handleLongPress}
         >
           {children}
-          {parentHeight.value > 0 && (
-            <Menu
-              items={menuProps.items}
-              anchorPoint={menuProps.anchorPoint}
-              itemHeight={parentHeight.value}
-              toggle={toggleMenu}
-            />
-          )}
         </AnimatedTouchable>
+        {/* <Menu
+          items={menuProps.items}
+          anchorPoint={menuProps.anchorPoint}
+          itemHeight={parentHeight.value}
+          toggle={toggleMenu}
+        /> */}
       </View>
     </>
   );

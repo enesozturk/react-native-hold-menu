@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   View,
   StyleSheet,
@@ -6,13 +6,12 @@ import {
   ScrollView,
   LayoutChangeEvent,
   StatusBar,
-  FlatList,
 } from "react-native";
 
 import StyleGuide from "../components/StyleGuide";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { Messages } from "./variables";
+import { Messages, MessageStyles } from "./variables";
 
 // React Native Hold Menu Components
 import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
@@ -28,84 +27,22 @@ const ChatPage = ({}: {}) => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
   const { controlsStyles, setControlsHidden } = useControls();
 
-  const handleOpenMenu = useCallback((messageId: number) => {
-    "worklet";
-
+  const handleOpenMenu = (messageId: number) => {
     setControlsHidden(true);
     StatusBar.setHidden(true);
     setSelectedMessage(messageId);
-  }, []);
+  };
 
   const handleCloseMenu = useCallback(() => {
-    "worklet";
-
-    //delay for smooth hiding background opacity
     setSelectedMessage(0);
     setControlsHidden(false);
     StatusBar.setHidden(false);
-  }, []);
-
-  const messageStyles = (fromMe: boolean) => {
-    "worklet";
-
-    return fromMe
-      ? {
-          right: 0,
-          borderBottomRightRadius: StyleGuide.spacing / 4,
-          backgroundColor: StyleGuide.palette.whatsapp.messageBackgroundSender,
-        }
-      : {
-          left: 0,
-          borderBottomLeftRadius: StyleGuide.spacing / 4,
-          backgroundColor:
-            StyleGuide.palette.whatsapp.messageBackgroundReceiver,
-        };
-  };
+  }, [selectedMessage]);
 
   const [scrollY, setScrollY] = React.useState(0);
   const [containerHeight, setContainerHeight] = React.useState(0);
 
   const { APPBAR_HEIGHT, STATUSBAR_HEIGHT } = getConstants();
-
-  const _renderItem = ({ item }: { item: MessageProps }) => (
-    <>
-      <ItemToHold
-        containerProps={{
-          scrollY: scrollY,
-          height: containerHeight,
-        }}
-        onOpenMenu={() => handleOpenMenu(item.id)}
-        onCloseMenu={handleCloseMenu}
-        isSelected={selectedMessage == item.id}
-        containerStyle={[
-          styles.messageContainer,
-          { alignItems: item.fromMe ? "flex-end" : "flex-start" },
-        ]}
-        menuProps={{
-          items: [],
-          anchorPoint: item.fromMe ? "top-right" : "top-left",
-        }}
-        wrapperStyle={[
-          styles.message,
-          { ...messageStyles(item.fromMe), right: 0 },
-        ]}
-      >
-        <Text style={styles.messageText}>{item.text}</Text>
-        <View style={styles.messageTimeAndSeenContainer}>
-          <Text style={styles.messageTimeText}>{item.time}</Text>
-          <MaterialIcons
-            name="done-all"
-            size={16}
-            color={StyleGuide.palette.whatsapp.seenCheckColor}
-          />
-        </View>
-      </ItemToHold>
-      <MenuBackDrop
-        toggle={selectedMessage > 0}
-        onCloseMenu={handleCloseMenu}
-      />
-    </>
-  );
 
   return (
     <>
@@ -136,10 +73,6 @@ const ChatPage = ({}: {}) => {
               onOpenMenu={() => handleOpenMenu(message.id)}
               onCloseMenu={handleCloseMenu}
               isSelected={selectedMessage == message.id}
-              containerStyle={[
-                styles.messageContainer,
-                { alignItems: message.fromMe ? "flex-end" : "flex-start" },
-              ]}
               menuProps={{
                 items: [
                   { id: 1, title: "Add", icon: "help-circle" },
@@ -148,10 +81,14 @@ const ChatPage = ({}: {}) => {
                 ],
                 anchorPoint: message.fromMe ? "top-right" : "top-left",
               }}
-              wrapperStyle={[
-                styles.message,
-                { ...messageStyles(message.fromMe), right: 0 },
-              ]}
+              containerStyle={{
+                ...styles.messageContainer,
+                ...{ alignItems: message.fromMe ? "flex-end" : "flex-start" },
+              }}
+              wrapperStyle={{
+                ...styles.message,
+                ...MessageStyles(message.fromMe),
+              }}
             >
               <Text style={styles.messageText}>{message.text}</Text>
               <View style={styles.messageTimeAndSeenContainer}>

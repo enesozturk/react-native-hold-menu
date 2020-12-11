@@ -16,8 +16,6 @@ import { HeaderPropsScrapper } from "./src/components/DetachedHeader";
 const Stack = createStackNavigator();
 
 export default function App() {
-  useHoldMenuInit();
-
   return (
     <>
       <StatusBar

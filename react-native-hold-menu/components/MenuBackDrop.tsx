@@ -1,5 +1,5 @@
-import * as React from "react";
-import { StyleSheet, ViewStyle } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 
 import Animated, {
   useAnimatedStyle,
@@ -18,11 +18,10 @@ export const MenuBackDrop = ({
 }: MenuBackDropProps) => {
   const style = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(toggle ? 1 : 0, { duration: toggle ? 300 : 0 }),
+      opacity: withTiming(toggle ? 1 : 0, {}, (isFinished: boolean) => {}),
       zIndex: toggle ? 10 : 5,
-      transform: [{ scale: toggle ? 1 : 0 }],
     };
-  });
+  }, [toggle]);
 
   return (
     <Animated.View

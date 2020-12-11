@@ -1,4 +1,19 @@
 import { MessageProps } from "./types";
+import StyleGuide from "../components/StyleGuide";
+
+export const MessageStyles = (fromMe: boolean) => {
+  return fromMe
+    ? {
+        right: 0,
+        borderBottomRightRadius: StyleGuide.spacing / 4,
+        backgroundColor: StyleGuide.palette.whatsapp.messageBackgroundSender,
+      }
+    : {
+        left: 0,
+        borderBottomLeftRadius: StyleGuide.spacing / 4,
+        backgroundColor: StyleGuide.palette.whatsapp.messageBackgroundReceiver,
+      };
+};
 
 export const Messages: MessageProps[] = [
   {
