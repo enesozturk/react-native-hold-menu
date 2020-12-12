@@ -27,20 +27,30 @@ export const Menu = ({
   containerStyles = {},
   menuStyles = {},
 }: MenuProps) => {
-  const MenuHeight = CalculateMenuHeight(items.length > 0 ? items.length : 1);
-  const leftOrRight = anchorPoint
-    ? anchorPoint.includes("right")
-      ? { right: 0 }
-      : anchorPoint.includes("left")
-      ? { left: 0 }
-      : { left: -MENU_WIDTH / 4 }
-    : {};
-  const topValue =
-    anchorPoint.split("-")[0] == "top"
+  const MenuHeight = React.useMemo(() => {
+    return CalculateMenuHeight(items.length > 0 ? items.length : 1);
+  }, [items]);
+
+  const leftOrRight = React.useMemo(() => {
+    return anchorPoint
+      ? anchorPoint.includes("right")
+        ? { right: 0 }
+        : anchorPoint.includes("left")
+        ? { left: 0 }
+        : { left: -MENU_WIDTH / 4 }
+      : {};
+  }, [anchorPoint]);
+
+  const topValue = React.useMemo(() => {
+    return anchorPoint.split("-")[0] == "top"
       ? (itemHeight || 0) + StyleGuide.spacing
       : -1 * (MenuHeight + StyleGuide.spacing * 2);
+  }, [anchorPoint, itemHeight, items]);
 
-  const Translate = MenuAnimationAnchor(anchorPoint || "top-right");
+  const Translate = React.useMemo(() => {
+    return MenuAnimationAnchor(anchorPoint || "top-right");
+  }, [anchorPoint]);
+
   const messageStyles = useAnimatedStyle(() => {
     return {
       transform: [

@@ -16,10 +16,10 @@ import { Messages, MessageStyles } from "./variables";
 // React Native Hold Menu Components
 import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
 import { getConstants } from "../../react-native-hold-menu/utils/constants";
+
 import Animated from "react-native-reanimated";
 import { useControls } from "../hooks/UseControls";
 import { DetachedHeader } from "../components/DetachedHeader";
-import { MessageProps } from "./types";
 
 interface ChatPageProps {}
 
@@ -54,11 +54,11 @@ const ChatPage = ({}: {}) => {
           },
         ]}
         scrollEnabled={!selectedMessage}
-        scrollEventThrottle={50}
+        scrollEventThrottle={16}
         onLayout={(layout: LayoutChangeEvent) => {
           setContainerHeight(layout.nativeEvent.layout.height);
         }}
-        onScroll={(event) => {
+        onScrollEndDrag={(event) => {
           setScrollY(event.nativeEvent.contentOffset.y);
         }}
       >

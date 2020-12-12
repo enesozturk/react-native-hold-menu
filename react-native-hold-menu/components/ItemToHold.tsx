@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { View, LayoutChangeEvent, TouchableOpacity } from "react-native";
 import Animated, {
   runOnJS,
@@ -27,12 +27,13 @@ export const ItemToHold = ({
   containerStyle = {},
   wrapperStyle = {},
 }: ItemToHoldProps) => {
-  const MenuHeight = CalculateMenuHeight(
-    menuProps.items.length > 0 ? menuProps.items.length : 1
-  );
+  const MenuHeight = useMemo(() => {
+    return CalculateMenuHeight(
+      menuProps.items.length > 0 ? menuProps.items.length : 1
+    );
+  }, [menuProps]);
 
   const [toggleMenu, setToggleMenu] = React.useState<boolean>(false);
-  const [toggleBackdrop, setToggleBackdrop] = React.useState<boolean>(false);
   const [wasActive, setWasActive] = React.useState<boolean>(false);
 
   const messageYPosition = useSharedValue(0);
@@ -45,15 +46,13 @@ export const ItemToHold = ({
   React.useEffect(() => {
     if (isSelected) {
       setWasActive(true);
-      setToggleMenu(true);
     } else {
+      setToggleMenu(false);
       messageYPosition.value = withTiming(
         0,
         { duration: 150 },
         (finished: boolean) => {
           if (finished) {
-            runOnJS(setToggleMenu)(false);
-            runOnJS(setToggleBackdrop)(false);
             runOnJS(setWasActive)(false);
           }
         }
@@ -81,9 +80,14 @@ export const ItemToHold = ({
     return differanceOfOverflow;
   };
 
-  const calculateNewPositionValue = (distance: number) => {
+  const calculateNewPositionValue = () => {
     "worklet";
-    return -1 * (distance + StyleGuide.spacing * 4);
+
+    const differanceOfOverflow: number = calculateDistanceOfOverflow();
+
+    if (differanceOfOverflow > 0)
+      return -1 * (differanceOfOverflow + StyleGuide.spacing * 4);
+    else return 0;
   };
 
   const animateToPoint = useCallback(
@@ -103,18 +107,15 @@ export const ItemToHold = ({
   );
 
   const handleLongPress = useCallback(() => {
-    const differanceOfOverflow: number = calculateDistanceOfOverflow();
-    const newPositionValue: number = calculateNewPositionValue(
-      differanceOfOverflow
-    );
+    const newPositionValue: number = calculateNewPositionValue();
 
     onOpenMenu();
-    setToggleBackdrop(true);
-    if (differanceOfOverflow > 0) {
+
+    if (newPositionValue !== 0)
       runOnUI(animateToPoint)(newPositionValue, () => {
-        setToggleMenu(false);
+        setToggleMenu(true);
       });
-    } else onOpenMenu();
+    else setToggleMenu(true);
   }, [containerProps]);
 
   /**
@@ -160,13 +161,13 @@ export const ItemToHold = ({
           onLongPress={handleLongPress}
         >
           {children}
+          {/* <Menu
+            items={menuProps.items}
+            anchorPoint={menuProps.anchorPoint}
+            itemHeight={parentHeight.value}
+            toggle={toggleMenu}
+          /> */}
         </AnimatedTouchable>
-        {/* <Menu
-          items={menuProps.items}
-          anchorPoint={menuProps.anchorPoint}
-          itemHeight={parentHeight.value}
-          toggle={toggleMenu}
-        /> */}
       </View>
     </>
   );
