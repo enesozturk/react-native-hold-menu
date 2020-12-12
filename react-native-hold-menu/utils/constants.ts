@@ -6,6 +6,12 @@ export enum BACKDROP_ZINDEX_STATE {
   DID_FADE_OUT = 500,
 }
 
+export const getZIndexValue = (wasActive: boolean, active: boolean) => {
+  if (wasActive && active) return BACKDROP_ZINDEX_STATE.ACTIVE;
+  else if (wasActive && !active) return BACKDROP_ZINDEX_STATE.WILL_FADE_OUT;
+  else return BACKDROP_ZINDEX_STATE.DID_FADE_OUT;
+};
+
 export function getConstants() {
   const { width, height } = Dimensions.get("window");
 

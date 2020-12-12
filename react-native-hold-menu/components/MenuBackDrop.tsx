@@ -10,7 +10,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { BlurView } from "expo-blur";
 import { MenuBackDropProps } from "../types";
-import { BACKDROP_ZINDEX_STATE } from "../utils/constants";
+import { getZIndexValue } from "../utils/constants";
 
 export const MenuBackDrop = ({
   tint = "dark",
@@ -38,12 +38,6 @@ export const MenuBackDrop = ({
       setWasActive(true);
     }
   }, [toggle]);
-
-  const getZIndexValue = (wasActive: boolean, toggle: boolean) => {
-    if (wasActive && toggle) return BACKDROP_ZINDEX_STATE.ACTIVE;
-    else if (wasActive && !toggle) return BACKDROP_ZINDEX_STATE.WILL_FADE_OUT;
-    else return BACKDROP_ZINDEX_STATE.DID_FADE_OUT;
-  };
 
   return (
     <Animated.View

@@ -57,7 +57,6 @@ DetachedHeader.Container = ({ children }: { children: JSX.Element }) => {
         left: 0,
         right: 0,
         paddingTop: STATUSBAR_HEIGHT,
-        zIndex: 5,
         backgroundColor: "white",
       }}
     >

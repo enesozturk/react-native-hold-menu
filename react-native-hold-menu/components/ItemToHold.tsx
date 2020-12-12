@@ -13,7 +13,7 @@ import { Menu } from "./Menu";
 import { CalculateMenuHeight } from "../utils/calculations";
 import { ItemToHoldProps } from "../types";
 import StyleGuide from "../../src/components/StyleGuide";
-import { BACKDROP_ZINDEX_STATE } from "../utils/constants";
+import { getZIndexValue } from "../utils/constants";
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -137,13 +137,6 @@ export const ItemToHold = ({
     };
   });
 
-  const getZIndexValue = (wasActive: boolean, toggle: boolean) => {
-    if (wasActive && isSelected) return BACKDROP_ZINDEX_STATE.ACTIVE + 1;
-    else if (wasActive && !isSelected)
-      return BACKDROP_ZINDEX_STATE.WILL_FADE_OUT + 1;
-    else return BACKDROP_ZINDEX_STATE.DID_FADE_OUT + 1;
-  };
-
   return (
     <>
       <View
@@ -155,7 +148,7 @@ export const ItemToHold = ({
         style={[
           containerStyle,
           {
-            zIndex: getZIndexValue(wasActive, isSelected),
+            zIndex: getZIndexValue(wasActive, isSelected) + 1,
           },
           { ...parentStyle },
         ]}
