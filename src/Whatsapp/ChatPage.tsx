@@ -15,7 +15,7 @@ import { Messages, MessageStyles } from "./variables";
 
 // React Native Hold Menu Components
 import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
-import { getConstants } from "../../react-native-hold-menu/utils/Constants";
+import { getConstants } from "../../react-native-hold-menu/utils/constants";
 import Animated from "react-native-reanimated";
 import { useControls } from "../hooks/UseControls";
 import { DetachedHeader } from "../components/DetachedHeader";

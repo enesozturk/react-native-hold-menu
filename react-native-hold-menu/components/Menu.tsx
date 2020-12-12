@@ -12,7 +12,7 @@ import {
   CalculateMenuHeight,
   MenuAnimationAnchor,
   MENU_WIDTH,
-} from "../utils/Calculations";
+} from "../utils/calculations";
 
 import { MenuItem } from "./MenuItem";
 

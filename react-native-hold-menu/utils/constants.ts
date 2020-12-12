@@ -1,5 +1,11 @@
 import { Platform, Dimensions, StatusBar } from "react-native";
 
+export enum BACKDROP_ZINDEX_STATE {
+  ACTIVE = 1500,
+  WILL_FADE_OUT = 1000,
+  DID_FADE_OUT = 500,
+}
+
 export function getConstants() {
   const { width, height } = Dimensions.get("window");
 

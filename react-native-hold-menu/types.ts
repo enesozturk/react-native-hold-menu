@@ -1,5 +1,5 @@
 import { ViewStyle } from "react-native";
-import { TransformOriginAnchorPoint } from "./utils/Calculations";
+import { TransformOriginAnchorPoint } from "./utils/calculations";
 
 export interface ItemToHoldProps {
   /**

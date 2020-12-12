@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
 import StyleGuide from "../components/StyleGuide";
-import { MenuItemHeight, MENU_WIDTH } from "../utils/Calculations";
+import { MenuItemHeight, MENU_WIDTH } from "../utils/calculations";
 import { MenuItemProps } from "../types";
 
 export const MenuItem = ({ item }: { item: MenuItemProps }) => {

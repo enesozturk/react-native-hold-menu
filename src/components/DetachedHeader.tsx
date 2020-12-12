@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { Header, StackHeaderProps } from "@react-navigation/stack";
 import { View } from "react-native";
-import { getConstants } from "../../react-native-hold-menu/utils/Constants";
+import { getConstants } from "../../react-native-hold-menu/utils/constants";
 
 const headerPropsMap = new Map<string, StackHeaderProps>();
 const subs: Array<() => void> = [];

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Easing, useAnimatedStyle, withTiming } from "react-native-reanimated";
-import { useSharedValue } from "../../react-native-hold-menu/utils/CustomFunctions";
+import { useSharedValue } from "../../react-native-hold-menu/utils/customfunctions";
 
 export function useControls() {
   const controlsHidden = useSharedValue(false);
