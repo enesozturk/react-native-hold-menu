@@ -2,6 +2,7 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
@@ -27,6 +28,10 @@ export const Menu = ({
   containerStyles = {},
   menuStyles = {},
 }: MenuProps) => {
+  const wasActive = React.useMemo(() => {
+    return toggle ? true : false;
+  }, [toggle]);
+
   const MenuHeight = React.useMemo(() => {
     return CalculateMenuHeight(items.length > 0 ? items.length : 1);
   }, [items]);
@@ -57,13 +62,13 @@ export const Menu = ({
         { translateX: Translate.begginingTransformations.translateX },
         { translateY: Translate.begginingTransformations.translateY },
         {
-          scale: withTiming(toggle ? 1 : 0, { duration: 150 }),
+          scale: wasActive ? 1 : 0,
         },
         { translateX: Translate.endingTransformations.translateX },
         { translateY: Translate.endingTransformations.translateY },
       ],
     };
-  });
+  }, [wasActive]);
 
   return (
     <View

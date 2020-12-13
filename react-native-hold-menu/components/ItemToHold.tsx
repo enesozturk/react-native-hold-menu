@@ -42,8 +42,7 @@ export const ItemToHold = ({
 
   const messageRef = React.useRef(null);
 
-  // Effects
-  React.useEffect(() => {
+  const isSelectedCallback = useCallback(() => {
     if (isSelected) {
       setWasActive(true);
     } else {
@@ -59,6 +58,9 @@ export const ItemToHold = ({
       );
     }
   }, [isSelected]);
+
+  // Effects
+  React.useEffect(isSelectedCallback);
 
   /** isMenuOnTop
    * If the context menu is opening from bottom to top,
@@ -90,21 +92,18 @@ export const ItemToHold = ({
     else return 0;
   };
 
-  const animateToPoint = useCallback(
-    (point: number, callback: () => void) => {
-      "worklet";
-      messageYPosition.value = withTiming(
-        point,
-        { duration: 150 },
-        (finished: boolean) => {
-          if (finished) {
-            runOnJS(callback)();
-          }
+  const animateToPoint = useCallback((point: number, callback: () => void) => {
+    "worklet";
+    messageYPosition.value = withTiming(
+      point,
+      { duration: 150 },
+      (finished: boolean) => {
+        if (finished) {
+          runOnJS(callback)();
         }
-      );
-    },
-    [containerProps]
-  );
+      }
+    );
+  }, []);
 
   const handleLongPress = useCallback(() => {
     const newPositionValue: number = calculateNewPositionValue();
