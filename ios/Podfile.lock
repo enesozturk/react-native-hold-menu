@@ -290,8 +290,8 @@ PODS:
     - React-jsi (= 0.63.4)
   - RNCMaskedView (0.1.10):
     - React
-  - RNGestureHandler (1.8.0):
-    - React
+  - RNGestureHandler (1.9.0):
+    - React-Core
   - RNReanimated (2.0.0-rc.0):
     - DoubleConversion
     - FBLazyVector
@@ -573,7 +573,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
-  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNReanimated: b9c929bfff7dedc9c89ab1875f1c6151023358d9
   RNScreens: 2ad555d4d9fa10b91bb765ca07fe9b29d59573f0
   UMAppLoader: 92d044af52626af3d81a69796ad666fc7a9a7d78

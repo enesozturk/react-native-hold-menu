@@ -11,10 +11,15 @@ import {
 import StyleGuide from "../components/StyleGuide";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { Messages, MessageStyles } from "./variables";
+import { MessageStyles } from "./variables";
+import { mockWhatsAppData } from "../utilities/data";
 
 // React Native Hold Menu Components
-import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
+import {
+  ItemToHold,
+  MenuBackDrop,
+  FlatList,
+} from "../../react-native-hold-menu";
 import { getConstants } from "../../react-native-hold-menu/utils/constants";
 
 import Animated from "react-native-reanimated";
@@ -27,6 +32,11 @@ const ChatPage = ({}: {}) => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
   const { controlsStyles, setControlsHidden } = useControls();
 
+  //#region variables
+  const data = useMemo(() => mockWhatsAppData(1000), []);
+  //#endregion
+
+  //#region callbacks
   const handleOpenMenu = (messageId: number) => {
     setControlsHidden(true);
     StatusBar.setHidden(true);
@@ -38,75 +48,43 @@ const ChatPage = ({}: {}) => {
     setControlsHidden(false);
     StatusBar.setHidden(false);
   }, [selectedMessage]);
+  //#endregion
 
-  const [scrollY, setScrollY] = React.useState(0);
-  const [containerHeight, setContainerHeight] = React.useState(0);
-
-  const { APPBAR_HEIGHT, STATUSBAR_HEIGHT } = getConstants();
-
-  return (
-    <>
-      <ScrollView
-        contentContainerStyle={[
-          styles.container,
-          {
-            paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT,
-          },
-        ]}
-        scrollEnabled={!selectedMessage}
-        scrollEventThrottle={16}
-        onLayout={(layout: LayoutChangeEvent) => {
-          setContainerHeight(layout.nativeEvent.layout.height);
-        }}
-        onScrollEndDrag={(event) => {
-          setScrollY(event.nativeEvent.contentOffset.y);
+  //#region renders
+  const renderItem = useCallback(
+    ({ item: message }) => (
+      <View
+        style={{
+          ...styles.messageContainer,
+          ...styles.message,
+          ...MessageStyles(message.fromMe),
+          ...{ alignSelf: message.fromMe ? "flex-end" : "flex-start" },
         }}
       >
-        {Messages.map((message, index) => {
-          return (
-            <ItemToHold
-              containerProps={{
-                scrollY: scrollY,
-                height: containerHeight,
-              }}
-              key={index}
-              onOpenMenu={() => handleOpenMenu(message.id)}
-              onCloseMenu={handleCloseMenu}
-              isSelected={selectedMessage == message.id}
-              menuProps={{
-                items: [
-                  { id: 1, title: "Add", icon: "help-circle" },
-                  { id: 1, title: "Add 1", icon: "help-circle" },
-                  { id: 1, title: "Add 2", icon: "help-circle" },
-                ],
-                anchorPoint: message.fromMe ? "top-right" : "top-left",
-              }}
-              containerStyle={{
-                ...styles.messageContainer,
-                ...{ alignItems: message.fromMe ? "flex-end" : "flex-start" },
-              }}
-              wrapperStyle={{
-                ...styles.message,
-                ...MessageStyles(message.fromMe),
-              }}
-            >
-              <Text style={styles.messageText}>{message.text}</Text>
-              <View style={styles.messageTimeAndSeenContainer}>
-                <Text style={styles.messageTimeText}>{message.time}</Text>
-                <MaterialIcons
-                  name="done-all"
-                  size={16}
-                  color={StyleGuide.palette.whatsapp.seenCheckColor}
-                />
-              </View>
-            </ItemToHold>
-          );
-        })}
-        <MenuBackDrop
-          toggle={selectedMessage > 0}
-          onCloseMenu={handleCloseMenu}
-        />
-      </ScrollView>
+        <Text style={styles.messageText}>{message.text}</Text>
+        <View style={styles.messageTimeAndSeenContainer}>
+          <Text style={styles.messageTimeText}>{message.time}</Text>
+          <MaterialIcons
+            name="done-all"
+            size={16}
+            color={StyleGuide.palette.whatsapp.seenCheckColor}
+          />
+        </View>
+      </View>
+    ),
+    []
+  );
+  return (
+    <>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => `${item.id}`}
+        renderItem={renderItem}
+        scrollEventThrottle={16}
+        windowSize={12}
+        initialNumToRender={12}
+        maxToRenderPerBatch={5}
+      />
 
       <Animated.View style={controlsStyles}>
         <DetachedHeader.Container>
@@ -115,6 +93,7 @@ const ChatPage = ({}: {}) => {
       </Animated.View>
     </>
   );
+  //#endregion
 };
 
 export default ChatPage;
@@ -152,6 +131,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     zIndex: 120,
+    backgroundColor: 'grey'
   },
   messageText: {
     ...StyleGuide.typography.body,

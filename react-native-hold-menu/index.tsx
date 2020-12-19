@@ -44,3 +44,6 @@ function useInit() {
 }
 
 export { useInit as useHoldMenuInit };
+
+
+export { default as FlatList } from './components/flatList'
