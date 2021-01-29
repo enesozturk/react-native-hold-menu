@@ -1,5 +1,7 @@
 import React, { memo, useMemo } from "react";
+import { Text } from "react-native";
 import Animated, {
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedProps,
   useAnimatedStyle,
@@ -7,16 +9,30 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { State, TapGestureHandler } from "react-native-gesture-handler";
+
+// Components
 import { BlurView } from "expo-blur";
-import { CONTEXT_MENU_STATE, WINDOW_HEIGHT } from "../../constants";
-import type { BackdropProps } from "./types";
+
+// Utils
 import { styles } from "./styles";
-import { Text } from "react-native";
+import { CONTEXT_MENU_STATE, WINDOW_HEIGHT } from "../../constants";
+import { HoldMenuContext } from "../provider";
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
-const BackdropComponent = ({ contextMenuState }: BackdropProps) => {
+const BackdropComponent = () => {
+  const [state, dispatch] = React.useContext(HoldMenuContext)
+  const data = useSharedValue(0)
+
+  //#region effects
+  React.useEffect(() => {
+    if (data.value != state.active)
+      data.value = state.active
+  }, [state])
+  //#endregion
+
   //#region gesture
+  const handleDeactivate = () => { dispatch({ type: 'end' }) }
   const tapGestureState = useSharedValue<State>(State.UNDETERMINED, false);
   const tapGestureEvent = useAnimatedGestureHandler(
     {
@@ -28,49 +44,49 @@ const BackdropComponent = ({ contextMenuState }: BackdropProps) => {
       },
       onCancel: ({ state }) => {
         tapGestureState.value = state;
-        contextMenuState.value = CONTEXT_MENU_STATE.END;
+        if (data.value == CONTEXT_MENU_STATE.ACTIVE) {
+          runOnJS(handleDeactivate)()
+        }
+        data.value = CONTEXT_MENU_STATE.END;
       },
       onEnd: ({ state }) => {
         tapGestureState.value = state;
-        contextMenuState.value = CONTEXT_MENU_STATE.END;
+        if (data.value == CONTEXT_MENU_STATE.ACTIVE) {
+          runOnJS(handleDeactivate)()
+        }
+        data.value = CONTEXT_MENU_STATE.END;
       },
       onFail: ({ state }) => {
         tapGestureState.value = state;
-        contextMenuState.value = CONTEXT_MENU_STATE.END;
+        if (data.value == CONTEXT_MENU_STATE.ACTIVE) {
+          runOnJS(handleDeactivate)()
+        }
+        data.value = CONTEXT_MENU_STATE.END;
       },
       onFinish: ({ state }) => {
         tapGestureState.value = state;
-        contextMenuState.value = CONTEXT_MENU_STATE.END;
+        if (data.value == CONTEXT_MENU_STATE.ACTIVE) {
+          runOnJS(handleDeactivate)()
+        }
+        data.value = CONTEXT_MENU_STATE.END;
       },
     },
-    [tapGestureState, contextMenuState]
+    [tapGestureState, data]
   );
   //#endregion
 
   //#region styles
   const animatedContainerStyle = useAnimatedStyle(() => {
-    return {
-      top:
-        contextMenuState.value === CONTEXT_MENU_STATE.ACTIVE
-          ? 0
-          : WINDOW_HEIGHT,
-      // zIndex: contextMenuState.value === CONTEXT_MENU_STATE.ACTIVE ? 500 : 0,
-    };
-  }, [contextMenuState]);
-  const containerStyle = useMemo(
-    () => [styles.container, animatedContainerStyle],
-    []
-  );
+    return { top: data.value === CONTEXT_MENU_STATE.ACTIVE ? 0 : WINDOW_HEIGHT };
+  }, [data]);
+
+  const containerStyle = useMemo(() => [styles.container, animatedContainerStyle], []);
+
   const animatedBlurViewProps = useAnimatedProps(() => {
     return {
-      intensity: withTiming(
-        contextMenuState.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0,
-        {
-          duration: 250,
-        }
-      ),
+      intensity: withTiming(data.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0, { duration: 200 }),
     };
-  }, [contextMenuState]);
+  }, [data]);
   //#endregion
 
   return (

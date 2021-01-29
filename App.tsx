@@ -4,7 +4,7 @@ import { StyleSheet, StatusBar } from "react-native";
 import StyleGuide from "./src/components/StyleGuide";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { useHoldMenuInit } from "./react-native-hold-menu";
+import { HoldMenuProvider } from "./react-native-hold-menu";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -12,12 +12,14 @@ import Home from "./src/Home";
 import Whatsapp from "./src/Whatsapp";
 import Telegram from "./src/Telegram";
 import { HeaderPropsScrapper } from "./src/components/DetachedHeader";
+import SampleItem from "./src/pages/SampleItem";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+
   return (
-    <>
+    <HoldMenuProvider>
       <StatusBar
         translucent
         showHideTransition="fade"
@@ -44,6 +46,16 @@ export default function App() {
               headerShown: true,
               header: HeaderPropsScrapper,
               headerBackTitleVisible: false,
+              title: "Sample Item",
+            }}
+            component={SampleItem}
+            name="SampleItem"
+          />
+          <Stack.Screen
+            options={{
+              headerShown: true,
+              header: HeaderPropsScrapper,
+              headerBackTitleVisible: false,
               title: "Chat",
             }}
             component={Whatsapp}
@@ -61,7 +73,7 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </HoldMenuProvider>
   );
 }
 

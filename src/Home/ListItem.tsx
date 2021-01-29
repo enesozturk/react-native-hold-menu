@@ -18,7 +18,7 @@ const ListItem = ({ item, onPress }: ListItemCompProps) => {
       style={[styles.container, styles.row]}
     >
       <View style={styles.row}>
-        <Image style={styles.image} source={item.image} />
+        {item.image && (<Image style={styles.image} source={item.image} />)}
         <Text style={styles.title}>{item.title}</Text>
       </View>
       <MaterialIcons name="chevron-right" size={24} />

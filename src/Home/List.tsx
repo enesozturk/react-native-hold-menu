@@ -7,16 +7,21 @@ import { ListItemProps } from "./types";
 const ListItems: ListItemProps[] = [
   {
     id: 1,
-    title: "Whatsapp",
-    route: "Whatsapp App",
-    image: require("../assets/img/whatsapp.png"),
+    title: "Sample Item",
+    route: "SampleItem",
   },
-  {
-    id: 2,
-    title: "Telegram",
-    route: "Telegram App",
-    image: require("../assets/img/telegram.png"),
-  },
+  // {
+  //   id: 1,
+  //   title: "Whatsapp",
+  //   route: "Whatsapp App",
+  //   image: require("../assets/img/whatsapp.png"),
+  // },
+  // {
+  //   id: 2,
+  //   title: "Telegram",
+  //   route: "Telegram App",
+  //   image: require("../assets/img/telegram.png"),
+  // },
 ];
 
 interface ListProps {

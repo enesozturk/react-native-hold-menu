@@ -26,14 +26,14 @@ import Animated from "react-native-reanimated";
 import { useControls } from "../hooks/UseControls";
 import { DetachedHeader } from "../components/DetachedHeader";
 
-interface ChatPageProps {}
+interface ChatPageProps { }
 
-const ChatPage = ({}: {}) => {
+const ChatPage = ({ }: {}) => {
   const [selectedMessage, setSelectedMessage] = React.useState<number>(0);
   const { controlsStyles, setControlsHidden } = useControls();
 
   //#region variables
-  const data = useMemo(() => mockWhatsAppData(1000), []);
+  const data = useMemo(() => mockWhatsAppData(100), []);
   //#endregion
 
   //#region callbacks
@@ -84,6 +84,7 @@ const ChatPage = ({}: {}) => {
         windowSize={12}
         initialNumToRender={12}
         maxToRenderPerBatch={5}
+        inverted
       />
 
       <Animated.View style={controlsStyles}>

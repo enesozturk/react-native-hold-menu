@@ -2,12 +2,12 @@
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator=\"iPhone 12 mini\"",
     "web": "expo start --web",
     "eject": "expo eject"
   },
   "dependencies": {
-    "@gorhom/portal": "^0.1.4",
+    "@gorhom/portal": "^0.2.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.1",
     "@react-navigation/native": "^5.8.9",
