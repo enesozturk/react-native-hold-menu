@@ -18,6 +18,11 @@ const SampleItem = ({ }: SampleItemProps) => {
             <View style={styles.item}>
                 <Text>😒</Text>
             </View>
+            <HoldItem id="item">
+                <View style={styles.item}>
+                    <Text style={{ color: 'white' }}>Hold Me! 🙋🏻‍♂️</Text>
+                </View>
+            </HoldItem>
         </View>
     );
 };
@@ -34,10 +39,10 @@ const styles = StyleSheet.create({
 
     },
     item: {
-        width: 200,
-        height: 80,
+        width: 120,
+        height: 120,
         backgroundColor: 'rgb(86, 90, 241)',
-        borderRadius: 16,
+        borderRadius: 32,
         marginBottom: 8,
         display: 'flex',
         justifyContent: 'center',

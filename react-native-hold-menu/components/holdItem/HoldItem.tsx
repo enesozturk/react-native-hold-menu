@@ -6,12 +6,12 @@ import Animated, {
     runOnJS,
     useAnimatedGestureHandler,
     useAnimatedProps,
-    useAnimatedReaction,
     useAnimatedRef,
     useAnimatedStyle,
     useSharedValue,
     withDelay,
     withTiming,
+    withSequence
 } from "react-native-reanimated";
 
 // Utils
@@ -77,12 +77,13 @@ const HoldItemComponent = ({
 
     //#region styles
     const ANIMATION_DURATION = 75
+
     const animatedContainerStyle = useAnimatedStyle(() => {
-        const animateOpacity = () =>
-            withDelay(longPressGestureState.value === State.ACTIVE ? 0 : ANIMATION_DURATION, withTiming(
-                longPressGestureState.value === State.ACTIVE ? 0 : 1,
-                { duration: 0 }
-            ))
+        const isAnimationActive = longPressGestureState.value === State.ACTIVE
+        const animateOpacity = () => withDelay(isAnimationActive ? 0 : ANIMATION_DURATION, withTiming(
+            isAnimationActive ? 0 : 1,
+            { duration: 0 }
+        ))
 
         return {
             opacity: animateOpacity(),
@@ -94,13 +95,16 @@ const HoldItemComponent = ({
 
 
     const animatedPortalItemContainerStyle = useAnimatedStyle(() => {
+        const isAnimationActive = longPressGestureState.value === State.ACTIVE
+
+        const animatedScale = () => isAnimationActive ? withSequence(withTiming(0.95, { duration: ANIMATION_DURATION }), withTiming(1)) : 1;
         const animateTranslateY = (position: number) =>
-            withTiming(position, {
+            withDelay(isAnimationActive ? ANIMATION_DURATION : 0, withTiming(position, {
                 duration: ANIMATION_DURATION,
-            });
+            }));
         const animateOpacity = () =>
-            withDelay(longPressGestureState.value === State.ACTIVE ? 0 : ANIMATION_DURATION, withTiming(
-                longPressGestureState.value === State.ACTIVE ? 1 : 0,
+            withDelay(isAnimationActive ? 0 : ANIMATION_DURATION, withTiming(
+                isAnimationActive ? 1 : 0,
                 { duration: 0 }
             ))
 
@@ -118,6 +122,9 @@ const HoldItemComponent = ({
                         longPressGestureState.value === State.ACTIVE ? -75 : 0,
                     ),
                 },
+                {
+                    scale: animatedScale()
+                }
             ],
         };
     });
