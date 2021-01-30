@@ -23,7 +23,7 @@ import { CONTEXT_MENU_STATE } from "../../constants";
 import { useLayout } from "../../hooks/useLayout";
 import type { HoldItemProps } from "./types";
 import { HoldMenuContext } from "../provider/Provider";
-import { HOLD_ITEM_TRANSFORM_DURATION } from "../../utils/constants";
+import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 
 const HoldItemComponent = ({
     id, children,

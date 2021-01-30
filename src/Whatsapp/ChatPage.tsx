@@ -16,8 +16,6 @@ import { mockWhatsAppData } from "../utilities/data";
 
 // React Native Hold Menu Components
 import {
-  ItemToHold,
-  MenuBackDrop,
   FlatList,
 } from "../../react-native-hold-menu";
 import { getConstants } from "../../react-native-hold-menu/utils/constants";

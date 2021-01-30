@@ -20,7 +20,7 @@ import {
 import { MenuItem } from "./MenuItem";
 import { HoldMenuContext } from "../provider";
 import { CONTEXT_MENU_STATE } from "../../constants";
-import { HOLD_ITEM_TRANSFORM_DURATION } from "../../utils/constants";
+import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 
 export const MENU_CONTAINER_WIDTH =
   StyleGuide.dimensionWidth - StyleGuide.spacing * 4;

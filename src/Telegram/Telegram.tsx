@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavButton } from "./NavButton";
@@ -10,9 +9,9 @@ import { CallsScreen, ChatScreen, PeopleScreen, SettingsScreen } from "./Pages";
 
 const Tab = createBottomTabNavigator();
 
-interface TelegramProps {}
+interface TelegramProps { }
 
-const Telegram = ({}: TelegramProps) => {
+const Telegram = ({ }: TelegramProps) => {
   const [activeRoute, setActiveRoute] = React.useState<string>("");
 
   const handleOpenMenu = (routeKey: string) => {
