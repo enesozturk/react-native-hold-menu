@@ -10,7 +10,7 @@ export const MenuItem = ({ item }: { item: MenuItemProps }) => {
   return (
     <TouchableOpacity activeOpacity={0.4} style={[styles.container]}>
       <Text style={styles.text}>{item.title}</Text>
-      {item.icon && (<Feather name={item.icon} size={18} />)}
+      {item.icon}
     </TouchableOpacity>
   );
 };

@@ -4,13 +4,26 @@ import { HoldItem } from "../../../react-native-hold-menu";
 
 interface SampleItemProps { }
 
+const MenuItems = [
+    {
+        title: 'Edit',
+        icon: null,
+        onPress: () => { console.log("EDIT ACTION") }
+    },
+    {
+        title: 'Delete',
+        icon: null,
+        onPress: () => { console.log("DELETE ACTION") }
+    }
+]
+
 const SampleItem = ({ }: SampleItemProps) => {
     return (
         <View style={styles.container}>
             <View style={styles.item}>
                 <Text>😒</Text>
             </View>
-            <HoldItem id="item">
+            <HoldItem id="item" items={MenuItems}>
                 <View style={styles.item}>
                     <Text style={{ color: 'white' }}>Hold Me! 🙋🏻‍♂️</Text>
                 </View>
@@ -18,7 +31,7 @@ const SampleItem = ({ }: SampleItemProps) => {
             <View style={styles.item}>
                 <Text>😒</Text>
             </View>
-            <HoldItem id="item">
+            <HoldItem id="item" items={MenuItems}>
                 <View style={styles.item}>
                     <Text style={{ color: 'white' }}>Hold Me! 🙋🏻‍♂️</Text>
                 </View>

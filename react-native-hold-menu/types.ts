@@ -67,7 +67,7 @@ export type MenuBackDropMethods = {
 
 export interface MenuProps {
   longPressGestureState: Animated.SharedValue<State>;
-  // items: MenuItemProps[];
+  items: MenuItemProps[];
   itemHeight?: number;
   // anchorPoint: TransformOriginAnchorPoint;
   containerStyles?: ViewStyle;
@@ -75,9 +75,9 @@ export interface MenuProps {
 }
 
 export interface MenuItemProps {
-  id: number;
   title: string;
-  icon?: string;
+  icon?: React.ReactNode | null;
+  onPress: () => void;
 }
 
 export interface MenuBackDropProps {

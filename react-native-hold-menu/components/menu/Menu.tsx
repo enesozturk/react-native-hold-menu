@@ -22,16 +22,12 @@ import { State } from "react-native-gesture-handler";
 export const MENU_CONTAINER_WIDTH =
   StyleGuide.dimensionWidth - StyleGuide.spacing * 4;
 
-const items = [
-  { id: 1, title: 'X' }, { id: 2, title: 'X' }
-]
 const anchorPoint = "top-right"
 
 const Menu = ({
-  // items,
+  items,
   longPressGestureState,
   itemHeight,
-  // toggle,
   // anchorPoint = "top-center",
   containerStyles = {},
   menuStyles = {},

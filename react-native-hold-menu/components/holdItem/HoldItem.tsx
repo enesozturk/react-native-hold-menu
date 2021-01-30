@@ -21,12 +21,13 @@ import Menu from '../menu'
 // Utils
 import { CONTEXT_MENU_STATE } from "../../constants";
 import { useLayout } from "../../hooks/useLayout";
-import type { HoldItemProps } from "./types";
 import { HoldMenuContext } from "../provider/Provider";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
+import type { HoldItemProps } from "./types";
 
 const HoldItemComponent = ({
     id, children,
+    items
 }: HoldItemProps) => {
     //#region state
     const [state, dispatch] = React.useContext(HoldMenuContext)
@@ -95,7 +96,6 @@ const HoldItemComponent = ({
     const containerStyle = useMemo(() => [animatedContainerStyle], [
         animatedContainerStyle
     ]);
-
 
     const animatedPortalItemContainerStyle = useAnimatedStyle(() => {
         const isAnimationActive = longPressGestureState.value === State.ACTIVE
@@ -175,7 +175,7 @@ const HoldItemComponent = ({
                     animatedProps={animatedPopupProps}
                 >
                     {children}
-                    <Menu itemHeight={itemRectHeight.value} longPressGestureState={longPressGestureState} />
+                    <Menu items={items} itemHeight={itemRectHeight.value} longPressGestureState={longPressGestureState} />
                 </Animated.View>
             </Portal>
         </>
