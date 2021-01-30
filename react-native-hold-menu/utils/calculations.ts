@@ -22,16 +22,16 @@ export const MenuAnimationAnchor = (
   itemWidth: number
 ) => {
   const MenuHeight = CalculateMenuHeight(2);
+  const splittetAnchorName: string[] = anchorPoint.split("-");
 
-  const Center = itemWidth / 2;
+  const Center1 = splittetAnchorName[0] == "top" ? itemWidth : itemWidth * 1.5;
+  const Center2 = 0;
 
   const TyTop1 = -MenuHeight / 2;
   const TyTop2 = MenuHeight / 2;
 
   const TxLeft1 = (MENU_WIDTH / 2) * -1;
   const TxLeft2 = (MENU_WIDTH / 2) * 1;
-
-  const splittetAnchorName: string[] = anchorPoint.split("-");
 
   return {
     begginingTransformations: {
@@ -40,13 +40,13 @@ export const MenuAnimationAnchor = (
           ? -TxLeft1
           : splittetAnchorName[1] == "left"
           ? TxLeft1
-          : Center,
+          : Center1,
       translateY:
         splittetAnchorName[0] == "top"
           ? TyTop1
           : splittetAnchorName[0] == "bottom"
           ? -TyTop1
-          : Center,
+          : Center2,
     },
     endingTransformations: {
       translateX:
@@ -54,13 +54,13 @@ export const MenuAnimationAnchor = (
           ? -TxLeft2
           : splittetAnchorName[1] == "left"
           ? TxLeft2
-          : Center,
+          : Center2,
       translateY:
         splittetAnchorName[0] == "top"
           ? TyTop2
           : splittetAnchorName[0] == "bottom"
           ? -TyTop2
-          : 0,
+          : Center2,
     },
   };
 };

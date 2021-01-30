@@ -44,7 +44,7 @@ const Menu = ({
   const topValue = React.useMemo(() => {
     return anchorPosition.split("-")[0] == "top"
       ? (itemHeight || 0) + StyleGuide.spacing
-      : -1 * (MenuHeight + StyleGuide.spacing * 2);
+      : -1 * (MenuHeight + StyleGuide.spacing);
   }, [anchorPosition, itemHeight, items]);
 
   const Translate = MenuAnimationAnchor(anchorPosition, (itemWidth || 0));

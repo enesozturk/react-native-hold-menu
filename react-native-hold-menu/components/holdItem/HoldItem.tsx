@@ -29,6 +29,7 @@ const HoldItemComponent = ({
     id,
     children,
     items,
+    menuAnchorPosition
 }: HoldItemProps) => {
     //#region state
     const [state, dispatch] = React.useContext(HoldMenuContext)
@@ -54,7 +55,7 @@ const HoldItemComponent = ({
         else if (distanceToRight == distanceToLeft) return "top-center"
         else return "top-right"
     }
-    const transformOrigin = useSharedValue<string>("top-right")
+    const transformOrigin = useSharedValue<string>(menuAnchorPosition || "top-right")
 
 
     const { handleContainerLayout } = useLayout({
@@ -78,7 +79,8 @@ const HoldItemComponent = ({
                     const measured = measure(containerRef);
                     itemRectY.value = measured.pageY;
                     itemRectX.value = measured.pageX;
-                    transformOrigin.value = getTransformOrigin(measured.pageX, measured.pageY)
+                    if (!menuAnchorPosition)
+                        transformOrigin.value = getTransformOrigin(measured.pageX, measured.pageY)
 
                     context.didMeasureLayout = true;
                 } catch { }
@@ -139,11 +141,11 @@ const HoldItemComponent = ({
             height: itemRectHeight.value,
             opacity: animateOpacity(),
             transform: [
-                {
-                    translateY: animateTranslateY(
-                        longPressGestureState.value === State.ACTIVE ? -75 : 0,
-                    ),
-                },
+                // {
+                //     translateY: animateTranslateY(
+                //         longPressGestureState.value === State.ACTIVE ? -75 : 0,
+                //     ),
+                // },
                 {
                     scale: animatedScale()
                 }
@@ -190,7 +192,11 @@ const HoldItemComponent = ({
                     animatedProps={animatedPopupProps}
                 >
                     {children}
-                    <Menu items={items} itemHeight={itemRectHeight.value} itemWidth={itemRectWidth.value} longPressGestureState={longPressGestureState}
+                    <Menu
+                        items={items}
+                        itemHeight={itemRectHeight.value}
+                        itemWidth={itemRectWidth.value}
+                        longPressGestureState={longPressGestureState}
                         anchorPosition={transformOrigin.value} />
                 </Animated.View>
             </Portal>

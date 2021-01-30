@@ -8,10 +8,22 @@ const styles = StyleSheet.create({
     width: WINDOW_WIDTH,
     backgroundColor: "white",
     display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    padding: StyleGuide.spacing * 4,
+    alignItems: "center",
+  },
+  column: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  row: {
+    width: "100%",
+    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: StyleGuide.spacing * 4,
-    alignItems: "center",
+    marginBottom: StyleGuide.spacing * 2,
   },
   item: {
     width: WINDOW_WIDTH / 5,
@@ -42,6 +54,20 @@ const styles = StyleSheet.create({
   topCenter: {
     position: "absolute",
     top: -5,
+  },
+  bottomRight: {
+    position: "absolute",
+    bottom: -5,
+    right: -5,
+  },
+  bottomLeft: {
+    position: "absolute",
+    bottom: -5,
+    left: -5,
+  },
+  bottomCenter: {
+    position: "absolute",
+    bottom: -5,
   },
 });
 
