@@ -2,11 +2,9 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   withTiming,
   withDelay,
-  useSharedValue,
 } from "react-native-reanimated";
 
 import StyleGuide from "../StyleGuide";
@@ -18,9 +16,8 @@ import {
 } from "../../utils/calculations";
 
 import { MenuItem } from "./MenuItem";
-import { HoldMenuContext } from "../provider";
-import { CONTEXT_MENU_STATE } from "../../constants";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
+import { State } from "react-native-gesture-handler";
 
 export const MENU_CONTAINER_WIDTH =
   StyleGuide.dimensionWidth - StyleGuide.spacing * 4;
@@ -32,14 +29,13 @@ const anchorPoint = "top-right"
 
 const Menu = ({
   // items,
+  longPressGestureState,
   itemHeight,
   // toggle,
   // anchorPoint = "top-center",
   containerStyles = {},
   menuStyles = {},
 }: MenuProps) => {
-  const [state, dispatch] = React.useContext(HoldMenuContext)
-
   const MenuHeight = CalculateMenuHeight(items.length)
 
   const leftOrRight = React.useMemo(() => {
@@ -61,8 +57,11 @@ const Menu = ({
   const Translate = MenuAnimationAnchor(anchorPoint);
 
   const messageStyles = useAnimatedStyle(() => {
-    const isAnimationActive = state.active == CONTEXT_MENU_STATE.ACTIVE;
-    const menuScaleAnimation = () => withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(isAnimationActive ? 1 : 0, { duration: 200 }))
+    const isAnimationActive = longPressGestureState.value == State.ACTIVE;
+    const DELAY_DURATION_FOR_SCALE = isAnimationActive ? HOLD_ITEM_TRANSFORM_DURATION / 2 : 20
+
+    const DELAY_DURATION_FOR_MENU_SCALE = isAnimationActive ? DELAY_DURATION_FOR_SCALE + HOLD_ITEM_TRANSFORM_DURATION : 10
+    const menuScaleAnimation = () => withDelay(DELAY_DURATION_FOR_MENU_SCALE, withTiming(isAnimationActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION }))
 
     return {
       transform: [

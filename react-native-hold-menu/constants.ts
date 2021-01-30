@@ -1,6 +1,6 @@
 import { Dimensions } from "react-native";
 
-export const HOLD_ITEM_TRANSFORM_DURATION = 75;
+export const HOLD_ITEM_TRANSFORM_DURATION = 150;
 
 enum CONTEXT_MENU_STATE {
   UNDETERMINED = 0,

@@ -99,14 +99,18 @@ const HoldItemComponent = ({
 
     const animatedPortalItemContainerStyle = useAnimatedStyle(() => {
         const isAnimationActive = longPressGestureState.value === State.ACTIVE
+        const DELAY_DURATION_FOR_SCALE = isAnimationActive ? HOLD_ITEM_TRANSFORM_DURATION / 2 : 10
+        const DELAY_DURATION_FOR_OPACITY = isAnimationActive ? 0 : HOLD_ITEM_TRANSFORM_DURATION
 
-        const animatedScale = () => isAnimationActive ? withSequence(withTiming(0.95, { duration: HOLD_ITEM_TRANSFORM_DURATION }), withTiming(1)) : 1;
+        const animatedScale = () => isAnimationActive ? withSequence(
+            withTiming(0.95, { duration: HOLD_ITEM_TRANSFORM_DURATION / 4 }),
+            withTiming(1)) : withTiming(1);
         const animateTranslateY = (position: number) =>
-            withDelay(isAnimationActive ? HOLD_ITEM_TRANSFORM_DURATION : 0, withTiming(position, {
+            withDelay(DELAY_DURATION_FOR_SCALE, withTiming(position, {
                 duration: HOLD_ITEM_TRANSFORM_DURATION,
-            }));
+            }))
         const animateOpacity = () =>
-            withDelay(isAnimationActive ? 0 : HOLD_ITEM_TRANSFORM_DURATION, withTiming(
+            withDelay(DELAY_DURATION_FOR_OPACITY, withTiming(
                 isAnimationActive ? 1 : 0,
                 { duration: 0 }
             ))
@@ -171,7 +175,7 @@ const HoldItemComponent = ({
                     animatedProps={animatedPopupProps}
                 >
                     {children}
-                    <Menu itemHeight={itemRectHeight.value} />
+                    <Menu itemHeight={itemRectHeight.value} longPressGestureState={longPressGestureState} />
                 </Animated.View>
             </Portal>
         </>
