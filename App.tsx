@@ -8,11 +8,14 @@ import { HoldMenuProvider } from "./react-native-hold-menu";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
+// Screens
 import Home from "./src/Home";
 import Whatsapp from "./src/Whatsapp";
 import Telegram from "./src/Telegram";
+import Playground from "./src/pages/Playground";
+
+// Components
 import { HeaderPropsScrapper } from "./src/components/DetachedHeader";
-import SampleItem from "./src/pages/SampleItem";
 
 const Stack = createStackNavigator();
 
@@ -46,10 +49,10 @@ export default function App() {
               headerShown: true,
               header: HeaderPropsScrapper,
               headerBackTitleVisible: false,
-              title: "Sample Item",
+              title: "Playground",
             }}
-            component={SampleItem}
-            name="SampleItem"
+            component={Playground}
+            name="Playground"
           />
           {/* <Stack.Screen
             options={{

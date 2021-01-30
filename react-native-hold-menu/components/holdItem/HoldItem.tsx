@@ -26,8 +26,9 @@ import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 import type { HoldItemProps } from "./types";
 
 const HoldItemComponent = ({
-    id, children,
-    items
+    id,
+    children,
+    items,
 }: HoldItemProps) => {
     //#region state
     const [state, dispatch] = React.useContext(HoldMenuContext)
