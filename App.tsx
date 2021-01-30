@@ -51,7 +51,7 @@ export default function App() {
             component={SampleItem}
             name="SampleItem"
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             options={{
               headerShown: true,
               header: HeaderPropsScrapper,
@@ -70,7 +70,7 @@ export default function App() {
             }}
             name="Telegram App"
             component={Telegram}
-          />
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </HoldMenuProvider>
