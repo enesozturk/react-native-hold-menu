@@ -1,56 +1,54 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 import Animated, {
   useAnimatedStyle,
   withTiming,
   withDelay,
 } from "react-native-reanimated";
+import { State } from "react-native-gesture-handler";
 
 import StyleGuide from "../StyleGuide";
-import { MenuItemProps, MenuProps } from "../../types";
+import { MenuProps } from "../../types";
 import {
   CalculateMenuHeight,
   MenuAnimationAnchor,
-  MENU_WIDTH,
 } from "../../utils/calculations";
 
 import { MenuItem } from "./MenuItem";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
-import { State } from "react-native-gesture-handler";
+import { WINDOW_WIDTH } from "../../../src/constants";
 
-export const MENU_CONTAINER_WIDTH =
-  StyleGuide.dimensionWidth - StyleGuide.spacing * 4;
-
-const anchorPoint = "top-right"
+import styles from './styles'
 
 const Menu = ({
   items,
   longPressGestureState,
   itemHeight,
-  // anchorPoint = "top-center",
-  containerStyles = {},
+  itemWidth,
+  anchorPosition = "top-center",
   menuStyles = {},
 }: MenuProps) => {
   const MenuHeight = CalculateMenuHeight(items.length)
 
   const leftOrRight = React.useMemo(() => {
-    return anchorPoint
-      ? anchorPoint.includes("right")
+    return anchorPosition
+      ? anchorPosition.includes("right")
         ? { right: 0 }
-        : anchorPoint.includes("left")
+        : anchorPosition.includes("left")
           ? { left: 0 }
-          : { left: -MENU_WIDTH / 4 }
+          : { left: -(WINDOW_WIDTH / 2) + (itemWidth || 0) / 2 }
       : {};
-  }, [anchorPoint]);
+  }, [anchorPosition]);
+  console.log("ANCHOR POINT", anchorPosition)
 
   const topValue = React.useMemo(() => {
-    return anchorPoint.split("-")[0] == "top"
+    return anchorPosition.split("-")[0] == "top"
       ? (itemHeight || 0) + StyleGuide.spacing
       : -1 * (MenuHeight + StyleGuide.spacing * 2);
-  }, [anchorPoint, itemHeight, items]);
+  }, [anchorPosition, itemHeight, items]);
 
-  const Translate = MenuAnimationAnchor(anchorPoint);
+  const Translate = MenuAnimationAnchor(anchorPosition, (itemWidth || 0));
 
   const messageStyles = useAnimatedStyle(() => {
     const isAnimationActive = longPressGestureState.value == State.ACTIVE;
@@ -74,21 +72,11 @@ const Menu = ({
 
   return (
     <View
-      style={[
-        styles.wrapper,
-        {
-          ...leftOrRight,
-          top: topValue,
-          ...containerStyles,
-          // backgroundColor: 'red',
-          height: 200,
-          width: 200
-        },
-      ]}
+      style={[styles.menuWrapper, { left: 0, top: topValue, width: itemWidth }]}
     >
       <Animated.View
         style={[
-          styles.container,
+          styles.menuContainer,
           { height: MenuHeight, top: 0, ...leftOrRight, ...menuStyles },
           { ...messageStyles },
         ]}
@@ -97,34 +85,12 @@ const Menu = ({
           items.map((item, index) => {
             return <MenuItem key={index} item={item} />;
           })
-        ) : (
-            <MenuItem
-              item={{ id: 0, title: "Empty List", icon: "help-circle" }}
-            />
-          )}
+        ) : (<MenuItem item={{ title: "Empty List", icon: null, onPress: () => { } }} />)}
       </Animated.View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  wrapper: {
-    position: "absolute",
-    width: MENU_CONTAINER_WIDTH,
-    zIndex: 10,
-  },
-  container: {
-    position: "absolute",
-    width: MENU_WIDTH,
-    borderRadius: StyleGuide.spacing * 1.5,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: StyleGuide.palette.common.white,
-    overflow: "hidden",
-    zIndex: 15,
-  },
-});
 
 
 export default Menu

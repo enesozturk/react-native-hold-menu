@@ -1,5 +1,5 @@
 import StyleGuide from "../components/StyleGuide";
-import { MenuItems } from "../variables";
+import { MENU_WIDTH } from "../constants";
 
 export const MenuItemHeight = () => {
   return StyleGuide.typography.callout.lineHeight + StyleGuide.spacing * 2.5;
@@ -8,9 +8,8 @@ export const MenuItemHeight = () => {
 export const CalculateMenuHeight = (itemLength: number) => {
   return MenuItemHeight() * itemLength;
 };
-export const MENU_WIDTH = (StyleGuide.dimensionWidth * 60) / 100;
 
-export type TransformOriginAnchorPoint =
+export type TransformOriginAnchorPosition =
   | "top-right"
   | "top-left"
   | "top-center"
@@ -19,11 +18,12 @@ export type TransformOriginAnchorPoint =
   | "bottom-center";
 
 export const MenuAnimationAnchor = (
-  anchorPoint: TransformOriginAnchorPoint
+  anchorPoint: TransformOriginAnchorPosition,
+  itemWidth: number
 ) => {
   const MenuHeight = CalculateMenuHeight(2);
 
-  const Center = 0;
+  const Center = itemWidth / 2;
 
   const TyTop1 = -MenuHeight / 2;
   const TyTop2 = MenuHeight / 2;
@@ -60,7 +60,7 @@ export const MenuAnimationAnchor = (
           ? TyTop2
           : splittetAnchorName[0] == "bottom"
           ? -TyTop2
-          : Center,
+          : 0,
     },
   };
 };

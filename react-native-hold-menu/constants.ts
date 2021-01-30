@@ -8,6 +8,9 @@ enum CONTEXT_MENU_STATE {
   END,
 }
 
-const { height: WINDOW_HEIGHT, width: WINDOW_WIDTH } = Dimensions.get("window");
+const { height: WINDOW_HEIGHT, width: WINDOW_WIDTH } = Dimensions.get("screen");
+
+export const MENU_CONTAINER_WIDTH = 100;
+export const MENU_WIDTH = (WINDOW_WIDTH * 60) / 100;
 
 export { CONTEXT_MENU_STATE, WINDOW_HEIGHT, WINDOW_WIDTH };

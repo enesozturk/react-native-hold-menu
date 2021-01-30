@@ -19,7 +19,7 @@ import Animated, {
 import Menu from '../menu'
 
 // Utils
-import { CONTEXT_MENU_STATE } from "../../constants";
+import { CONTEXT_MENU_STATE, WINDOW_WIDTH } from "../../constants";
 import { useLayout } from "../../hooks/useLayout";
 import { HoldMenuContext } from "../provider/Provider";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
@@ -32,7 +32,6 @@ const HoldItemComponent = ({
 }: HoldItemProps) => {
     //#region state
     const [state, dispatch] = React.useContext(HoldMenuContext)
-
     //#endregion
 
     //#region refs
@@ -44,6 +43,19 @@ const HoldItemComponent = ({
     const itemRectX = useSharedValue<number>(0, false);
     const itemRectWidth = useSharedValue<number>(0, false);
     const itemRectHeight = useSharedValue<number>(0, false);
+
+    const getTransformOrigin = (posX: number, posY: number) => {
+        'worklet'
+        const distanceToLeft = posX + (itemRectWidth.value / 2)
+        const distanceToRight = WINDOW_WIDTH - distanceToLeft
+
+        if (distanceToLeft < distanceToRight)
+            return "top-left"
+        else if (distanceToRight == distanceToLeft) return "top-center"
+        else return "top-right"
+    }
+    const transformOrigin = useSharedValue<string>("top-right")
+
 
     const { handleContainerLayout } = useLayout({
         height: itemRectHeight,
@@ -66,6 +78,8 @@ const HoldItemComponent = ({
                     const measured = measure(containerRef);
                     itemRectY.value = measured.pageY;
                     itemRectX.value = measured.pageX;
+                    transformOrigin.value = getTransformOrigin(measured.pageX, measured.pageY)
+
                     context.didMeasureLayout = true;
                 } catch { }
             }
@@ -176,7 +190,8 @@ const HoldItemComponent = ({
                     animatedProps={animatedPopupProps}
                 >
                     {children}
-                    <Menu items={items} itemHeight={itemRectHeight.value} longPressGestureState={longPressGestureState} />
+                    <Menu items={items} itemHeight={itemRectHeight.value} itemWidth={itemRectWidth.value} longPressGestureState={longPressGestureState}
+                        anchorPosition={transformOrigin.value} />
                 </Animated.View>
             </Portal>
         </>

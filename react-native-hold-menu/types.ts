@@ -1,7 +1,7 @@
 import { ViewStyle } from "react-native";
 import { State } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
-import { TransformOriginAnchorPoint } from "./utils/calculations";
+import { TransformOriginAnchorPosition } from "./utils/calculations";
 
 export interface ItemToHoldProps {
   /**
@@ -69,8 +69,8 @@ export interface MenuProps {
   longPressGestureState: Animated.SharedValue<State>;
   items: MenuItemProps[];
   itemHeight?: number;
-  // anchorPoint: TransformOriginAnchorPoint;
-  containerStyles?: ViewStyle;
+  itemWidth?: number;
+  anchorPosition: TransformOriginAnchorPosition;
   menuStyles?: ViewStyle;
 }
 
