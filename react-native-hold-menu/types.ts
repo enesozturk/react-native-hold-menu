@@ -64,10 +64,10 @@ export type MenuBackDropMethods = {
 };
 
 export interface MenuProps {
-  toggle?: boolean;
-  items: MenuItemProps[];
+  // toggle?: boolean;
+  // items: MenuItemProps[];
   itemHeight?: number;
-  anchorPoint: TransformOriginAnchorPoint;
+  // anchorPoint: TransformOriginAnchorPoint;
   containerStyles?: ViewStyle;
   menuStyles?: ViewStyle;
 }
@@ -75,7 +75,7 @@ export interface MenuProps {
 export interface MenuItemProps {
   id: number;
   title: string;
-  icon: string;
+  icon?: string;
 }
 
 export interface MenuBackDropProps {

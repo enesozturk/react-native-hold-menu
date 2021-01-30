@@ -1,7 +1,7 @@
 export * from "./components/MenuBackDrop";
-export * from "./components/MenuItem";
+export * from "./components/menu/MenuItem";
 export * from "./components/ItemToHold";
-export * from "./components/Menu";
+export * from "./components/menu/Menu";
 
 import {
   runOnUI,
@@ -46,6 +46,6 @@ function useInit() {
 export { useInit as useHoldMenuInit };
 
 
-export { default as FlatList } from './components/flatList'
-export { default as HoldMenuProvider } from './components/provider'
 export { default as HoldItem } from './components/holdItem'
+export { default as HoldMenuProvider } from './components/provider'
+export { default as FlatList } from './components/flatList'

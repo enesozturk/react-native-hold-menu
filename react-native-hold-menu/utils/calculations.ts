@@ -24,11 +24,11 @@ export const MenuAnimationAnchor = (
   anchorPoint: TransformOriginAnchorPoint
 ) => {
   "worklet";
-  const MenuHeight = CalculateMenuHeight(MenuItems.length);
+  const MenuHeight = CalculateMenuHeight(2);
 
   const Center = 0;
 
-  const TyTop1 = (-1 * MenuHeight) / 2;
+  const TyTop1 = -MenuHeight / 2;
   const TyTop2 = MenuHeight / 2;
 
   const TxLeft1 = (MENU_WIDTH / 2) * -1;

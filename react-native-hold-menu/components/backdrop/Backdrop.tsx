@@ -6,6 +6,7 @@ import Animated, {
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withTiming,
 } from "react-native-reanimated";
 import { State, TapGestureHandler } from "react-native-gesture-handler";
@@ -77,14 +78,17 @@ const BackdropComponent = () => {
 
   //#region styles
   const animatedContainerStyle = useAnimatedStyle(() => {
-    return { top: data.value === CONTEXT_MENU_STATE.ACTIVE ? 0 : WINDOW_HEIGHT };
+    const isAnimationActive = data.value === CONTEXT_MENU_STATE.ACTIVE
+    const topValueAnimation = () => withDelay(isAnimationActive ? 0 : 125, withTiming(isAnimationActive ? 0 : WINDOW_HEIGHT, { duration: 0 }))
+
+    return { top: topValueAnimation() };
   }, [data]);
 
   const containerStyle = useMemo(() => [styles.container, animatedContainerStyle], []);
 
   const animatedBlurViewProps = useAnimatedProps(() => {
     return {
-      intensity: withTiming(data.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0, { duration: 200 }),
+      intensity: withTiming(data.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0, { duration: 125 }),
     };
   }, [data]);
   //#endregion

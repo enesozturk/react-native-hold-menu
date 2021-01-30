@@ -1,4 +1,5 @@
 import React, { memo, useCallback, useMemo, useState } from "react";
+import { View } from "react-native";
 import { Portal } from "@gorhom/portal";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
 import Animated, {
@@ -14,11 +15,15 @@ import Animated, {
     withSequence
 } from "react-native-reanimated";
 
+// Components
+import Menu from '../menu'
+
 // Utils
 import { CONTEXT_MENU_STATE } from "../../constants";
 import { useLayout } from "../../hooks/useLayout";
 import type { HoldItemProps } from "./types";
 import { HoldMenuContext } from "../provider/Provider";
+import { HOLD_ITEM_TRANSFORM_DURATION } from "../../utils/constants";
 
 const HoldItemComponent = ({
     id, children,
@@ -76,11 +81,9 @@ const HoldItemComponent = ({
     //#endregion
 
     //#region styles
-    const ANIMATION_DURATION = 75
-
     const animatedContainerStyle = useAnimatedStyle(() => {
         const isAnimationActive = longPressGestureState.value === State.ACTIVE
-        const animateOpacity = () => withDelay(isAnimationActive ? 0 : ANIMATION_DURATION, withTiming(
+        const animateOpacity = () => withDelay(isAnimationActive ? 0 : HOLD_ITEM_TRANSFORM_DURATION, withTiming(
             isAnimationActive ? 0 : 1,
             { duration: 0 }
         ))
@@ -97,13 +100,13 @@ const HoldItemComponent = ({
     const animatedPortalItemContainerStyle = useAnimatedStyle(() => {
         const isAnimationActive = longPressGestureState.value === State.ACTIVE
 
-        const animatedScale = () => isAnimationActive ? withSequence(withTiming(0.95, { duration: ANIMATION_DURATION }), withTiming(1)) : 1;
+        const animatedScale = () => isAnimationActive ? withSequence(withTiming(0.95, { duration: HOLD_ITEM_TRANSFORM_DURATION }), withTiming(1)) : 1;
         const animateTranslateY = (position: number) =>
-            withDelay(isAnimationActive ? ANIMATION_DURATION : 0, withTiming(position, {
-                duration: ANIMATION_DURATION,
+            withDelay(isAnimationActive ? HOLD_ITEM_TRANSFORM_DURATION : 0, withTiming(position, {
+                duration: HOLD_ITEM_TRANSFORM_DURATION,
             }));
         const animateOpacity = () =>
-            withDelay(isAnimationActive ? 0 : ANIMATION_DURATION, withTiming(
+            withDelay(isAnimationActive ? 0 : HOLD_ITEM_TRANSFORM_DURATION, withTiming(
                 isAnimationActive ? 1 : 0,
                 { duration: 0 }
             ))
@@ -168,6 +171,7 @@ const HoldItemComponent = ({
                     animatedProps={animatedPopupProps}
                 >
                     {children}
+                    <Menu itemHeight={itemRectHeight.value} />
                 </Animated.View>
             </Portal>
         </>

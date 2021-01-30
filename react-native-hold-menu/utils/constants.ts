@@ -1,5 +1,7 @@
 import { Platform, Dimensions, StatusBar } from "react-native";
 
+export const HOLD_ITEM_TRANSFORM_DURATION = 75;
+
 export enum BACKDROP_ZINDEX_STATE {
   ACTIVE = 1500,
   WILL_FADE_OUT = 1000,

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   LayoutChangeEvent,
 } from "react-native";
-import { ItemToHold, MenuBackDrop } from "../../react-native-hold-menu";
+import { MenuBackDrop } from "../../react-native-hold-menu";
 
 import StyleGuide from "../components/StyleGuide";
 
@@ -49,8 +49,8 @@ export function NavButton({
             options.tabBarLabel !== undefined
               ? options.tabBarLabel
               : options.title !== undefined
-              ? options.title
-              : route.name;
+                ? options.title
+                : route.name;
           const TabBarIcon =
             options.tabBarIcon !== undefined ? options.tabBarIcon : null;
 
@@ -75,32 +75,7 @@ export function NavButton({
           };
 
           return (
-            <ItemToHold
-              key={index}
-              containerProps={{ height: containerHeight, scrollY: 0 }}
-              onOpenMenu={() => handleOpenMenu(route.key)}
-              onCloseMenu={() => {
-                onPress();
-                handleCloseMenu();
-              }}
-              isSelected={activeRoute == route.key}
-              containerStyle={styles.container}
-              menuProps={{
-                items: [],
-                anchorPoint:
-                  index == 0 || index == 1
-                    ? "bottom-left"
-                    : index == state.routes.length - 1
-                    ? "bottom-right"
-                    : "bottom-center",
-              }}
-              wrapperStyle={[
-                {
-                  display: "flex",
-                  alignItems: "center",
-                },
-              ]}
-            >
+            <>
               {TabBarIcon && (
                 <TabBarIcon color={isFocused ? "#007AFF" : "gray"} />
               )}
@@ -111,7 +86,7 @@ export function NavButton({
               >
                 {label}
               </Text>
-            </ItemToHold>
+            </>
           );
         })}
       </View>
