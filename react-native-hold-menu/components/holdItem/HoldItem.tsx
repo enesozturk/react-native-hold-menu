@@ -1,5 +1,5 @@
-import React, { memo, useCallback, useMemo, useState } from "react";
-import { View } from "react-native";
+import React, { memo, useMemo } from "react";
+
 import { Portal } from "@gorhom/portal";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
 import Animated, {
