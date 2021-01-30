@@ -40,7 +40,6 @@ const Menu = ({
           : { left: -(WINDOW_WIDTH / 2) + (itemWidth || 0) / 2 }
       : {};
   }, [anchorPosition]);
-  console.log("ANCHOR POINT", anchorPosition)
 
   const topValue = React.useMemo(() => {
     return anchorPosition.split("-")[0] == "top"
@@ -54,7 +53,7 @@ const Menu = ({
     const isAnimationActive = longPressGestureState.value == State.ACTIVE;
     const DELAY_DURATION_FOR_SCALE = isAnimationActive ? HOLD_ITEM_TRANSFORM_DURATION / 2 : 20
 
-    const DELAY_DURATION_FOR_MENU_SCALE = isAnimationActive ? DELAY_DURATION_FOR_SCALE + HOLD_ITEM_TRANSFORM_DURATION : 10
+    const DELAY_DURATION_FOR_MENU_SCALE = isAnimationActive ? DELAY_DURATION_FOR_SCALE : 10
     const menuScaleAnimation = () => withDelay(DELAY_DURATION_FOR_MENU_SCALE, withTiming(isAnimationActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION }))
 
     return {

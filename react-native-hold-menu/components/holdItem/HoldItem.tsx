@@ -196,7 +196,6 @@ const HoldItemComponent = ({
             </Portal>
         </>
     );
-    //#endregion
 };
 
 const HoldItem = memo(HoldItemComponent);

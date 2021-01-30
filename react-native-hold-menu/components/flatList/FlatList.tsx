@@ -1,14 +1,11 @@
 import React, { memo, useCallback } from "react";
-import { FlatList as RNFlatList, View } from "react-native";
-import { PortalHost } from '@gorhom/portal'
+import { FlatList as RNFlatList, } from "react-native";
+
 import { useSharedValue } from "react-native-reanimated";
 import { useLayout } from "../../hooks/useLayout";
-import ListItem from "../listItem";
-import Backdrop from "../backdrop";
 
 import type { FlatListProps } from "./types";
-import { CONTEXT_MENU_STATE, WINDOW_HEIGHT } from "../../constants";
-import ListCellRenderer from "../listItemPopup";
+import { CONTEXT_MENU_STATE } from "../../constants";
 
 const FlatListComponent = ({
   renderItem: _providedRenderItem,
@@ -30,40 +27,26 @@ const FlatListComponent = ({
   //#endregion
 
   //#region renders
+  // (
+  //   <ListItem
+  //     index={index}
+  //     item={item}
+  //     contextMenuState={contextMenuState}
+  //     selectedItemIndex={selectedItemIndex}
+  //     renderItem={_providedRenderItem}
+  //   />
+  // )
   const handleRenderItem = useCallback(
-    ({ item, index }) => (
-      <ListItem
-        index={index}
-        item={item}
-        contextMenuState={contextMenuState}
-        selectedItemIndex={selectedItemIndex}
-        renderItem={_providedRenderItem}
-      />
-    ),
+    ({ item, index }) => null,
     [contextMenuState, selectedItemIndex, _providedRenderItem]
   );
 
-  // const handleCellRendererComponent = useCallback(
-  //   ({ children, index, ...props }) => (
-  //     <ListCellRenderer
-  //       contextMenuState={contextMenuState}
-  //       selectedItemIndex={selectedItemIndex}
-  //       index={index}
-  //       children={children}
-  //       {...props}
-  //     />
-  //   ),
-  //   [contextMenuState, selectedItemIndex]
-  // );
   return (
-    <PortalHost>
-      <RNFlatList
-        renderItem={handleRenderItem}
-        onLayout={handleContainerLayout}
-        {...rest}
-      />
-      <Backdrop contextMenuState={contextMenuState} />
-    </PortalHost>
+    <RNFlatList
+      renderItem={handleRenderItem}
+      onLayout={handleContainerLayout}
+      {...rest}
+    />
   );
   //#endregion
 };
