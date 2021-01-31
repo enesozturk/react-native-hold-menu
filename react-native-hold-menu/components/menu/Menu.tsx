@@ -57,12 +57,15 @@ const Menu = ({
 
   const messageStyles = useAnimatedStyle(() => {
     const isAnimationActive = longPressGestureState.value == State.ACTIVE;
-    const DELAY_DURATION_FOR_SCALE = isAnimationActive ? HOLD_ITEM_TRANSFORM_DURATION / 2 : 20
+    const DELAY_DURATION_FOR_MENU_SCALE = HOLD_ITEM_TRANSFORM_DURATION / 2
 
-    const DELAY_DURATION_FOR_MENU_SCALE = isAnimationActive ? DELAY_DURATION_FOR_SCALE : 10
-    const menuScaleAnimation = () => withDelay(DELAY_DURATION_FOR_MENU_SCALE, withTiming(isAnimationActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION }))
+    // withDelay not prefered when delay is zero because it may cause a bug
+    const menuScaleAnimation = () => isAnimationActive ?
+      withDelay(DELAY_DURATION_FOR_MENU_SCALE, withTiming(isAnimationActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION })) :
+      withTiming(isAnimationActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION })
 
     return {
+      backgroundColor: state.theme == "light" ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)',
       transform: [
         { translateX: Translate.begginingTransformations.translateX },
         { translateY: Translate.begginingTransformations.translateY },
@@ -73,13 +76,7 @@ const Menu = ({
         { translateY: Translate.endingTransformations.translateY },
       ],
     };
-  });
-  const blurViewBackgroundColor = React.useMemo(() => {
-    return state.theme == "light" ?
-      { backgroundColor: 'rgba(255,255,255,0.8)' } :
-      { backgroundColor: 'rgba(0,0,0,0.2)' }
-  }, [state])
-  console.log(blurViewBackgroundColor)
+  }, [state]);
 
   return (
     <View style={[styles.menuWrapper, { left: 0, top: topValue, width: itemWidth }]}>
@@ -89,7 +86,6 @@ const Menu = ({
         style={[
           styles.menuContainer,
           { height: MenuHeight, top: 0, ...leftOrRight, },
-          blurViewBackgroundColor,
           { ...messageStyles },
         ]}
       >

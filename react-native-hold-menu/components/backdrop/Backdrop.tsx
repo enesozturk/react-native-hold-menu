@@ -15,7 +15,7 @@ import { BlurView } from "@react-native-community/blur";
 
 // Utils
 import { styles } from "./styles";
-import { CONTEXT_MENU_STATE, WINDOW_HEIGHT } from "../../constants";
+import { CONTEXT_MENU_STATE, HOLD_ITEM_TRANSFORM_DURATION, WINDOW_HEIGHT } from "../../constants";
 import { HoldMenuContext } from "../provider";
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
@@ -80,21 +80,20 @@ const BackdropComponent = () => {
     const isAnimationActive = data.value === CONTEXT_MENU_STATE.ACTIVE
 
     const topValueAnimation = () =>
-      withDelay(isAnimationActive ? 10 : 125,
-        withTiming(isAnimationActive ? 0 : WINDOW_HEIGHT, { duration: 0 }))
+      isAnimationActive ? withTiming(isAnimationActive ? 0 : WINDOW_HEIGHT, { duration: 0 }) :
+        withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(isAnimationActive ? 0 : WINDOW_HEIGHT, { duration: 0 }))
+
     const opacityValueAnimation = () =>
-      withDelay(isAnimationActive ? 10 : 125,
-        withTiming(isAnimationActive ? 1 : 0, { duration: 100 }))
+      isAnimationActive ? withTiming(isAnimationActive ? 1 : 0, { duration: 100 }) :
+        withDelay(HOLD_ITEM_TRANSFORM_DURATION,
+          withTiming(isAnimationActive ? 1 : 0, { duration: 100 }))
 
-    return { top: topValueAnimation(), opacity: opacityValueAnimation() };
-  }, [data]);
-
-  const containerStyle = useMemo(() => [styles.container, animatedContainerStyle], []);
-  const blurViewBackgroundColor = useMemo(() => {
-    return state.theme == "light" ?
-      { backgroundColor: 'rgba(0, 0, 0, 0.6)' } :
-      { backgroundColor: 'rgba(0, 0, 0, 0.5)' }
-  }, [state])
+    return {
+      top: topValueAnimation(),
+      opacity: opacityValueAnimation(),
+      backgroundColor: state.theme == "light" ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)'
+    };
+  }, [data, state]);
   //#endregion
 
   return (
@@ -104,7 +103,7 @@ const BackdropComponent = () => {
     >
       <AnimatedBlurView
         blurType={state.theme}
-        style={[containerStyle, blurViewBackgroundColor]}
+        style={[styles.container, animatedContainerStyle]}
         blurAmount={40}
       >
         <Text>{tapGestureState.value}</Text>

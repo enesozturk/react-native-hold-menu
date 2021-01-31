@@ -2,10 +2,12 @@ import StyleGuide from "../components/StyleGuide";
 import { MENU_WIDTH } from "../constants";
 
 export const MenuItemHeight = () => {
+  "worklet";
   return StyleGuide.typography.callout.lineHeight + StyleGuide.spacing * 2.5;
 };
 
 export const CalculateMenuHeight = (itemLength: number) => {
+  "worklet";
   return MenuItemHeight() * itemLength;
 };
 
@@ -21,6 +23,7 @@ export const MenuAnimationAnchor = (
   anchorPoint: TransformOriginAnchorPosition,
   itemWidth: number
 ) => {
+  "worklet";
   const MenuHeight = CalculateMenuHeight(2);
   const splittetAnchorName: string[] = anchorPoint.split("-");
 
