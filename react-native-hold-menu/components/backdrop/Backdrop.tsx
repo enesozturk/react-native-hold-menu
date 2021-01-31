@@ -24,14 +24,11 @@ const BackdropComponent = () => {
   const [state, dispatch] = React.useContext(HoldMenuContext)
   const data = useSharedValue(0)
 
-  //#region effects
   React.useEffect(() => {
     if (data.value != state.active)
       data.value = state.active
   }, [state])
-  //#endregion
 
-  //#region gesture
   const handleDeactivate = () => { dispatch({ type: 'end' }) }
   const tapGestureState = useSharedValue<State>(State.UNDETERMINED, false);
   const tapGestureEvent = useAnimatedGestureHandler(
@@ -71,11 +68,9 @@ const BackdropComponent = () => {
         data.value = CONTEXT_MENU_STATE.END;
       },
     },
-    [tapGestureState, data]
+    [tapGestureState]
   );
-  //#endregion
 
-  //#region styles
   const animatedContainerStyle = useAnimatedStyle(() => {
     const isAnimationActive = data.value === CONTEXT_MENU_STATE.ACTIVE
 
@@ -84,17 +79,13 @@ const BackdropComponent = () => {
         withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(isAnimationActive ? 0 : WINDOW_HEIGHT, { duration: 0 }))
 
     const opacityValueAnimation = () =>
-      isAnimationActive ? withTiming(isAnimationActive ? 1 : 0, { duration: 100 }) :
-        withDelay(HOLD_ITEM_TRANSFORM_DURATION,
-          withTiming(isAnimationActive ? 1 : 0, { duration: 100 }))
+      withTiming(isAnimationActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION })
 
     return {
       top: topValueAnimation(),
       opacity: opacityValueAnimation(),
-      backgroundColor: state.theme == "light" ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)'
     };
-  }, [data, state]);
-  //#endregion
+  }, [data]);
 
   return (
     <TapGestureHandler
@@ -103,11 +94,11 @@ const BackdropComponent = () => {
     >
       <AnimatedBlurView
         blurType={state.theme}
-        style={[styles.container, animatedContainerStyle]}
+        style={[styles.container, {
+          backgroundColor: state.theme == "light" ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)'
+        }, animatedContainerStyle]}
         blurAmount={40}
-      >
-        <Text>{tapGestureState.value}</Text>
-      </AnimatedBlurView>
+      />
     </TapGestureHandler>
   );
 };

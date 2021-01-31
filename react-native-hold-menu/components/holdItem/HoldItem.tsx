@@ -120,7 +120,7 @@ const HoldItemComponent = ({
         const DELAY_DURATION_FOR_OPACITY = isAnimationActive ? 0 : HOLD_ITEM_TRANSFORM_DURATION
 
         const animatedScale = () => isAnimationActive ? withSequence(
-            withTiming(0.95, { duration: HOLD_ITEM_TRANSFORM_DURATION / 2 }),
+            withTiming(0.85, { duration: HOLD_ITEM_TRANSFORM_DURATION / 2 }),
             withTiming(1)) : withTiming(1);
         const animateTranslateY = (position: number) =>
             withDelay(DELAY_DURATION_FOR_SCALE, withTiming(position, {
