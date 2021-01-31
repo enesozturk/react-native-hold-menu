@@ -3,7 +3,6 @@ import { Text } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
-  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -12,7 +11,7 @@ import Animated, {
 import { State, TapGestureHandler } from "react-native-gesture-handler";
 
 // Components
-import { BlurView } from "expo-blur";
+import { BlurView } from "@react-native-community/blur";
 
 // Utils
 import { styles } from "./styles";
@@ -79,18 +78,23 @@ const BackdropComponent = () => {
   //#region styles
   const animatedContainerStyle = useAnimatedStyle(() => {
     const isAnimationActive = data.value === CONTEXT_MENU_STATE.ACTIVE
-    const topValueAnimation = () => withDelay(isAnimationActive ? 0 : 125, withTiming(isAnimationActive ? 0 : WINDOW_HEIGHT, { duration: 0 }))
 
-    return { top: topValueAnimation() };
+    const topValueAnimation = () =>
+      withDelay(isAnimationActive ? 10 : 125,
+        withTiming(isAnimationActive ? 0 : WINDOW_HEIGHT, { duration: 0 }))
+    const opacityValueAnimation = () =>
+      withDelay(isAnimationActive ? 10 : 125,
+        withTiming(isAnimationActive ? 1 : 0, { duration: 100 }))
+
+    return { top: topValueAnimation(), opacity: opacityValueAnimation() };
   }, [data]);
 
   const containerStyle = useMemo(() => [styles.container, animatedContainerStyle], []);
-
-  const animatedBlurViewProps = useAnimatedProps(() => {
-    return {
-      intensity: withTiming(data.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0, { duration: 125 }),
-    };
-  }, [data]);
+  const blurViewBackgroundColor = useMemo(() => {
+    return state.theme == "light" ?
+      { backgroundColor: 'rgba(0, 0, 0, 0.6)' } :
+      { backgroundColor: 'rgba(0, 0, 0, 0.5)' }
+  }, [state])
   //#endregion
 
   return (
@@ -99,10 +103,9 @@ const BackdropComponent = () => {
       onHandlerStateChange={tapGestureEvent}
     >
       <AnimatedBlurView
-        tint="dark"
-        intensity={0}
-        style={containerStyle}
-        animatedProps={animatedBlurViewProps}
+        blurType={state.theme}
+        style={[containerStyle, blurViewBackgroundColor]}
+        blurAmount={40}
       >
         <Text>{tapGestureState.value}</Text>
       </AnimatedBlurView>

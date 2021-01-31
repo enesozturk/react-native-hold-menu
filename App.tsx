@@ -22,7 +22,7 @@ const Stack = createStackNavigator();
 export default function App() {
 
   return (
-    <HoldMenuProvider>
+    <HoldMenuProvider theme="light">
       <StatusBar
         translucent
         showHideTransition="fade"

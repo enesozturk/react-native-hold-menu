@@ -14,16 +14,16 @@ import {
   CalculateMenuHeight,
   MenuAnimationAnchor,
 } from "../../utils/calculations";
-import { BlurView } from "expo-blur";
+import { BlurView } from "@react-native-community/blur";
 
 import { MenuItem } from "./MenuItem";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 import { WINDOW_WIDTH } from "../../../src/constants";
 
 import styles from './styles'
+import { HoldMenuContext } from "../provider";
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
-const TINT = "light"
 
 const Menu = ({
   items,
@@ -33,6 +33,8 @@ const Menu = ({
   anchorPosition = "top-center",
   menuStyles = {},
 }: MenuProps) => {
+  const [state, dispatch] = React.useContext(HoldMenuContext)
+
   const MenuHeight = CalculateMenuHeight(items.length)
 
   const leftOrRight = React.useMemo(() => {
@@ -72,23 +74,30 @@ const Menu = ({
       ],
     };
   });
+  const blurViewBackgroundColor = React.useMemo(() => {
+    return state.theme == "light" ?
+      { backgroundColor: 'rgba(255,255,255,0.8)' } :
+      { backgroundColor: 'rgba(0,0,0,0.2)' }
+  }, [state])
+  console.log(blurViewBackgroundColor)
 
   return (
     <View style={[styles.menuWrapper, { left: 0, top: topValue, width: itemWidth }]}>
       <AnimatedBlurView
-        tint={TINT}
-        intensity={100}
+        blurType={state.theme}
+        blurAmount={50}
         style={[
           styles.menuContainer,
-          { height: MenuHeight, top: 0, ...leftOrRight, ...menuStyles },
+          { height: MenuHeight, top: 0, ...leftOrRight, },
+          blurViewBackgroundColor,
           { ...messageStyles },
         ]}
       >
         {items && items.length > 0 ? (
           items.map((item, index) => {
-            return <MenuItem key={index} item={item} isLast={items.length == index + 1} tint={TINT} />;
+            return <MenuItem key={index} item={item} isLast={items.length == index + 1} />;
           })
-        ) : (<MenuItem item={{ title: "Empty List", icon: null, onPress: () => { } }} tint={TINT} />)}
+        ) : (<MenuItem item={{ title: "Empty List", icon: null, onPress: () => { } }} />)}
       </AnimatedBlurView>
     </View>
   );

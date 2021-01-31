@@ -11,8 +11,13 @@ export const HoldMenuContext = React.createContext(initialState)
 
 const ProviderComponent = ({
     children,
-}: { children: React.ReactElement | React.ReactElement[] }) => {
-    const [state, dispatch] = React.useReducer<any>(reducer, initialState)
+    theme
+}: { children: React.ReactElement | React.ReactElement[], theme?: "dark" | "light" }) => {
+    const [state, dispatch] = React.useReducer<any>(reducer, { active: 0, theme: theme || "light" })
+
+    React.useEffect(() => {
+        if (theme != state.theme) dispatch({ type: 'toggle-theme' })
+    }, [theme])
 
     return (
         <HoldMenuContext.Provider value={[state, dispatch]}>
