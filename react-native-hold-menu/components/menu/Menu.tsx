@@ -14,12 +14,16 @@ import {
   CalculateMenuHeight,
   MenuAnimationAnchor,
 } from "../../utils/calculations";
+import { BlurView } from "expo-blur";
 
 import { MenuItem } from "./MenuItem";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 import { WINDOW_WIDTH } from "../../../src/constants";
 
 import styles from './styles'
+
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const TINT = "light"
 
 const Menu = ({
   items,
@@ -70,10 +74,10 @@ const Menu = ({
   });
 
   return (
-    <View
-      style={[styles.menuWrapper, { left: 0, top: topValue, width: itemWidth }]}
-    >
-      <Animated.View
+    <View style={[styles.menuWrapper, { left: 0, top: topValue, width: itemWidth }]}>
+      <AnimatedBlurView
+        tint={TINT}
+        intensity={100}
         style={[
           styles.menuContainer,
           { height: MenuHeight, top: 0, ...leftOrRight, ...menuStyles },
@@ -82,10 +86,10 @@ const Menu = ({
       >
         {items && items.length > 0 ? (
           items.map((item, index) => {
-            return <MenuItem key={index} item={item} />;
+            return <MenuItem key={index} item={item} isLast={items.length == index + 1} tint={TINT} />;
           })
-        ) : (<MenuItem item={{ title: "Empty List", icon: null, onPress: () => { } }} />)}
-      </Animated.View>
+        ) : (<MenuItem item={{ title: "Empty List", icon: null, onPress: () => { } }} tint={TINT} />)}
+      </AnimatedBlurView>
     </View>
   );
 };

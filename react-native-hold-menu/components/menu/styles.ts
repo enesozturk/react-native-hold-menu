@@ -12,23 +12,31 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: styleGuide.palette.common.white,
     overflow: "hidden",
     zIndex: 15,
   },
   menuItem: {
     width: "100%",
     height: MenuItemHeight(),
-    borderBottomWidth: 1,
-    borderBottomColor: styleGuide.palette.secondary,
+
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: styleGuide.spacing * 2,
   },
+  border: {
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255, 255, 255, 0.1)",
+  },
   menuItemText: {
     ...styleGuide.typography.callout,
+  },
+  textDark: {
+    color: "black",
+  },
+  textLight: {
+    color: "white",
   },
 });
 
