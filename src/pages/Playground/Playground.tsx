@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { HoldItem } from "../../../react-native-hold-menu";
 
 import styles from './styles'
@@ -10,7 +10,9 @@ interface PlaygroundProps { }
 const Playground = ({ }: PlaygroundProps) => {
     return (
         <View style={styles.container}>
-            <View />
+            <View style={[styles.header, styles.row]}>
+                <Text style={styles.headerTitle}>React Native Hold Menu</Text>
+            </View>
             <View style={styles.column}>
                 <View style={styles.row}>
                     <HoldItem id="item-1" items={MenuItems}>
@@ -47,7 +49,7 @@ const Playground = ({ }: PlaygroundProps) => {
                     </HoldItem>
                 </View>
             </View>
-            <View style={styles.row}>
+            <View style={[styles.footer, styles.row]}>
                 <HoldItem id="item-7" items={MenuItems} menuAnchorPosition="bottom-left">
                     <View style={styles.item}>
                         <View style={[styles.dot, styles.bottomLeft]} />

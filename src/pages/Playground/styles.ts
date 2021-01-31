@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    padding: StyleGuide.spacing * 4,
     alignItems: "center",
   },
   column: {
@@ -24,6 +23,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: StyleGuide.spacing * 2,
+    padding: StyleGuide.spacing * 4,
+    paddingVertical: StyleGuide.spacing * 2,
+  },
+  header: {
+    borderBottomWidth: 2,
+    borderColor: StyleGuide.palette.secondary,
+    paddingTop: StyleGuide.spacing * 6,
+    paddingBottom: StyleGuide.spacing * 2,
+  },
+  headerTitle: {
+    width: "100%",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  footer: {
+    borderTopWidth: 2,
+    borderColor: StyleGuide.palette.secondary,
+    paddingBottom: StyleGuide.spacing * 2,
   },
   item: {
     width: WINDOW_WIDTH / 5,
