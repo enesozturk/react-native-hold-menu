@@ -1,3 +1,4 @@
+import { WINDOW_WIDTH } from "../../src/constants";
 import StyleGuide from "../components/StyleGuide";
 import { MENU_WIDTH } from "../constants";
 
@@ -66,4 +67,14 @@ export const MenuAnimationAnchor = (
           : Center2,
     },
   };
+};
+
+export const getTransformOrigin = (posX: number, itemWidth: number) => {
+  "worklet";
+  const distanceToLeft = posX + itemWidth / 2;
+  const distanceToRight = WINDOW_WIDTH - distanceToLeft;
+
+  if (distanceToLeft < distanceToRight) return "top-left";
+  else if (distanceToRight == distanceToLeft) return "top-center";
+  else return "top-right";
 };

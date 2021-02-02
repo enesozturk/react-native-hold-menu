@@ -24,7 +24,6 @@ import styles from './styles'
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const MenuComponent = ({
-  id,
   items,
   isActive,
   itemHeight,
@@ -57,6 +56,7 @@ const MenuComponent = ({
 
     return {
       backgroundColor: theme == "light" ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)',
+      opacity: withTiming(isActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION }),
       transform: [
         { translateX: Translate.begginingTransformations.translateX },
         { translateY: Translate.begginingTransformations.translateY },

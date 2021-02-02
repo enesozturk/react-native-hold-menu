@@ -18,11 +18,10 @@ import Animated, {
 import Menu from '../menu'
 
 // Utils
-import { WINDOW_WIDTH } from "../../constants";
-import { useLayout } from "../../hooks/useLayout";
-import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 import type { HoldItemProps } from "./types";
-import { TransformOriginAnchorPosition } from "../../utils/calculations";
+import { useLayout } from "../../hooks/useLayout";
+import { TransformOriginAnchorPosition, getTransformOrigin } from "../../utils/calculations";
+import { HOLD_ITEM_TRANSFORM_DURATION, HOLD_ITEM_SCALE_DOWN_DURATION, HOLD_ITEM_SCALE_DOWN_VALUE } from "../../constants";
 
 const HoldItemComponent = ({
     id,
@@ -31,7 +30,8 @@ const HoldItemComponent = ({
     isActive,
     handleActivate,
     menuAnchorPosition,
-    theme
+    theme,
+    moveTop = true
 }: HoldItemProps) => {
     const containerRef = useAnimatedRef<Animated.View>();
     const longPressGestureState = useSharedValue<State>(
@@ -42,17 +42,8 @@ const HoldItemComponent = ({
     const itemRectX = useSharedValue<number>(0, false);
     const itemRectWidth = useSharedValue<number>(0, false);
     const itemRectHeight = useSharedValue<number>(0, false);
+    const itemScale = useSharedValue<number>(1, false)
 
-    const getTransformOrigin = (posX: number, posY: number) => {
-        'worklet'
-        const distanceToLeft = posX + (itemRectWidth.value / 2)
-        const distanceToRight = WINDOW_WIDTH - distanceToLeft
-
-        if (distanceToLeft < distanceToRight)
-            return "top-left"
-        else if (distanceToRight == distanceToLeft) return "top-center"
-        else return "top-right"
-    }
     const transformOrigin = useSharedValue<TransformOriginAnchorPosition>(menuAnchorPosition || "top-right")
 
     React.useEffect(() => {
@@ -65,8 +56,6 @@ const HoldItemComponent = ({
         width: itemRectWidth,
     });
 
-    const itemScale = useSharedValue(1)
-
     const activateAnimation = (ctx: any) => {
         'worklet'
         if (!ctx.didMeasureLayout) {
@@ -74,7 +63,7 @@ const HoldItemComponent = ({
             itemRectY.value = measured.pageY;
             itemRectX.value = measured.pageX;
             if (!menuAnchorPosition)
-                transformOrigin.value = getTransformOrigin(measured.pageX, measured.pageY)
+                transformOrigin.value = getTransformOrigin(measured.pageX, itemRectWidth.value)
         }
     }
 
@@ -89,7 +78,7 @@ const HoldItemComponent = ({
             context.didMeasureLayout = true;
 
             if (longPressGestureState.value !== State.ACTIVE) {
-                itemScale.value = withTiming(0.5, { duration: HOLD_ITEM_TRANSFORM_DURATION }, (isFinised) => {
+                itemScale.value = withTiming(HOLD_ITEM_SCALE_DOWN_VALUE, { duration: HOLD_ITEM_SCALE_DOWN_DURATION }, (isFinised) => {
                     if (isFinised) {
                         runOnJS(handleActivate)()
                         itemScale.value = 1
@@ -140,9 +129,9 @@ const HoldItemComponent = ({
             opacity: isAnimationActive ? 1 : animateOpacity(),
             transform: [
                 {
-                    translateY: withTiming(isAnimationActive ? -115 : -0.1, {
+                    translateY: moveTop ? withTiming(isAnimationActive ? -115 : -0.1, {
                         duration: HOLD_ITEM_TRANSFORM_DURATION,
-                    })
+                    }) : 0
                 },
                 {
                     scale: isAnimationActive ?

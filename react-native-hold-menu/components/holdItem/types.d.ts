@@ -11,6 +11,7 @@ export interface HoldItemProps {
   theme?: string;
   children: React.ReactElement | React.ReactElement[];
   menuAnchorPosition?: TransformOriginAnchorPosition;
+  moveTop?: boolean;
 }
 
 export interface HoldItemWrapperProps {
@@ -18,4 +19,5 @@ export interface HoldItemWrapperProps {
   items: MenuItemProps[];
   children: React.ReactElement | React.ReactElement[];
   menuAnchorPosition?: TransformOriginAnchorPosition;
+  moveTop?: boolean;
 }

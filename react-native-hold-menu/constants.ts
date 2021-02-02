@@ -1,6 +1,8 @@
 import { Dimensions } from "react-native";
 
-export const HOLD_ITEM_TRANSFORM_DURATION = 200;
+export const HOLD_ITEM_TRANSFORM_DURATION = 180;
+export const HOLD_ITEM_SCALE_DOWN_VALUE = 0.85;
+export const HOLD_ITEM_SCALE_DOWN_DURATION = 200;
 
 enum CONTEXT_MENU_STATE {
   UNDETERMINED = 0,

@@ -31,7 +31,7 @@ const Playground = ({ }: PlaygroundProps) => {
                         </View>
                     </HoldItemWrapper>
                 </View>
-                <View style={styles.row}>
+                {/* <View style={styles.row}>
                     <HoldItemWrapper id="item-4" items={MenuItems} menuAnchorPosition="bottom-left">
                         <View style={styles.item}>
                             <View style={[styles.dot, styles.bottomLeft]} />
@@ -47,20 +47,20 @@ const Playground = ({ }: PlaygroundProps) => {
                             <View style={[styles.dot, styles.bottomRight]} />
                         </View>
                     </HoldItemWrapper>
-                </View>
+                </View> */}
             </View>
             <View style={[styles.footer, styles.row]}>
-                <HoldItemWrapper id="item-7" items={MenuItems} menuAnchorPosition="bottom-left">
+                <HoldItemWrapper moveTop={false} id="item-7" items={MenuItems} menuAnchorPosition="bottom-left">
                     <View style={styles.item}>
                         <View style={[styles.dot, styles.bottomLeft]} />
                     </View>
                 </HoldItemWrapper>
-                <HoldItemWrapper id="item-8" items={MenuItems} menuAnchorPosition="bottom-center">
+                <HoldItemWrapper moveTop={false} id="item-8" items={MenuItems} menuAnchorPosition="bottom-center">
                     <View style={styles.item}>
                         <View style={[styles.dot, styles.bottomCenter]} />
                     </View>
                 </HoldItemWrapper>
-                <HoldItemWrapper id="item-9" items={MenuItems} menuAnchorPosition="bottom-right">
+                <HoldItemWrapper moveTop={false} id="item-9" items={MenuItems} menuAnchorPosition="bottom-right">
                     <View style={styles.item}>
                         <View style={[styles.dot, styles.bottomRight]} />
                     </View>

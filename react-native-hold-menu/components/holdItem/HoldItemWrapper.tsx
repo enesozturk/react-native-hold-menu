@@ -10,6 +10,7 @@ const HoldItemWrapperComponent = ({
     items,
     menuAnchorPosition,
     children,
+    moveTop = true
 }: HoldItemWrapperProps) => {
     const [state, dispatch] = React.useContext(HoldMenuContext);
     const [isActive, setIsActive] = React.useState(false);
@@ -27,7 +28,8 @@ const HoldItemWrapperComponent = ({
             isActive={isActive}
             handleActivate={handleActivate}
             items={items}
-            theme={state.theme}>
+            theme={state.theme}
+            moveTop={moveTop}>
             {children}
         </HoldItem>
     ), [isActive])
