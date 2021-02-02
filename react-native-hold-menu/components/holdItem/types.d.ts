@@ -5,9 +5,18 @@ import { TransformOriginAnchorPosition } from "../../utils/calculations";
 export interface HoldItemProps {
   id: string | number;
   items: MenuItemProps[];
+  isActive?: boolean;
+  handleActivate: () => void;
   // item: T;
   // contextMenuState: Animated.SharedValue<CONTEXT_MENU_STATE>;
   // selectedItemIndex: Animated.SharedValue<number>;
+  children: React.ReactElement | React.ReactElement[];
+  menuAnchorPosition?: TransformOriginAnchorPosition;
+}
+
+export interface HoldItemWrapperProps {
+  id: string | number;
+  items: MenuItemProps[];
   children: React.ReactElement | React.ReactElement[];
   menuAnchorPosition?: TransformOriginAnchorPosition;
 }

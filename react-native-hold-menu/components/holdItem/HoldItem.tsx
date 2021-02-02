@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useEffect } from "react";
+import React from "react";
 
 import { Portal } from "@gorhom/portal";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
@@ -12,17 +12,14 @@ import Animated, {
     useSharedValue,
     withDelay,
     withTiming,
-    withSequence,
-    cancelAnimation,
 } from "react-native-reanimated";
 
 // Components
 import Menu from '../menu'
 
 // Utils
-import { CONTEXT_MENU_STATE, WINDOW_WIDTH } from "../../constants";
+import { WINDOW_WIDTH } from "../../constants";
 import { useLayout } from "../../hooks/useLayout";
-import { HoldMenuContext } from "../provider/Provider";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 import type { HoldItemProps } from "./types";
 
@@ -30,9 +27,10 @@ const HoldItemComponent = ({
     id,
     children,
     items,
+    isActive,
+    handleActivate,
     menuAnchorPosition
 }: HoldItemProps) => {
-    const [state, dispatch] = React.useContext(HoldMenuContext)
     const containerRef = useAnimatedRef<Animated.View>();
     const longPressGestureState = useSharedValue<State>(
         State.UNDETERMINED,
@@ -55,19 +53,15 @@ const HoldItemComponent = ({
     }
     const transformOrigin = useSharedValue<string>(menuAnchorPosition || "top-right")
 
-    useEffect(() => {
-        if (state.active == CONTEXT_MENU_STATE.END)
+    React.useEffect(() => {
+        if (!isActive)
             longPressGestureState.value = State.END
-    }, [state])
+    }, [isActive])
 
     const { handleContainerLayout } = useLayout({
         height: itemRectHeight,
         width: itemRectWidth,
     });
-
-    const handleActivate = () => {
-        dispatch({ type: 'active' })
-    }
 
     const itemScale = useSharedValue(1)
 
@@ -104,9 +98,7 @@ const HoldItemComponent = ({
         },
         onFinish: (_, context) => {
             context.didMeasureLayout = false;
-            if (longPressGestureState.value !== State.ACTIVE) {
-                scaleBack()
-            }
+            if (longPressGestureState.value !== State.ACTIVE) scaleBack()
         },
     });
 
@@ -124,7 +116,10 @@ const HoldItemComponent = ({
                     itemScale.value
             }]
         };
-    }, [longPressGestureState]);
+    });
+    const containerStyle = React.useMemo(() => [animatedContainerStyle], [
+        animatedContainerStyle
+    ]);
 
     const animatedPortalStyle = useAnimatedStyle(() => {
         const isAnimationActive = longPressGestureState.value === State.ACTIVE
@@ -154,7 +149,10 @@ const HoldItemComponent = ({
                 }
             ],
         };
-    }, [longPressGestureState]);
+    })
+    const portalContainerStyle = React.useMemo(() => [animatedPortalStyle], [
+        animatedPortalStyle
+    ]);
 
     const animatedPortalProps = useAnimatedProps(() => ({
         pointerEvents:
@@ -170,7 +168,7 @@ const HoldItemComponent = ({
                 <Animated.View
                     onLayout={handleContainerLayout}
                     ref={containerRef}
-                    style={animatedContainerStyle}
+                    style={containerStyle}
                 >
                     {children}
                 </Animated.View>
@@ -180,7 +178,7 @@ const HoldItemComponent = ({
                 <Animated.View
                     pointerEvents="none"
                     key={`item-${id}`}
-                    style={animatedPortalStyle}
+                    style={portalContainerStyle}
                     animatedProps={animatedPortalProps}
                 >
                     {children}
@@ -196,6 +194,6 @@ const HoldItemComponent = ({
     );
 };
 
-const HoldItem = memo(HoldItemComponent);
+const HoldItem = React.memo(HoldItemComponent);
 
 export default HoldItem;
