@@ -26,7 +26,8 @@ const HoldItemWrapperComponent = ({
             menuAnchorPosition={menuAnchorPosition}
             isActive={isActive}
             handleActivate={handleActivate}
-            items={items}>
+            items={items}
+            theme={state.theme}>
             {children}
         </HoldItem>
     ), [isActive])

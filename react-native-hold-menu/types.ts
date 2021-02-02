@@ -66,12 +66,14 @@ export type MenuBackDropMethods = {
 };
 
 export interface MenuProps {
-  longPressGestureState: Animated.SharedValue<State>;
+  id: string | number;
+  isActive: boolean;
   items: MenuItemProps[];
   itemHeight?: number;
   itemWidth?: number;
   anchorPosition: TransformOriginAnchorPosition;
   menuStyles?: ViewStyle;
+  theme?: string;
 }
 
 export interface MenuItemProps {

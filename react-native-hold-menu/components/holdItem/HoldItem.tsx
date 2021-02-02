@@ -22,6 +22,7 @@ import { WINDOW_WIDTH } from "../../constants";
 import { useLayout } from "../../hooks/useLayout";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 import type { HoldItemProps } from "./types";
+import { TransformOriginAnchorPosition } from "../../utils/calculations";
 
 const HoldItemComponent = ({
     id,
@@ -29,7 +30,8 @@ const HoldItemComponent = ({
     items,
     isActive,
     handleActivate,
-    menuAnchorPosition
+    menuAnchorPosition,
+    theme
 }: HoldItemProps) => {
     const containerRef = useAnimatedRef<Animated.View>();
     const longPressGestureState = useSharedValue<State>(
@@ -51,7 +53,7 @@ const HoldItemComponent = ({
         else if (distanceToRight == distanceToLeft) return "top-center"
         else return "top-right"
     }
-    const transformOrigin = useSharedValue<string>(menuAnchorPosition || "top-right")
+    const transformOrigin = useSharedValue<TransformOriginAnchorPosition>(menuAnchorPosition || "top-right")
 
     React.useEffect(() => {
         if (!isActive)
@@ -168,8 +170,7 @@ const HoldItemComponent = ({
                 <Animated.View
                     onLayout={handleContainerLayout}
                     ref={containerRef}
-                    style={containerStyle}
-                >
+                    style={containerStyle}>
                     {children}
                 </Animated.View>
             </LongPressGestureHandler>
@@ -179,15 +180,16 @@ const HoldItemComponent = ({
                     pointerEvents="none"
                     key={`item-${id}`}
                     style={portalContainerStyle}
-                    animatedProps={animatedPortalProps}
-                >
+                    animatedProps={animatedPortalProps}>
                     {children}
-                    {/* <Menu
+                    <Menu
+                        id={id}
                         items={items}
+                        isActive={isActive}
                         itemHeight={itemRectHeight.value}
                         itemWidth={itemRectWidth.value}
-                        longPressGestureState={longPressGestureState}
-                        anchorPosition={transformOrigin.value} /> */}
+                        anchorPosition={transformOrigin.value}
+                        theme={theme} />
                 </Animated.View>
             </Portal>
         </>
