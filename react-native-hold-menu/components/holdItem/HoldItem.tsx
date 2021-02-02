@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useEffect } from "react";
 
 import { Portal } from "@gorhom/portal";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
@@ -12,7 +12,8 @@ import Animated, {
     useSharedValue,
     withDelay,
     withTiming,
-    withSequence
+    withSequence,
+    cancelAnimation,
 } from "react-native-reanimated";
 
 // Components
@@ -31,15 +32,12 @@ const HoldItemComponent = ({
     items,
     menuAnchorPosition
 }: HoldItemProps) => {
-    //#region state
     const [state, dispatch] = React.useContext(HoldMenuContext)
-    //#endregion
-
-    //#region refs
     const containerRef = useAnimatedRef<Animated.View>();
-    //#endregion
-
-    //#region variables
+    const longPressGestureState = useSharedValue<State>(
+        State.UNDETERMINED,
+        false
+    );
     const itemRectY = useSharedValue<number>(0, false);
     const itemRectX = useSharedValue<number>(0, false);
     const itemRectWidth = useSharedValue<number>(0, false);
@@ -57,80 +55,83 @@ const HoldItemComponent = ({
     }
     const transformOrigin = useSharedValue<string>(menuAnchorPosition || "top-right")
 
+    useEffect(() => {
+        if (state.active == CONTEXT_MENU_STATE.END)
+            longPressGestureState.value = State.END
+    }, [state])
 
     const { handleContainerLayout } = useLayout({
         height: itemRectHeight,
         width: itemRectWidth,
     });
-    //#endregion
 
-    //#region gesture
     const handleActivate = () => {
         dispatch({ type: 'active' })
     }
-    const longPressGestureState = useSharedValue<State>(
-        State.UNDETERMINED,
-        false
-    );
+
+    const itemScale = useSharedValue(1)
+
+    const activateAnimation = (ctx: any) => {
+        'worklet'
+        if (!ctx.didMeasureLayout) {
+            const measured = measure(containerRef);
+            itemRectY.value = measured.pageY;
+            itemRectX.value = measured.pageX;
+            if (!menuAnchorPosition)
+                transformOrigin.value = getTransformOrigin(measured.pageX, measured.pageY)
+        }
+    }
+
+    const scaleBack = () => {
+        'worklet'
+        itemScale.value = withTiming(1, { duration: HOLD_ITEM_TRANSFORM_DURATION / 2 })
+    }
+
     const longPressGestureEvent = useAnimatedGestureHandler({
         onActive: ({ state: handlerState }, context) => {
-            if (!context.didMeasureLayout) {
-                try {
-                    const measured = measure(containerRef);
-                    itemRectY.value = measured.pageY;
-                    itemRectX.value = measured.pageX;
-                    if (!menuAnchorPosition)
-                        transformOrigin.value = getTransformOrigin(measured.pageX, measured.pageY)
+            activateAnimation(context)
+            context.didMeasureLayout = true;
 
-                    context.didMeasureLayout = true;
-                } catch { }
-            }
-
-            if (longPressGestureState.value !== handlerState) {
-                longPressGestureState.value = handlerState
-
-                runOnJS(handleActivate)()
+            if (longPressGestureState.value !== State.ACTIVE) {
+                itemScale.value = withTiming(0.5, { duration: HOLD_ITEM_TRANSFORM_DURATION }, (isFinised) => {
+                    if (isFinised) {
+                        runOnJS(handleActivate)()
+                        itemScale.value = 1
+                        longPressGestureState.value = handlerState
+                    }
+                })
             }
         },
         onFinish: (_, context) => {
             context.didMeasureLayout = false;
+            if (longPressGestureState.value !== State.ACTIVE) {
+                scaleBack()
+            }
         },
     });
-    //#endregion
 
-    //#region styles
     const animatedContainerStyle = useAnimatedStyle(() => {
         const isAnimationActive = longPressGestureState.value === State.ACTIVE
-        const animateOpacity = () => withDelay(isAnimationActive ? 0 : HOLD_ITEM_TRANSFORM_DURATION, withTiming(
-            isAnimationActive ? 0 : 1,
-            { duration: 0 }
-        ))
+        const animateOpacity = () =>
+            withDelay(HOLD_ITEM_TRANSFORM_DURATION,
+                withTiming(1, { duration: 0 }))
 
         return {
-            opacity: animateOpacity(),
+            opacity: isAnimationActive ? 0 : animateOpacity(),
+            transform: [{
+                scale: isAnimationActive ?
+                    withTiming(1, { duration: HOLD_ITEM_TRANSFORM_DURATION }) :
+                    itemScale.value
+            }]
         };
-    });
-    const containerStyle = useMemo(() => [animatedContainerStyle], [
-        animatedContainerStyle
-    ]);
+    }, [longPressGestureState]);
 
-    const animatedPortalItemContainerStyle = useAnimatedStyle(() => {
+    const animatedPortalStyle = useAnimatedStyle(() => {
         const isAnimationActive = longPressGestureState.value === State.ACTIVE
-        const DELAY_DURATION_FOR_SCALE = isAnimationActive ? HOLD_ITEM_TRANSFORM_DURATION / 2 : 10
-        const DELAY_DURATION_FOR_OPACITY = isAnimationActive ? 0 : HOLD_ITEM_TRANSFORM_DURATION
 
-        const animatedScale = () => isAnimationActive ? withSequence(
-            withTiming(0.85, { duration: HOLD_ITEM_TRANSFORM_DURATION / 2 }),
-            withTiming(1)) : withTiming(1);
-        const animateTranslateY = (position: number) =>
-            withDelay(DELAY_DURATION_FOR_SCALE, withTiming(position, {
-                duration: HOLD_ITEM_TRANSFORM_DURATION,
-            }))
         const animateOpacity = () =>
-            withDelay(DELAY_DURATION_FOR_OPACITY, withTiming(
-                isAnimationActive ? 1 : 0,
-                { duration: 0 }
-            ))
+            withDelay(HOLD_ITEM_TRANSFORM_DURATION,
+                withTiming(0, { duration: 0 }))
 
         return {
             zIndex: 10,
@@ -139,46 +140,37 @@ const HoldItemComponent = ({
             left: itemRectX.value,
             width: itemRectWidth.value,
             height: itemRectHeight.value,
-            opacity: animateOpacity(),
+            opacity: isAnimationActive ? 1 : animateOpacity(),
             transform: [
                 {
-                    translateY: animateTranslateY(
-                        longPressGestureState.value === State.ACTIVE ? -75 : 0,
-                    ),
+                    translateY: withTiming(isAnimationActive ? -115 : -0.1, {
+                        duration: HOLD_ITEM_TRANSFORM_DURATION,
+                    })
                 },
                 {
-                    scale: animatedScale()
+                    scale: isAnimationActive ?
+                        withTiming(1, { duration: HOLD_ITEM_TRANSFORM_DURATION }) :
+                        itemScale.value
                 }
             ],
         };
-    });
-    const portalItemContainerStyle = useMemo(() => [animatedPortalItemContainerStyle], [
-        animatedPortalItemContainerStyle
-    ]);
-    //#endregion
+    }, [longPressGestureState]);
 
-    const animatedPopupProps = useAnimatedProps(() => ({
+    const animatedPortalProps = useAnimatedProps(() => ({
         pointerEvents:
             longPressGestureState.value === State.ACTIVE ? "auto" : "none",
     }));
 
-    //#region effects
-    React.useEffect(() => {
-        if (state.active == CONTEXT_MENU_STATE.END)
-            longPressGestureState.value = State.END
-    }, [state])
-    //#endregion
-
     return (
         <>
             <LongPressGestureHandler
-                minDurationMs={300}
+                minDurationMs={100}
                 onHandlerStateChange={longPressGestureEvent}
             >
                 <Animated.View
                     onLayout={handleContainerLayout}
                     ref={containerRef}
-                    style={containerStyle}
+                    style={animatedContainerStyle}
                 >
                     {children}
                 </Animated.View>
@@ -188,16 +180,16 @@ const HoldItemComponent = ({
                 <Animated.View
                     pointerEvents="none"
                     key={`item-${id}`}
-                    style={portalItemContainerStyle}
-                    animatedProps={animatedPopupProps}
+                    style={animatedPortalStyle}
+                    animatedProps={animatedPortalProps}
                 >
                     {children}
-                    <Menu
+                    {/* <Menu
                         items={items}
                         itemHeight={itemRectHeight.value}
                         itemWidth={itemRectWidth.value}
                         longPressGestureState={longPressGestureState}
-                        anchorPosition={transformOrigin.value} />
+                        anchorPosition={transformOrigin.value} /> */}
                 </Animated.View>
             </Portal>
         </>
