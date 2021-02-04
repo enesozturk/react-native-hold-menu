@@ -1,0 +1,110 @@
+.wrapper {
+  --padding: 2rem;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding-top: var(--padding);
+  padding-left: var(--padding);
+  padding-right: var(--padding);
+}
+
+.headerWrapper {
+  display: flex;
+}
+
+.headerTitle {
+  font-weight: 600;
+  font-size: 2.25rem !important;
+  line-height: 3.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.menu {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+.menu ul {
+  display: flex;
+}
+
+.menu li {
+  list-style: none;
+}
+
+.headerWrapper a {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  padding: 1rem;
+  font-size: 1.25rem;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.heroWrapper {
+  position: relative;
+  z-index: 1;
+  padding-top: 5vw;
+  padding-bottom: 5vw;
+}
+
+.heading {
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 3.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.subHeading {
+  color: #404040;
+  line-height: 2.2rem;
+  font-size: 1.4rem;
+  font-weight: 300;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.flexItem {
+  margin: 0 0.5rem;
+}
+
+.button {
+  padding: 0.8rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  transform-origin: 50% 50%;
+  background-color: #596dff;
+  appearance: none;
+  border: 0;
+  outline: none;
+  white-space: nowrap;
+  font-family: var(--sans-serif);
+  color: #fff;
+  cursor: url(/pointer.svg), pointer;
+}
+
+.copyPaste {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #333;
+  padding: 0.9rem 1.5rem;
+  appearance: none;
+  outline: none;
+  cursor: url(/pointer.svg), pointer;
+  border: none;
+  background: #f7fafd;
+  box-shadow: 0 0 0 1px #e7edf2;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-family: var(--mono-font-stack);
+  font-size: 1rem;
+}
