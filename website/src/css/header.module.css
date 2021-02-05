@@ -51,6 +51,7 @@
   z-index: 1;
   padding-top: 5vw;
   padding-bottom: 5vw;
+  flex: 3;
 }
 
 .heading {
@@ -81,7 +82,7 @@
   font-size: 1.2rem;
   border-radius: 5px;
   transform-origin: 50% 50%;
-  background-color: #596dff;
+  background-color: var(--ifm-color-primary);
   appearance: none;
   border: 0;
   outline: none;
