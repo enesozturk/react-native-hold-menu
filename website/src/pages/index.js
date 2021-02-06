@@ -11,9 +11,15 @@ function Content() {
   const { isDarkTheme } = useThemeContext();
 
   return (
-    <header>
+    <header className={styles.header}>
       <div className={styles.wrapper}>
         <section className={styles.hero}>
+          <div className={styles.phoneImageWrapperOnLeft}>
+            <img
+              src={isDarkTheme ? DarkImage : LightImage}
+              style={{ maxHeight: 450 }}
+            />
+          </div>
           <div className={styles.heroWrapper}>
             <h1 className={styles.heading}>
               Make your components more interactable

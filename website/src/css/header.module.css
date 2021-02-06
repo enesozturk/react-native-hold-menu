@@ -1,3 +1,8 @@
+.header {
+  padding-top: 4em;
+  padding-bottom: 4em;
+}
+
 .wrapper {
   --padding: 2rem;
   max-width: var(--max-content-width);
@@ -32,6 +37,7 @@
 }
 
 .heading {
+  color: var(--ifm-color-emphasis-900);
   font-weight: 600;
   font-size: 3rem;
   line-height: 3.5rem;
@@ -39,7 +45,7 @@
 }
 
 .subHeading {
-  color: #404040;
+  color: var(--ifm-color-emphasis-800);
   line-height: 2.2rem;
   font-size: 1.4rem;
   font-weight: 300;
@@ -74,14 +80,13 @@
   position: relative;
   display: flex;
   align-items: center;
-  color: #333;
+  color: var(--ifm-color-emphasis-800);
   padding: 0.9rem 1.5rem;
   appearance: none;
   outline: none;
   cursor: url(/pointer.svg), pointer;
   border: none;
-  background: #f7fafd;
-  box-shadow: 0 0 0 1px #e7edf2;
+  background: var(--ifm-color-emphasis-200);
   border-radius: 5px;
   white-space: nowrap;
   font-family: var(--mono-font-stack);
@@ -89,7 +94,8 @@
   margin-left: 1em;
 }
 
-.phoneImageWrapper {
+.phoneImageWrapper,
+.phoneImageWrapperOnLeft {
   flex: 3;
   display: flex;
   align-items: center;
@@ -99,16 +105,11 @@
   perspective: 1500px;
 }
 
-/* .phoneImageWrapper img {
-  transform: rotateX(10deg) rotateY(-18deg) rotateZ(3deg);
-  transition: 0.3s;
+.phoneImageWrapperOnLeft {
+  display: none;
 }
 
-.phoneImageWrapper:hover img {
-  transform: rotate(0);
-} */
-
-@media (max-width: 1100px) and (min-width: 940px) {
+@media screen and (max-width: 1100px) and (min-width: 940px) {
   .buttonsWrapper {
     flex-direction: column;
     align-items: flex-start;
@@ -120,9 +121,38 @@
   }
 }
 
-@media (max-width: 940px) {
+@media screen and (max-width: 940px) {
   .hero {
     flex-direction: column;
     align-items: center;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .buttonsWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .copyPaste {
+    margin-left: 0;
+    margin-top: 1em;
+  }
+
+  .header {
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+
+  .phoneImageWrapper img {
+    max-height: 320px;
+  }
+
+  .phoneImageWrapperOnLeft {
+    display: flex;
+  }
+
+  .phoneImageWrapper {
+    display: none;
   }
 }
