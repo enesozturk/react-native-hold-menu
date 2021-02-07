@@ -1,61 +1,67 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import { View } from 'react-native';
 
 import Animated, {
   useAnimatedStyle,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
-import StyleGuide from "../StyleGuide";
+import StyleGuide from '../StyleGuide';
 import {
   CalculateMenuHeight,
   MenuAnimationAnchor,
-} from "../../utils/calculations";
-import { BlurView } from "@react-native-community/blur";
+} from '../../utils/calculations';
+import { BlurView } from '@react-native-community/blur';
 
-import MenuItem from "./MenuItem";
-import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
-import { WINDOW_WIDTH } from "../../constants";
+import MenuItem from './MenuItem';
+import { HOLD_ITEM_TRANSFORM_DURATION } from '../../constants';
+import { WINDOW_WIDTH } from '../../constants';
 
-import styles from './styles'
-import { MenuItemProps, MenuProps } from "./types";
+import styles from './styles';
+import { MenuItemProps, MenuProps } from './types';
 
-const AnimatedBlurView = Animated.createAnimatedComponent<BlurView>(BlurView);
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const MenuComponent = ({
   items,
   isActive,
   itemHeight,
   itemWidth,
-  anchorPosition = "top-center",
-  theme = "light"
+  anchorPosition = 'top-center',
+  theme = 'light',
 }: MenuProps) => {
-  const MenuHeight = CalculateMenuHeight(items.length)
+  const MenuHeight = CalculateMenuHeight(items.length);
 
   const leftOrRight = React.useMemo(() => {
     return anchorPosition
-      ? anchorPosition.includes("right")
+      ? anchorPosition.includes('right')
         ? { right: 0 }
-        : anchorPosition.includes("left")
-          ? { left: 0 }
-          : { left: -(WINDOW_WIDTH / 2) + (itemWidth || 0) / 2 }
+        : anchorPosition.includes('left')
+        ? { left: 0 }
+        : { left: -(WINDOW_WIDTH / 2) + (itemWidth || 0) / 2 }
       : {};
-  }, [anchorPosition]);
+  }, [anchorPosition, itemWidth]);
 
   const topValue = React.useMemo(() => {
-    return anchorPosition.split("-")[0] == "top"
+    return anchorPosition.split('-')[0] === 'top'
       ? (itemHeight || 0) + StyleGuide.spacing
       : -1 * (MenuHeight + StyleGuide.spacing);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anchorPosition, itemHeight, items]);
 
-  const Translate = MenuAnimationAnchor(anchorPosition, (itemWidth || 0));
+  const Translate = MenuAnimationAnchor(anchorPosition, itemWidth || 0);
 
   const messageStyles = useAnimatedStyle(() => {
-    const menuScaleAnimation = () => withTiming(isActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION })
+    const menuScaleAnimation = () =>
+      withTiming(isActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION });
 
     return {
-      backgroundColor: theme == "light" ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)',
-      opacity: withTiming(isActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION }),
+      backgroundColor:
+        theme === 'light' ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)',
+      opacity: withTiming(isActive ? 1 : 0, {
+        duration: HOLD_ITEM_TRANSFORM_DURATION,
+      }),
       transform: [
         { translateX: Translate.begginingTransformations.translateX },
         { translateY: Translate.begginingTransformations.translateY },
@@ -69,25 +75,35 @@ const MenuComponent = ({
   }, [isActive]);
 
   return (
-    <View style={[styles.menuWrapper, { left: 0, top: topValue, width: itemWidth }]}>
+    <View style={[styles.menuWrapper, { top: topValue, width: itemWidth }]}>
       <AnimatedBlurView
         blurType={theme}
         blurAmount={50}
         style={[
           styles.menuContainer,
-          { height: MenuHeight, top: 0, ...leftOrRight, },
+          { height: MenuHeight, ...leftOrRight },
           { ...messageStyles },
         ]}
       >
         {items && items.length > 0 ? (
           items.map((item: MenuItemProps, index: number) => {
-            return <MenuItem key={index} item={item} isLast={items.length == index + 1} />;
+            return (
+              <MenuItem
+                key={index}
+                item={item}
+                isLast={items.length === index + 1}
+              />
+            );
           })
-        ) : (<MenuItem item={{ title: "Empty List", icon: null, onPress: () => { } }} />)}
+        ) : (
+          <MenuItem
+            item={{ title: 'Empty List', icon: null, onPress: () => {} }}
+          />
+        )}
       </AnimatedBlurView>
     </View>
   );
 };
 
-const Menu = React.memo(MenuComponent)
-export default Menu
+const Menu = React.memo(MenuComponent);
+export default Menu;

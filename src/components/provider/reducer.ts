@@ -1,15 +1,15 @@
-import { CONTEXT_MENU_STATE } from "../../constants";
+import { CONTEXT_MENU_STATE } from '../../constants';
 
 export type StateProps = {
   active: number;
   activeItem: string | null;
-  theme: "light" | "dark";
+  theme: 'light' | 'dark';
 };
 
 export enum ActionType {
-  Active = "Active",
-  End = "End",
-  Theme = "Theme",
+  Active = 'Active',
+  End = 'End',
+  Theme = 'Theme',
 }
 
 export type Action =
@@ -34,7 +34,7 @@ export const reducer = (state: StateProps, action: Action): StateProps => {
     case ActionType.Theme:
       return {
         ...state,
-        theme: state.theme == "dark" ? "light" : "dark",
+        theme: state.theme === 'dark' ? 'light' : 'dark',
       };
     default:
       return state;
@@ -44,5 +44,5 @@ export const reducer = (state: StateProps, action: Action): StateProps => {
 export const initialState: StateProps = {
   active: 0,
   activeItem: null,
-  theme: "light",
+  theme: 'light',
 };

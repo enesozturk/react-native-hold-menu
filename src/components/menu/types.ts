@@ -1,5 +1,5 @@
-import { ViewStyle } from "react-native";
-import { TransformOriginAnchorPosition } from "../../utils/calculations";
+import { ViewStyle } from 'react-native';
+import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export type MenuItemProps = {
   title: string;
@@ -15,5 +15,5 @@ export interface MenuProps {
   itemWidth?: number;
   anchorPosition: TransformOriginAnchorPosition;
   menuStyles?: ViewStyle;
-  theme?: string;
+  theme?: 'light' | 'dark';
 }

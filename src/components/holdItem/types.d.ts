@@ -1,8 +1,6 @@
-import { ViewStyle } from "react-native";
-import type Animated from "react-native-reanimated";
-import type { CONTEXT_MENU_STATE } from "../../constants";
-import { MenuItemProps } from "../../types";
-import { TransformOriginAnchorPosition } from "../../utils/calculations";
+import { ViewStyle } from 'react-native';
+import { MenuItemProps } from '../../types';
+import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export interface HoldItemProps {
   /**
@@ -49,7 +47,7 @@ export interface HoldItemProps {
 }
 
 export interface HoldItemChildProps extends HoldItemProps {
-  theme?: string;
+  theme?: 'light' | 'dark';
   isActive: boolean;
   handleActivate: () => void;
 }
