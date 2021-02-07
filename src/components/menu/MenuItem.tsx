@@ -5,7 +5,7 @@ import { MenuItemProps } from "../../types";
 import { HoldMenuContext } from "../provider";
 import styles from './styles'
 
-export const MenuItem = ({ item, isLast }: {
+const MenuItemComponent = ({ item, isLast }: {
   item: MenuItemProps, isLast?: boolean
 }) => {
   const { state } = React.useContext(HoldMenuContext)
@@ -33,3 +33,5 @@ export const MenuItem = ({ item, isLast }: {
   );
 };
 
+const MenuItem = React.memo(MenuItemComponent)
+export default MenuItem
