@@ -19,7 +19,6 @@ import Menu from '../menu'
 
 // Utils
 import type { HoldItemProps } from "./types";
-import { useLayout } from "../../hooks/useLayout";
 import { TransformOriginAnchorPosition, getTransformOrigin } from "../../utils/calculations";
 import { HOLD_ITEM_TRANSFORM_DURATION, HOLD_ITEM_SCALE_DOWN_DURATION, HOLD_ITEM_SCALE_DOWN_VALUE } from "../../constants";
 
@@ -28,10 +27,11 @@ const HoldItemComponent = ({
     children,
     items,
     isActive,
-    handleActivate,
     menuAnchorPosition,
     theme,
-    moveTop = true
+    moveTop = true,
+    customStyles,
+    handleActivate,
 }: HoldItemProps) => {
     const containerRef = useAnimatedRef<Animated.View>();
     const longPressGestureState = useSharedValue<State>(
@@ -49,12 +49,9 @@ const HoldItemComponent = ({
     React.useEffect(() => {
         if (!isActive)
             longPressGestureState.value = State.END
-    }, [isActive])
 
-    const { handleContainerLayout } = useLayout({
-        height: itemRectHeight,
-        width: itemRectWidth,
-    });
+
+    }, [isActive])
 
     const activateAnimation = (ctx: any) => {
         'worklet'
@@ -62,6 +59,9 @@ const HoldItemComponent = ({
             const measured = measure(containerRef);
             itemRectY.value = measured.pageY;
             itemRectX.value = measured.pageX;
+            itemRectHeight.value = measured.height
+            itemRectWidth.value = measured.width
+
             if (!menuAnchorPosition)
                 transformOrigin.value = getTransformOrigin(measured.pageX, itemRectWidth.value)
         }
@@ -152,14 +152,10 @@ const HoldItemComponent = ({
 
     return (
         <>
-            <LongPressGestureHandler
-                minDurationMs={100}
-                onHandlerStateChange={longPressGestureEvent}
-            >
+            <LongPressGestureHandler minDurationMs={150} onHandlerStateChange={longPressGestureEvent}>
                 <Animated.View
-                    onLayout={handleContainerLayout}
                     ref={containerRef}
-                    style={containerStyle}>
+                    style={[customStyles, containerStyle]}>
                     {children}
                 </Animated.View>
             </LongPressGestureHandler>

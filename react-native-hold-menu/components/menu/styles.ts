@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { MENU_WIDTH } from "../../constants";
-import styleGuide from "../../styleGuide";
 import { MenuItemHeight } from "../../utils/calculations";
+import styleGuide from "../../styleGuide";
 
 const styles = StyleSheet.create({
   menuWrapper: { position: "absolute", zIndex: 10 },

@@ -1,3 +1,4 @@
+import { ViewStyle } from "react-native";
 import type Animated from "react-native-reanimated";
 import type { CONTEXT_MENU_STATE } from "../../constants";
 import { MenuItemProps } from "../../types";
@@ -7,11 +8,12 @@ export interface HoldItemProps {
   id: string | number;
   items: MenuItemProps[];
   isActive: boolean;
-  handleActivate: () => void;
   theme?: string;
   children: React.ReactElement | React.ReactElement[];
   menuAnchorPosition?: TransformOriginAnchorPosition;
   moveTop?: boolean;
+  customStyles?: ViewStyle | ViewStyle[];
+  handleActivate: () => void;
 }
 
 export interface HoldItemWrapperProps {
@@ -20,4 +22,5 @@ export interface HoldItemWrapperProps {
   children: React.ReactElement | React.ReactElement[];
   menuAnchorPosition?: TransformOriginAnchorPosition;
   moveTop?: boolean;
+  customStyles?: ViewStyle | ViewStyle[];
 }
