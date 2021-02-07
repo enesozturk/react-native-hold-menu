@@ -1,42 +1,47 @@
 import { CONTEXT_MENU_STATE } from "../../constants";
 
-type StateProps = {
+export type StateProps = {
   active: number;
   activeItem: string | null;
   theme: "light" | "dark";
 };
 
-export const reducer = (state: StateProps, action: any) => {
+export enum ActionType {
+  Active = "Active",
+  End = "End",
+  Theme = "Theme",
+}
+
+export type Action =
+  | { type: ActionType.Active; activeItem: string | null }
+  | { type: ActionType.End }
+  | { type: ActionType.Theme };
+
+export const reducer = (state: StateProps, action: Action): StateProps => {
   switch (action.type) {
-    case "undetermined":
-      return {
-        ...state,
-        active: CONTEXT_MENU_STATE.UNDETERMINED,
-        activeItem: null,
-      };
-    case "active":
+    case ActionType.Active:
       return {
         ...state,
         active: CONTEXT_MENU_STATE.ACTIVE,
         activeItem: action.activeItem,
       };
-    case "end":
+    case ActionType.End:
       return {
         ...state,
         active: CONTEXT_MENU_STATE.END,
         activeItem: null,
       };
-    case "toggle-theme":
+    case ActionType.Theme:
       return {
         ...state,
         theme: state.theme == "dark" ? "light" : "dark",
       };
     default:
-      return state.active;
+      return state;
   }
 };
 
-export const initialState = {
+export const initialState: StateProps = {
   active: 0,
   activeItem: null,
   theme: "light",

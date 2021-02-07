@@ -1,7 +1,5 @@
 
-export * from "./components/menu/MenuItem";
-export * from "./components/menu/Menu";
+export { Menu } from "./components/menu";
 
-export { HoldItemWrapper as HoldItem } from './components/holdItem'
-export { default as HoldMenuProvider } from './components/provider'
-export { default as FlatList } from './components/flatList'
+export { HoldItem } from './components/holdItem'
+export { HoldMenuProvider } from './components/provider'

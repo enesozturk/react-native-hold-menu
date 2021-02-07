@@ -5,23 +5,27 @@ import { PortalHost } from '@gorhom/portal'
 import Backdrop from "../backdrop";
 
 // Utils
-import { reducer, initialState } from "./reducer"
+import { reducer, initialState, StateProps, Action, ActionType } from "./reducer"
 import { ProviderProps } from "./types"
 
-export const HoldMenuContext = React.createContext(initialState)
+export interface Store {
+    state: StateProps;
+    dispatch?: React.Dispatch<Action>;
+}
+export const HoldMenuContext = React.createContext<Store>({ state: initialState })
 
 const ProviderComponent = ({
     children,
     theme
 }: ProviderProps) => {
-    const [state, dispatch] = React.useReducer<any>(reducer, { active: 0, theme: theme || "light" })
+    const [state, dispatch] = React.useReducer(reducer, initialState);
 
     React.useEffect(() => {
-        if (theme != state.theme) dispatch({ type: 'toggle-theme' })
+        if (theme != state.theme) dispatch({ type: ActionType.Theme })
     }, [theme])
 
     return (
-        <HoldMenuContext.Provider value={[state, dispatch]}>
+        <HoldMenuContext.Provider value={{ state, dispatch }}>
             <PortalHost>
                 {children}
                 <Backdrop />

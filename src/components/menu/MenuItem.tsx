@@ -8,7 +8,7 @@ import styles from './styles'
 export const MenuItem = ({ item, isLast }: {
   item: MenuItemProps, isLast?: boolean
 }) => {
-  const [state, dispatch] = React.useContext(HoldMenuContext)
+  const { state } = React.useContext(HoldMenuContext)
 
   const textStyles = React.useMemo(() => {
     return state.theme == "dark" ? styles.textLight : styles.textDark

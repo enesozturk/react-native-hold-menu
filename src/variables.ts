@@ -2,33 +2,33 @@ import { MenuItemProps } from "./types";
 
 export const MenuItems: MenuItemProps[] = [
   {
-    id: 1,
     title: "Star",
     icon: "star",
+    onPress: () => {},
   },
   {
-    id: 2,
     title: "Answer",
     icon: "corner-up-left",
+    onPress: () => {},
   },
   {
-    id: 3,
     title: "Forward",
     icon: "corner-up-right",
+    onPress: () => {},
   },
   {
-    id: 4,
     title: "Copy",
     icon: "copy",
+    onPress: () => {},
   },
   {
-    id: 5,
     title: "Info",
     icon: "info",
+    onPress: () => {},
   },
   {
-    id: 6,
     title: "Delete",
     icon: "trash",
+    onPress: () => {},
   },
 ];

@@ -1,5 +1,4 @@
-import React, { memo, useMemo } from "react";
-import { Text } from "react-native";
+import React, { memo } from "react";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -8,7 +7,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-import { State, TapGestureHandler } from "react-native-gesture-handler";
+import { State, TapGestureHandler, TapGestureHandlerGestureEvent } from "react-native-gesture-handler";
 
 // Components
 import { BlurView } from "@react-native-community/blur";
@@ -17,11 +16,12 @@ import { BlurView } from "@react-native-community/blur";
 import { styles } from "./styles";
 import { CONTEXT_MENU_STATE, HOLD_ITEM_TRANSFORM_DURATION, WINDOW_HEIGHT } from "../../constants";
 import { HoldMenuContext } from "../provider";
+import { ActionType } from "../provider/reducer";
 
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const AnimatedBlurView = Animated.createAnimatedComponent<BlurView>(BlurView);
 
 const BackdropComponent = () => {
-  const [state, dispatch] = React.useContext(HoldMenuContext)
+  const { state, dispatch } = React.useContext(HoldMenuContext)
   const data = useSharedValue(0)
 
   React.useEffect(() => {
@@ -29,9 +29,9 @@ const BackdropComponent = () => {
       data.value = state.active
   }, [state])
 
-  const handleDeactivate = () => { dispatch({ type: 'end' }) }
-  const tapGestureState = useSharedValue<State>(State.UNDETERMINED, false);
-  const tapGestureEvent = useAnimatedGestureHandler(
+  const handleDeactivate = () => { if (dispatch) dispatch({ type: ActionType.End }) }
+  const tapGestureState = useSharedValue<State>(State.UNDETERMINED);
+  const tapGestureEvent = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>(
     {
       onStart: ({ state }) => {
         tapGestureState.value = state;
