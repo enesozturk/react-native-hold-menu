@@ -7,7 +7,6 @@ import Animated, {
 } from "react-native-reanimated";
 
 import StyleGuide from "../StyleGuide";
-import { MenuProps } from "../../types";
 import {
   CalculateMenuHeight,
   MenuAnimationAnchor,
@@ -19,6 +18,7 @@ import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
 import { WINDOW_WIDTH } from "../../constants";
 
 import styles from './styles'
+import { MenuItemProps, MenuProps } from "./types";
 
 const AnimatedBlurView = Animated.createAnimatedComponent<BlurView>(BlurView);
 
@@ -80,7 +80,7 @@ const MenuComponent = ({
         ]}
       >
         {items && items.length > 0 ? (
-          items.map((item, index) => {
+          items.map((item: MenuItemProps, index: number) => {
             return <MenuItem key={index} item={item} isLast={items.length == index + 1} />;
           })
         ) : (<MenuItem item={{ title: "Empty List", icon: null, onPress: () => { } }} />)}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
-import { MenuItemProps } from "../../types";
+import { MenuItemProps } from "./types";
 import { HoldMenuContext } from "../provider";
 import styles from './styles'
 
