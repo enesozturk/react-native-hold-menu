@@ -6,13 +6,14 @@ import Backdrop from "../backdrop";
 
 // Utils
 import { reducer, initialState } from "./reducer"
+import { ProviderProps } from "./types"
 
 export const HoldMenuContext = React.createContext(initialState)
 
 const ProviderComponent = ({
     children,
     theme
-}: { children: React.ReactElement | React.ReactElement[], theme?: "dark" | "light" }) => {
+}: ProviderProps) => {
     const [state, dispatch] = React.useReducer<any>(reducer, { active: 0, theme: theme || "light" })
 
     React.useEffect(() => {

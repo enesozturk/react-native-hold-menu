@@ -20,7 +20,7 @@ import { WINDOW_WIDTH } from "../../constants";
 
 import styles from './styles'
 
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const AnimatedBlurView = Animated.createAnimatedComponent<BlurView>(BlurView);
 
 const MenuComponent = ({
   items,

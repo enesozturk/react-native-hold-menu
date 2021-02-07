@@ -1,2 +1,1 @@
-export { default } from "./Provider";
-export { HoldMenuContext } from "./Provider";
+export { default as HoldMenuProvider, HoldMenuContext } from "./Provider";

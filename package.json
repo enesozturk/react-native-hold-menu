@@ -1,11 +1,15 @@
 {
-  "scripts": {
-    "start": "react-native start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator=\"iPhone 8\"",
-    "web": "expo start --web",
-    "eject": "expo eject"
-  },
+  "name": "react-native-hold-menu",
+  "version": "1.0.0",
+  "description": "A performant, easy to use and extensible hold to open context menu for React Native powered by Reanimated.",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/index.d.ts",
+  "react-native": "src/index.ts",
+  "files": [
+    "src",
+    "lib"
+  ],
   "keywords": [
     "react-native",
     "ios",
@@ -16,6 +20,27 @@
     "reanimated",
     "menu"
   ],
+  "repository": "https://github.com/enesozturk/react-native-hold-menu",
+  "author": "Enes Ozturk (https://ozturkenes.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enesozturk/react-native-hold-memnu/issues"
+  },
+  "homepage": "https://react-native-hold-menu.vercel.app",
+  "scripts": {
+    "typescript": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "build": "bob build && yarn copy-dts",
+    "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" lib/typescript",
+    "release": "release-it",
+    "example": "yarn --cwd example",
+    "bootstrap": "yarn install && yarn example",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios --simulator=\"iPhone 8\"",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
   "dependencies": {
     "@gorhom/portal": "^0.2.0"
   },
@@ -23,25 +48,31 @@
     "@babel/core": "~7.9.0",
     "@types/faker": "^5.1.5",
     "@types/react": "~16.9.35",
-    "@types/react-dom": "~16.9.8",
-    "@types/react-native": "~0.63.2",
+    "@types/react-native": "0.63.4",
     "babel-jest": "~25.2.6",
     "jest": "~25.2.6",
     "react": "16.13.1",
     "react-native": "~0.63.4",
+    "react-native-builder-bob": "^0.17.1",
     "react-native-gesture-handler": "1.9.0",
-    "react-native-reanimated": "2.0.0-rc.1",
+    "react-native-reanimated": "^2.0.0-rc.3",
     "react-test-renderer": "~16.13.1",
     "typescript": "~4.0.0"
   },
   "peerDependencies": {
+    "@react-native-community/blur": ">=3.6.0",
     "react": "*",
     "react-native": "*",
     "react-native-gesture-handler": ">=1.9.0",
-    "react-native-reanimated": ">=2.0.0-rc.1",
-    "@react-native-community/blur": ">=3.6.0"
+    "react-native-reanimated": ">=2.0.0-rc.1"
   },
-  "private": true,
-  "name": "react-native-hold-menu-dev",
-  "version": "1.0.0"
+  "@react-native-community/bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  }
 }
