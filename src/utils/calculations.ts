@@ -1,4 +1,4 @@
-import { WINDOW_WIDTH } from "../../src/constants";
+import { WINDOW_WIDTH } from "../constants";
 import StyleGuide from "../components/StyleGuide";
 import { MENU_WIDTH } from "../constants";
 

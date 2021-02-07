@@ -16,7 +16,7 @@ import { BlurView } from "@react-native-community/blur";
 
 import { MenuItem } from "./MenuItem";
 import { HOLD_ITEM_TRANSFORM_DURATION } from "../../constants";
-import { WINDOW_WIDTH } from "../../../src/constants";
+import { WINDOW_WIDTH } from "../../constants";
 
 import styles from './styles'
 
