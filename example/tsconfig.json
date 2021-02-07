@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "react-native-hold-menu": ["./src/index"]
+      "react-native-hold-menu": ["../src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -23,6 +23,5 @@
     "strict": true,
     "target": "esnext"
   },
-  "exclude": ["example"],
   "include": ["src"]
 }
