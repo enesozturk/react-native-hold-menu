@@ -46,6 +46,7 @@ const HoldItemChildComponent = ({
   disableMove,
   styles,
   handleActivate,
+  onActivate,
 }: HoldItemChildProps) => {
   const containerRef = useAnimatedRef<Animated.View>();
   const longPressGestureState = useSharedValue<State>(State.UNDETERMINED);
@@ -105,6 +106,7 @@ const HoldItemChildComponent = ({
           isFinised => {
             if (isFinised) {
               runOnJS(handleActivate)();
+              if (onActivate) runOnJS(onActivate)();
               itemScale.value = 1;
               longPressGestureState.value = state;
             }

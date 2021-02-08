@@ -44,6 +44,8 @@ export interface HoldItemProps {
    * disableMove={true}
    */
   styles?: ViewStyle | ViewStyle[];
+
+  onActivate?: () => void;
 }
 
 export interface HoldItemChildProps extends HoldItemProps {

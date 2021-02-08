@@ -16,6 +16,7 @@
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
+    "expo-haptics": "^9.0.0",
     "faker": "^5.3.1",
     "react": "16.13.1",
     "react-native": "0.63.4",
@@ -23,6 +24,7 @@
     "react-native-reanimated": "^2.0.0-rc.3",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.17.1",
+    "react-native-unimodules": "^0.12.0",
     "react-native-vector-icons": "^8.0.0"
   },
   "devDependencies": {

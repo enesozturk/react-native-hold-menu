@@ -8,6 +8,7 @@ import { mockWhatsAppData } from '../../utilities/data';
 
 // React Native Hold Menu Components
 import { HoldItem } from 'react-native-hold-menu';
+import * as Haptics from 'expo-haptics';
 
 export const MenuItems = [
   {
@@ -27,6 +28,10 @@ export const MenuItems = [
 ];
 
 const MessageItemComponent = ({ message }: { message: any }) => {
+  const handleOnActivate = () => {
+    Haptics.impactAsync();
+  };
+
   return (
     <View
       style={[
@@ -38,6 +43,7 @@ const MessageItemComponent = ({ message }: { message: any }) => {
         id={message.id.toString()}
         styles={{ maxWidth: '80%' }}
         items={MenuItems}
+        onActivate={handleOnActivate}
       >
         <View style={[styles.message, { ...MessageStyles(message.fromMe) }]}>
           <Text style={styles.messageText}>{message.text}</Text>
