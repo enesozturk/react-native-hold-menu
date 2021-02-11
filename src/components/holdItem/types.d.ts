@@ -1,4 +1,5 @@
 import { ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { MenuItemProps } from '../../types';
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
@@ -45,11 +46,12 @@ export interface HoldItemProps {
    */
   styles?: ViewStyle | ViewStyle[];
 
-  onActivate?: () => void;
+  onActivate: () => void;
+  // isActive: boolean;
+  active: Animated.SharedValue<number>;
 }
 
 export interface HoldItemChildProps extends HoldItemProps {
   theme?: 'light' | 'dark';
-  isActive: boolean;
-  handleActivate: () => void;
+  isActive: Animated.SharedValue<boolean>;
 }

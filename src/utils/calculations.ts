@@ -7,7 +7,7 @@ export const MenuItemHeight = () => {
   return StyleGuide.typography.callout.lineHeight + StyleGuide.spacing * 2.5;
 };
 
-export const CalculateMenuHeight = (itemLength: number) => {
+export const calculateMenuHeight = (itemLength: number) => {
   'worklet';
   return MenuItemHeight() * itemLength;
 };
@@ -20,12 +20,12 @@ export type TransformOriginAnchorPosition =
   | 'bottom-left'
   | 'bottom-center';
 
-export const MenuAnimationAnchor = (
+export const menuAnimationAnchor = (
   anchorPoint: TransformOriginAnchorPosition,
   itemWidth: number
 ) => {
   'worklet';
-  const MenuHeight = CalculateMenuHeight(2);
+  const MenuHeight = calculateMenuHeight(2);
   const splittetAnchorName: string[] = anchorPoint.split('-');
 
   const Center1 = splittetAnchorName[0] === 'top' ? itemWidth : itemWidth * 1.5;
@@ -69,12 +69,17 @@ export const MenuAnimationAnchor = (
   };
 };
 
-export const getTransformOrigin = (posX: number, itemWidth: number) => {
+export const getTransformOrigin = (
+  posX: number,
+  itemWidth: number
+): TransformOriginAnchorPosition => {
   'worklet';
   const distanceToLeft = posX + itemWidth / 2;
   const distanceToRight = WINDOW_WIDTH - distanceToLeft;
+  let position: TransformOriginAnchorPosition = 'top-right';
 
-  if (distanceToLeft < distanceToRight) return 'top-left';
-  else if (distanceToRight === distanceToLeft) return 'top-center';
-  else return 'top-right';
+  if (distanceToLeft < distanceToRight) position = 'top-left';
+  else if (distanceToRight === distanceToLeft) position = 'top-center';
+
+  return position;
 };

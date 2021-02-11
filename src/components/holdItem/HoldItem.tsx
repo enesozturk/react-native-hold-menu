@@ -1,43 +1,27 @@
 import React, { memo } from 'react';
+import { useDerivedValue } from 'react-native-reanimated';
 
 // Components
 import HoldItemChild from './HoldItemChild';
+
+// Types
 import type { HoldItemProps } from './types';
-import { HoldMenuContext } from '../provider';
-import { ActionType } from '../provider/reducer';
 
 const HoldItemComponent = ({ ...props }: HoldItemProps) => {
-  const { state, dispatch } = React.useContext(HoldMenuContext);
-  const [isActive, setIsActive] = React.useState(false);
+  const isActive = useDerivedValue(() => {
+    return props.active.value == props.id;
+  }, [props.active]);
 
-  React.useEffect(() => {
-    setIsActive(state.active && state.activeItem === props.id ? true : false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
-
-  const handleActivate = () => {
-    if (dispatch)
-      dispatch({ type: ActionType.Active, activeItem: props.id.toString() });
-  };
-
-  const content = React.useMemo(() => {
-    return (
-      <HoldItemChild
-        isActive={isActive}
-        theme={state.theme}
-        handleActivate={handleActivate}
-        {...props}
-      >
-        {props.children}
-      </HoldItemChild>
-    );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive]);
-
-  return content;
+  return (
+    <HoldItemChild {...props} isActive={isActive}>
+      {props.children}
+    </HoldItemChild>
+  );
 };
 
-const HoldItem = memo(HoldItemComponent);
+const HoldItem = memo(HoldItemComponent, (prevProps, nextProps) => {
+  if (prevProps.active.value === nextProps.active.value) return true;
+  else return false;
+});
 
 export default HoldItem;

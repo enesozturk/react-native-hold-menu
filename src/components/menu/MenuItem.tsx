@@ -4,6 +4,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import { MenuItemProps } from './types';
 import { HoldMenuContext } from '../provider';
 import styles from './styles';
+import { useHoldMenu } from '../../hooks/useHoldMenu';
 
 const MenuItemComponent = ({
   item,
@@ -12,14 +13,14 @@ const MenuItemComponent = ({
   item: MenuItemProps;
   isLast?: boolean;
 }) => {
-  const { state } = React.useContext(HoldMenuContext);
+  const { menuState } = useHoldMenu();
 
   const textStyles = React.useMemo(() => {
-    return state.theme === 'dark' ? styles.textLight : styles.textDark;
-  }, [state]);
+    return menuState.theme === 'dark' ? styles.textLight : styles.textDark;
+  }, [menuState]);
 
   const borderStyles = React.useMemo(() => {
-    return state.theme === 'dark'
+    return menuState.theme === 'dark'
       ? {
           borderBottomWidth: 1,
           borderBottomColor: 'rgba(255, 255, 255, 0.1)',
@@ -28,7 +29,7 @@ const MenuItemComponent = ({
           borderBottomWidth: 1,
           borderBottomColor: 'rgba(0, 0, 0, 0.1)',
         };
-  }, [state]);
+  }, [menuState]);
 
   return (
     <TouchableOpacity

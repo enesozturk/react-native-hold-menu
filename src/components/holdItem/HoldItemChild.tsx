@@ -4,7 +4,6 @@ import { Portal } from '@gorhom/portal';
 import {
   LongPressGestureHandler,
   LongPressGestureHandlerGestureEvent,
-  State,
 } from 'react-native-gesture-handler';
 import Animated, {
   measure,
@@ -16,13 +15,13 @@ import Animated, {
   useSharedValue,
   withDelay,
   withTiming,
+  withSpring,
 } from 'react-native-reanimated';
 
 // Components
 import Menu from '../menu';
 
 // Utils
-import type { HoldItemChildProps } from './types';
 import {
   TransformOriginAnchorPosition,
   getTransformOrigin,
@@ -31,25 +30,29 @@ import {
   HOLD_ITEM_TRANSFORM_DURATION,
   HOLD_ITEM_SCALE_DOWN_DURATION,
   HOLD_ITEM_SCALE_DOWN_VALUE,
+  SPRING_CONFIGURATION,
 } from '../../constants';
 import { ViewProps } from 'react-native';
+import styles from './styles';
+
+// Types
+import type { HoldItemChildProps } from './types';
 
 type Context = { didMeasureLayout: boolean };
 
 const HoldItemChildComponent = ({
   id,
-  children,
   items,
-  isActive,
-  menuAnchorPosition,
   theme,
-  disableMove,
-  styles,
-  handleActivate,
+  styles: customStyles,
+  children,
+  isActive,
   onActivate,
+  disableMove,
+  menuAnchorPosition,
 }: HoldItemChildProps) => {
   const containerRef = useAnimatedRef<Animated.View>();
-  const longPressGestureState = useSharedValue<State>(State.UNDETERMINED);
+
   const itemRectY = useSharedValue<number>(0);
   const itemRectX = useSharedValue<number>(0);
   const itemRectWidth = useSharedValue<number>(0);
@@ -60,13 +63,6 @@ const HoldItemChildComponent = ({
     menuAnchorPosition || 'top-right'
   );
 
-  React.useEffect(() => {
-    if (!isActive) {
-      longPressGestureState.value = State.END;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive]);
-
   const activateAnimation = (ctx: any) => {
     'worklet';
     if (!ctx.didMeasureLayout) {
@@ -76,11 +72,13 @@ const HoldItemChildComponent = ({
       itemRectHeight.value = measured.height;
       itemRectWidth.value = measured.width;
 
-      if (!menuAnchorPosition)
-        transformOrigin.value = getTransformOrigin(
+      if (!menuAnchorPosition) {
+        const position = getTransformOrigin(
           measured.pageX,
           itemRectWidth.value
         );
+        transformOrigin.value = position;
+      }
     }
   };
 
@@ -99,16 +97,14 @@ const HoldItemChildComponent = ({
       activateAnimation(context);
       context.didMeasureLayout = true;
 
-      if (longPressGestureState.value !== State.ACTIVE) {
+      if (!isActive.value) {
         itemScale.value = withTiming(
           HOLD_ITEM_SCALE_DOWN_VALUE,
           { duration: HOLD_ITEM_SCALE_DOWN_DURATION },
           isFinised => {
             if (isFinised) {
-              runOnJS(handleActivate)();
               if (onActivate) runOnJS(onActivate)();
-              itemScale.value = 1;
-              longPressGestureState.value = state;
+              scaleBack();
             }
           }
         );
@@ -116,33 +112,31 @@ const HoldItemChildComponent = ({
     },
     onFinish: (_, context) => {
       context.didMeasureLayout = false;
-      if (longPressGestureState.value !== State.ACTIVE) scaleBack();
+      scaleBack();
     },
   });
 
   const animatedContainerStyle = useAnimatedStyle(() => {
-    const isAnimationActive = longPressGestureState.value === State.ACTIVE;
     const animateOpacity = () =>
       withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(1, { duration: 0 }));
 
     return {
-      opacity: isAnimationActive ? 0 : animateOpacity(),
+      opacity: isActive.value ? 0 : animateOpacity(),
       transform: [
         {
-          scale: isAnimationActive
+          scale: isActive.value
             ? withTiming(1, { duration: HOLD_ITEM_TRANSFORM_DURATION })
             : itemScale.value,
         },
       ],
     };
   });
-  const containerStyle = React.useMemo(() => [animatedContainerStyle], [
-    animatedContainerStyle,
-  ]);
+  const containerStyle = React.useMemo(
+    () => [customStyles, animatedContainerStyle],
+    [animatedContainerStyle]
+  );
 
   const animatedPortalStyle = useAnimatedStyle(() => {
-    const isAnimationActive = longPressGestureState.value === State.ACTIVE;
-
     const animateOpacity = () =>
       withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(0, { duration: 0 }));
 
@@ -153,17 +147,17 @@ const HoldItemChildComponent = ({
       left: itemRectX.value,
       width: itemRectWidth.value,
       height: itemRectHeight.value,
-      opacity: isAnimationActive ? 1 : animateOpacity(),
+      opacity: isActive.value ? 1 : animateOpacity(),
       transform: [
         {
           translateY: disableMove
             ? 0
-            : withTiming(isAnimationActive ? -115 : -0.1, {
-                duration: HOLD_ITEM_TRANSFORM_DURATION,
-              }),
+            : isActive.value
+            ? withSpring(-115, SPRING_CONFIGURATION)
+            : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION }),
         },
         {
-          scale: isAnimationActive
+          scale: isActive.value
             ? withTiming(1, { duration: HOLD_ITEM_TRANSFORM_DURATION })
             : itemScale.value,
         },
@@ -172,11 +166,11 @@ const HoldItemChildComponent = ({
   });
   const portalContainerStyle = React.useMemo(() => [animatedPortalStyle], [
     animatedPortalStyle,
+    styles.holdItem,
   ]);
 
   const animatedPortalProps = useAnimatedProps<ViewProps>(() => ({
-    pointerEvents:
-      longPressGestureState.value === State.ACTIVE ? 'auto' : 'none',
+    pointerEvents: isActive.value ? 'auto' : 'none',
   }));
 
   return (
@@ -185,12 +179,12 @@ const HoldItemChildComponent = ({
         minDurationMs={150}
         onHandlerStateChange={longPressGestureEvent}
       >
-        <Animated.View ref={containerRef} style={[styles, containerStyle]}>
+        <Animated.View ref={containerRef} style={containerStyle}>
           {children}
         </Animated.View>
       </LongPressGestureHandler>
 
-      <Portal>
+      <Portal key={`item-${id}`}>
         <Animated.View
           key={`item-${id}`}
           style={portalContainerStyle}
@@ -201,9 +195,9 @@ const HoldItemChildComponent = ({
             id={id}
             items={items}
             isActive={isActive}
-            itemHeight={itemRectHeight.value}
-            itemWidth={itemRectWidth.value}
-            anchorPosition={transformOrigin.value}
+            itemHeight={itemRectHeight}
+            itemWidth={itemRectWidth}
+            anchorPosition={transformOrigin}
             theme={theme || 'light'}
           />
         </Animated.View>
@@ -212,6 +206,12 @@ const HoldItemChildComponent = ({
   );
 };
 
-const HoldItemChild = React.memo(HoldItemChildComponent);
+const HoldItemChild = React.memo(
+  HoldItemChildComponent,
+  (prevProps, nextProps) => {
+    if (prevProps.isActive.value === nextProps.isActive.value) return true;
+    else return false;
+  }
+);
 
 export default HoldItemChild;

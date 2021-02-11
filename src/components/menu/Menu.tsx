@@ -1,21 +1,25 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useMemo } from 'react';
 
 import Animated, {
   useAnimatedStyle,
+  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 
 import StyleGuide from '../StyleGuide';
 import {
-  CalculateMenuHeight,
-  MenuAnimationAnchor,
+  calculateMenuHeight,
+  menuAnimationAnchor,
 } from '../../utils/calculations';
 import { BlurView } from '@react-native-community/blur';
 
 import MenuItem from './MenuItem';
-import { HOLD_ITEM_TRANSFORM_DURATION } from '../../constants';
-import { WINDOW_WIDTH } from '../../constants';
+import {
+  MENU_WIDTH,
+  SPRING_CONFIGURATION_MENU,
+  HOLD_ITEM_TRANSFORM_DURATION,
+  IS_IOS,
+} from '../../constants';
 
 import styles from './styles';
 import { MenuItemProps, MenuProps } from './types';
@@ -23,87 +27,110 @@ import { MenuItemProps, MenuProps } from './types';
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const MenuComponent = ({
+  id,
   items,
   isActive,
   itemHeight,
   itemWidth,
-  anchorPosition = 'top-center',
+  anchorPosition,
   theme = 'light',
 }: MenuProps) => {
-  const MenuHeight = CalculateMenuHeight(items.length);
+  const wrapperStyles = useAnimatedStyle(() => {
+    return {
+      top: (itemHeight.value || 0) + StyleGuide.spacing,
+      width: itemWidth.value,
+    };
+  });
 
-  const leftOrRight = React.useMemo(() => {
-    return anchorPosition
-      ? anchorPosition.includes('right')
-        ? { right: 0 }
-        : anchorPosition.includes('left')
-        ? { left: 0 }
-        : { left: -(WINDOW_WIDTH / 2) + (itemWidth || 0) / 2 }
-      : {};
-  }, [anchorPosition, itemWidth]);
-
-  const topValue = React.useMemo(() => {
-    return anchorPosition.split('-')[0] === 'top'
-      ? (itemHeight || 0) + StyleGuide.spacing
-      : -1 * (MenuHeight + StyleGuide.spacing);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchorPosition, itemHeight, items]);
-
-  const Translate = MenuAnimationAnchor(anchorPosition, itemWidth || 0);
+  const menuHeight = useMemo(() => calculateMenuHeight(items.length), [
+    anchorPosition,
+  ]);
 
   const messageStyles = useAnimatedStyle(() => {
+    const translate = menuAnimationAnchor(
+      anchorPosition.value,
+      itemWidth.value
+    );
+    const position = anchorPosition.value;
+
+    const leftOrRight = position
+      ? position.includes('right')
+        ? { right: 0 }
+        : position.includes('left')
+        ? { left: 0 }
+        : { left: -itemWidth.value - MENU_WIDTH / 2 + itemWidth.value / 2 }
+      : {};
+
     const menuScaleAnimation = () =>
-      withTiming(isActive ? 1 : 0, { duration: HOLD_ITEM_TRANSFORM_DURATION });
+      isActive.value
+        ? withSpring(1, SPRING_CONFIGURATION_MENU)
+        : withTiming(0, {
+            duration: HOLD_ITEM_TRANSFORM_DURATION,
+          });
+
+    const opacityAnimation = () =>
+      withTiming(isActive.value ? 1 : 0, {
+        duration: HOLD_ITEM_TRANSFORM_DURATION,
+      });
 
     return {
-      backgroundColor:
-        theme === 'light' ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)',
-      opacity: withTiming(isActive ? 1 : 0, {
-        duration: HOLD_ITEM_TRANSFORM_DURATION,
-      }),
+      ...leftOrRight,
+      height: menuHeight,
+      backgroundColor: 'rgba(255,255,255,0.3)',
+      opacity: opacityAnimation(),
       transform: [
-        { translateX: Translate.begginingTransformations.translateX },
-        { translateY: Translate.begginingTransformations.translateY },
+        { translateX: translate.begginingTransformations.translateX },
+        { translateY: translate.begginingTransformations.translateY },
         {
           scale: menuScaleAnimation(),
         },
-        { translateX: Translate.endingTransformations.translateX },
-        { translateY: Translate.endingTransformations.translateY },
+        { translateX: translate.endingTransformations.translateX },
+        { translateY: translate.endingTransformations.translateY },
       ],
     };
-  }, [isActive]);
+  });
+
+  const itemList = () => (
+    <>
+      {items && items.length > 0 ? (
+        items.map((item: MenuItemProps, index: number) => {
+          return (
+            <MenuItem
+              key={index}
+              item={item}
+              isLast={items.length === index + 1}
+            />
+          );
+        })
+      ) : (
+        <MenuItem
+          item={{ title: 'Empty List', icon: null, onPress: () => {} }}
+        />
+      )}
+    </>
+  );
 
   return (
-    <View style={[styles.menuWrapper, { top: topValue, width: itemWidth }]}>
-      <AnimatedBlurView
-        blurType={theme}
-        blurAmount={50}
-        style={[
-          styles.menuContainer,
-          { height: MenuHeight, ...leftOrRight },
-          { ...messageStyles },
-        ]}
-      >
-        {items && items.length > 0 ? (
-          items.map((item: MenuItemProps, index: number) => {
-            return (
-              <MenuItem
-                key={index}
-                item={item}
-                isLast={items.length === index + 1}
-              />
-            );
-          })
-        ) : (
-          <MenuItem
-            item={{ title: 'Empty List', icon: null, onPress: () => {} }}
-          />
-        )}
-      </AnimatedBlurView>
-    </View>
+    <Animated.View style={[styles.menuWrapper, wrapperStyles]}>
+      {!IS_IOS ? (
+        <Animated.View style={[styles.menuContainer, messageStyles]}>
+          {itemList}
+        </Animated.View>
+      ) : (
+        <AnimatedBlurView
+          blurType="light"
+          blurAmount={20}
+          style={[styles.menuContainer, messageStyles]}
+        >
+          {itemList}
+        </AnimatedBlurView>
+      )}
+    </Animated.View>
   );
 };
 
-const Menu = React.memo(MenuComponent);
+const Menu = React.memo(MenuComponent, (prevProps, nextProps) => {
+  if (prevProps.isActive === nextProps.isActive) return true;
+  else return false;
+});
 export default Menu;

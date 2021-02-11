@@ -1,8 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { PortalHost } from '@gorhom/portal';
 
 // Components
-import Backdrop from '../backdrop';
+// import Backdrop from '../backdrop';
 
 // Utils
 import {
@@ -13,29 +13,40 @@ import {
   ActionType,
 } from './reducer';
 import { ProviderProps } from './types';
+import { useSharedValue } from 'react-native-reanimated';
 
 export interface Store {
   state: StateProps;
   dispatch?: React.Dispatch<Action>;
 }
-export const HoldMenuContext = React.createContext<Store>({
-  state: initialState,
-});
+export const HoldMenuContext = React.createContext();
 
-const ProviderComponent = ({ children, theme }: ProviderProps) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+const ProviderComponent = ({ children }: ProviderProps) => {
+  const [menuState, setMenuState] = useState({
+    isActive: false,
+    theme: 'light',
+    activeItemId: '',
+  });
 
-  React.useEffect(() => {
-    if (theme !== state.theme) dispatch({ type: ActionType.Theme });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme]);
+  const value = {
+    menuState,
+    activate: (itemId: string) => {
+      setMenuState({ ...menuState, isActive: true, activeItemId: itemId });
+    },
+    deactivate: () => {
+      setMenuState({ ...menuState, isActive: true, activeItemId: '' });
+    },
+    toggleTheme: () => {
+      setMenuState({
+        ...menuState,
+        theme: menuState.theme == 'light' ? 'dark' : 'light',
+      });
+    },
+  };
 
   return (
-    <HoldMenuContext.Provider value={{ state, dispatch }}>
-      <PortalHost>
-        {children}
-        <Backdrop />
-      </PortalHost>
+    <HoldMenuContext.Provider value={value}>
+      <PortalHost>{children}</PortalHost>
     </HoldMenuContext.Provider>
   );
 };

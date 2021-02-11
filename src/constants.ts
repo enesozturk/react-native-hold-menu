@@ -1,8 +1,24 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
-export const HOLD_ITEM_TRANSFORM_DURATION = 180;
-export const HOLD_ITEM_SCALE_DOWN_VALUE = 0.93;
-export const HOLD_ITEM_SCALE_DOWN_DURATION = 200;
+const HOLD_ITEM_TRANSFORM_DURATION = 150;
+const HOLD_ITEM_SCALE_DOWN_VALUE = 0.95;
+const HOLD_ITEM_SCALE_DOWN_DURATION = 210;
+
+const SPRING_CONFIGURATION = {
+  damping: 33,
+  mass: 1.03,
+  stiffness: 500,
+  restDisplacementThreshold: 0.001,
+  restSpeedThreshold: 0.001,
+};
+
+const SPRING_CONFIGURATION_MENU = {
+  damping: 39,
+  mass: 1.09,
+  stiffness: 500,
+  restDisplacementThreshold: 0.001,
+  restSpeedThreshold: 0.001,
+};
 
 enum CONTEXT_MENU_STATE {
   UNDETERMINED = 0,
@@ -12,7 +28,21 @@ enum CONTEXT_MENU_STATE {
 
 const { height: WINDOW_HEIGHT, width: WINDOW_WIDTH } = Dimensions.get('screen');
 
-export const MENU_CONTAINER_WIDTH = 100;
-export const MENU_WIDTH = (WINDOW_WIDTH * 60) / 100;
+const MENU_CONTAINER_WIDTH = 100;
+const MENU_WIDTH = (WINDOW_WIDTH * 60) / 100;
 
-export { CONTEXT_MENU_STATE, WINDOW_HEIGHT, WINDOW_WIDTH };
+const IS_IOS = Platform.OS == 'ios';
+
+export {
+  CONTEXT_MENU_STATE,
+  WINDOW_HEIGHT,
+  WINDOW_WIDTH,
+  MENU_WIDTH,
+  MENU_CONTAINER_WIDTH,
+  HOLD_ITEM_TRANSFORM_DURATION,
+  HOLD_ITEM_SCALE_DOWN_VALUE,
+  HOLD_ITEM_SCALE_DOWN_DURATION,
+  SPRING_CONFIGURATION,
+  SPRING_CONFIGURATION_MENU,
+  IS_IOS,
+};

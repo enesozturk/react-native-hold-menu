@@ -7,8 +7,12 @@ import { MessageStyles } from './variables';
 import { mockWhatsAppData } from '../../utilities/data';
 
 // React Native Hold Menu Components
-import { HoldItem } from 'react-native-hold-menu';
-import * as Haptics from 'expo-haptics';
+import { HoldItem, Backdrop } from 'react-native-hold-menu';
+import Animated, { useSharedValue } from 'react-native-reanimated';
+import { memo } from 'react';
+import { useCallback } from 'react';
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 export const MenuItems = [
   {
@@ -27,49 +31,81 @@ export const MenuItems = [
   },
 ];
 
-const MessageItemComponent = ({ message }: { message: any }) => {
-  const handleOnActivate = () => {
-    Haptics.impactAsync();
-  };
-
-  return (
-    <View
-      style={[
-        styles.messageContainer,
-        { alignItems: message.fromMe ? 'flex-end' : 'flex-start' },
-      ]}
+const MessageItemComp = ({
+  active,
+  message,
+  handleActivate,
+}: {
+  active: Animated.SharedValue<number>;
+  handleActivate: (arg: number) => void;
+  message: any;
+}) => (
+  <View
+    style={[
+      styles.messageContainer,
+      { alignItems: message.fromMe ? 'flex-end' : 'flex-start' },
+    ]}
+  >
+    <HoldItem
+      id={message.id}
+      items={MenuItems}
+      active={active}
+      onActivate={() => {
+        handleActivate(message.id);
+      }}
+      styles={{
+        position: 'relative',
+        maxWidth: '70%',
+      }}
     >
-      <HoldItem
-        id={message.id.toString()}
-        styles={{ maxWidth: '80%' }}
-        items={MenuItems}
-        onActivate={handleOnActivate}
-      >
-        <View style={[styles.message, { ...MessageStyles(message.fromMe) }]}>
-          <Text style={styles.messageText}>{message.text}</Text>
-        </View>
-      </HoldItem>
-    </View>
-  );
-};
+      <View style={[styles.message, { ...MessageStyles(message.fromMe) }]}>
+        <Text style={styles.messageText}>{message.text}</Text>
+      </View>
+    </HoldItem>
+  </View>
+);
 
-const MessageItem = React.memo(MessageItemComponent);
+const MessageItem = memo(MessageItemComp, (prevProps, nextProps) => {
+  if (prevProps.active == nextProps.active) return true;
+  else return false;
+});
 
 const ChatPage = () => {
-  const data = useMemo(() => mockWhatsAppData(100), []);
+  const active = useSharedValue<number>(0);
 
-  const messageItem = (message: any) => {
-    return <MessageItem message={message} />;
+  const handleOnActivate = (itemId: number) => {
+    active.value = itemId;
   };
 
+  const handleOnDeactivate = () => {
+    active.value = 0;
+  };
+
+  const data = useMemo(() => mockWhatsAppData(100), []);
+
+  const renderMessage = useCallback(
+    ({ item }) => (
+      <MessageItem
+        active={active}
+        handleActivate={handleOnActivate}
+        message={item}
+      />
+    ),
+    []
+  );
+
   return (
-    <FlatList
-      data={data}
-      keyExtractor={item => `${item.id}`}
-      renderItem={({ item }) => messageItem(item)}
-      contentContainerStyle={{ paddingHorizontal: StyleGuide.spacing }}
-      inverted
-    />
+    <>
+      <AnimatedFlatList
+        data={data}
+        keyExtractor={item => `${item.id}`}
+        renderItem={renderMessage}
+        contentContainerStyle={{ paddingHorizontal: StyleGuide.spacing }}
+        windowSize={5}
+        inverted
+      />
+      <Backdrop activeItem={active} handleDeactivate={handleOnDeactivate} />
+    </>
   );
 };
 

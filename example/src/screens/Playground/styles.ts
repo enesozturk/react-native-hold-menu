@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {WINDOW_WIDTH} from '../../constants';
+import { StyleSheet } from 'react-native';
+import { WINDOW_WIDTH } from '../../constants';
 import StyleGuide from '../../utilities/styleGuide';
 
 const styles = StyleSheet.create({
@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
     marginBottom: StyleGuide.spacing * 2,
     padding: StyleGuide.spacing * 4,
     paddingVertical: StyleGuide.spacing * 2,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
     borderBottomWidth: 2,
