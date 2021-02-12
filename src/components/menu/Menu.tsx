@@ -6,7 +6,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import StyleGuide from '../StyleGuide';
+import styleGuide from '../../styleGuide';
 import {
   calculateMenuHeight,
   menuAnimationAnchor,
@@ -37,7 +37,7 @@ const MenuComponent = ({
 }: MenuProps) => {
   const wrapperStyles = useAnimatedStyle(() => {
     return {
-      top: (itemHeight.value || 0) + StyleGuide.spacing,
+      top: (itemHeight.value || 0) + styleGuide.spacing,
       width: itemWidth.value,
     };
   });
@@ -76,7 +76,7 @@ const MenuComponent = ({
     return {
       ...leftOrRight,
       height: menuHeight,
-      backgroundColor: 'rgba(255,255,255,0.3)',
+      backgroundColor: 'rgba(255,255,255,0.7)',
       opacity: opacityAnimation(),
       transform: [
         { translateX: translate.begginingTransformations.translateX },
@@ -122,7 +122,21 @@ const MenuComponent = ({
           blurAmount={20}
           style={[styles.menuContainer, messageStyles]}
         >
-          {itemList}
+          {items && items.length > 0 ? (
+            items.map((item: MenuItemProps, index: number) => {
+              return (
+                <MenuItem
+                  key={index}
+                  item={item}
+                  isLast={items.length === index + 1}
+                />
+              );
+            })
+          ) : (
+            <MenuItem
+              item={{ title: 'Empty List', icon: null, onPress: () => {} }}
+            />
+          )}
         </AnimatedBlurView>
       )}
     </Animated.View>

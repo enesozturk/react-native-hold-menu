@@ -1,56 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
-
-import styles from './styles';
-
-import { Backdrop, HoldItem, useHoldMenu } from 'react-native-hold-menu';
-// import * as Haptics from 'expo-haptics';
 import { useSharedValue } from 'react-native-reanimated';
 
-export const MenuItems = [
-  {
-    title: 'Reply',
-    icon: null,
-    onPress: () => {
-      console.log('EDIT ACTION');
-    },
-  },
-  {
-    title: 'Copy',
-    icon: null,
-    onPress: () => {
-      console.log('EDIT ACTION');
-    },
-  },
-  {
-    title: 'Edit',
-    icon: null,
-    onPress: () => {
-      console.log('EDIT ACTION');
-    },
-  },
-  {
-    title: 'Pin',
-    icon: null,
-    onPress: () => {
-      console.log('DELETE ACTION');
-    },
-  },
-  {
-    title: 'Forward',
-    icon: null,
-    onPress: () => {
-      console.log('DELETE ACTION');
-    },
-  },
-  {
-    title: 'Delete',
-    icon: null,
-    onPress: () => {
-      console.log('DELETE ACTION');
-    },
-  },
-];
+import { Backdrop, HoldItem } from 'react-native-hold-menu';
+
+import styles from './styles';
+import { MenuItems } from '../../constants';
 
 interface PlaygroundProps {}
 

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, memo, useCallback } from 'react';
 import { View, StyleSheet, Text, FlatList } from 'react-native';
 
 import StyleGuide from '../../utilities/styleGuide';
@@ -9,27 +9,9 @@ import { mockWhatsAppData } from '../../utilities/data';
 // React Native Hold Menu Components
 import { HoldItem, Backdrop } from 'react-native-hold-menu';
 import Animated, { useSharedValue } from 'react-native-reanimated';
-import { memo } from 'react';
-import { useCallback } from 'react';
+import { MenuItems } from '../../constants';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
-
-export const MenuItems = [
-  {
-    title: 'Edit',
-    icon: null,
-    onPress: () => {
-      console.log('EDIT ACTION');
-    },
-  },
-  {
-    title: 'Delete',
-    icon: null,
-    onPress: () => {
-      console.log('DELETE ACTION');
-    },
-  },
-];
 
 const MessageItemComp = ({
   active,
@@ -55,7 +37,7 @@ const MessageItemComp = ({
       }}
       styles={{
         position: 'relative',
-        maxWidth: '70%',
+        maxWidth: '80%',
       }}
     >
       <View style={[styles.message, { ...MessageStyles(message.fromMe) }]}>

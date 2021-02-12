@@ -1,10 +1,10 @@
 import { WINDOW_WIDTH } from '../constants';
-import StyleGuide from '../components/StyleGuide';
+import styleGuide from '../styleGuide';
 import { MENU_WIDTH } from '../constants';
 
 export const MenuItemHeight = () => {
   'worklet';
-  return StyleGuide.typography.callout.lineHeight + StyleGuide.spacing * 2.5;
+  return styleGuide.typography.callout.lineHeight + styleGuide.spacing * 2.5;
 };
 
 export const calculateMenuHeight = (itemLength: number) => {

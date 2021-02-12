@@ -14,19 +14,14 @@ import {
 } from 'react-native-gesture-handler';
 
 // Components
-// import { BlurView } from '@react-native-community/blur';
+import { BlurView } from '@react-native-community/blur';
 
 // Utils
 import { styles } from './styles';
-import {
-  CONTEXT_MENU_STATE,
-  HOLD_ITEM_TRANSFORM_DURATION,
-  WINDOW_HEIGHT,
-} from '../../constants';
-// import { useHoldMenu } from '../../hooks/useHoldMenu';
+import { HOLD_ITEM_TRANSFORM_DURATION, WINDOW_HEIGHT } from '../../constants';
 import { Portal } from '@gorhom/portal';
 
-// const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const BackdropComponent = ({
   activeItem,
@@ -86,21 +81,16 @@ const BackdropComponent = ({
     };
   });
 
-  const backgroundColor = React.useMemo(
-    () => ({
-      backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    }),
-    []
-  );
-
   return (
     <Portal>
       <TapGestureHandler
         onGestureEvent={tapGestureEvent}
         onHandlerStateChange={tapGestureEvent}
       >
-        <Animated.View
-          style={[styles.container, backgroundColor, animatedContainerStyle]}
+        <AnimatedBlurView
+          blurType="light"
+          blurAmount={40}
+          style={[styles.container, animatedContainerStyle]}
         />
       </TapGestureHandler>
     </Portal>

@@ -7,10 +7,10 @@ import HoldItemChild from './HoldItemChild';
 // Types
 import type { HoldItemProps } from './types';
 
-const HoldItemComponent = ({ ...props }: HoldItemProps) => {
+const HoldItemComponent = ({ active, ...props }: HoldItemProps) => {
   const isActive = useDerivedValue(() => {
-    return props.active.value == props.id;
-  }, [props.active]);
+    return active.value == props.id;
+  }, [active]);
 
   return (
     <HoldItemChild {...props} isActive={isActive}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Portal } from '@gorhom/portal';
 import {
@@ -25,18 +25,23 @@ import Menu from '../menu';
 import {
   TransformOriginAnchorPosition,
   getTransformOrigin,
+  calculateMenuHeight,
 } from '../../utils/calculations';
 import {
   HOLD_ITEM_TRANSFORM_DURATION,
   HOLD_ITEM_SCALE_DOWN_DURATION,
   HOLD_ITEM_SCALE_DOWN_VALUE,
   SPRING_CONFIGURATION,
+  WINDOW_HEIGHT,
+  WINDOW_WIDTH,
 } from '../../constants';
 import { ViewProps } from 'react-native';
 import styles from './styles';
+import { useDeviceOrientation } from '../../hooks';
 
 // Types
 import type { HoldItemChildProps } from './types';
+import styleGuide from '../../styleGuide';
 
 type Context = { didMeasureLayout: boolean };
 
@@ -63,10 +68,15 @@ const HoldItemChildComponent = ({
     menuAnchorPosition || 'top-right'
   );
 
+  const deviceOrientation = useDeviceOrientation();
+
+  const menuHeight = useMemo(() => calculateMenuHeight(items.length), [items]);
+
   const activateAnimation = (ctx: any) => {
     'worklet';
     if (!ctx.didMeasureLayout) {
       const measured = measure(containerRef);
+      console.log(measured.x, measured.pageX);
       itemRectY.value = measured.pageY;
       itemRectX.value = measured.pageX;
       itemRectHeight.value = measured.height;
@@ -140,6 +150,15 @@ const HoldItemChildComponent = ({
     const animateOpacity = () =>
       withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(0, { duration: 0 }));
 
+    const height =
+      deviceOrientation == 'portrait' ? WINDOW_HEIGHT : WINDOW_WIDTH;
+    const valueToTransform =
+      height -
+      (itemRectY.value +
+        itemRectHeight.value +
+        menuHeight +
+        styleGuide.spacing * 2);
+
     return {
       zIndex: 10,
       position: 'absolute',
@@ -153,7 +172,10 @@ const HoldItemChildComponent = ({
           translateY: disableMove
             ? 0
             : isActive.value
-            ? withSpring(-115, SPRING_CONFIGURATION)
+            ? withSpring(
+                valueToTransform < 0 ? valueToTransform : 0,
+                SPRING_CONFIGURATION
+              )
             : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION }),
         },
         {
