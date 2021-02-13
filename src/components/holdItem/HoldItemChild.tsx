@@ -76,7 +76,7 @@ const HoldItemChildComponent = ({
     'worklet';
     if (!ctx.didMeasureLayout) {
       const measured = measure(containerRef);
-      console.log(measured.x, measured.pageX);
+
       itemRectY.value = measured.pageY;
       itemRectX.value = measured.pageX;
       itemRectHeight.value = measured.height;
@@ -85,7 +85,8 @@ const HoldItemChildComponent = ({
       if (!menuAnchorPosition) {
         const position = getTransformOrigin(
           measured.pageX,
-          itemRectWidth.value
+          itemRectWidth.value,
+          deviceOrientation == 'portrait' ? WINDOW_WIDTH : WINDOW_HEIGHT
         );
         transformOrigin.value = position;
       }

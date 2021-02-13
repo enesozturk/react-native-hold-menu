@@ -71,11 +71,12 @@ export const menuAnimationAnchor = (
 
 export const getTransformOrigin = (
   posX: number,
-  itemWidth: number
+  itemWidth: number,
+  windowWidth: number
 ): TransformOriginAnchorPosition => {
   'worklet';
   const distanceToLeft = posX + itemWidth / 2;
-  const distanceToRight = WINDOW_WIDTH - distanceToLeft;
+  const distanceToRight = windowWidth - distanceToLeft;
   let position: TransformOriginAnchorPosition = 'top-right';
 
   if (distanceToLeft < distanceToRight) position = 'top-left';
