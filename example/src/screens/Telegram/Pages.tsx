@@ -1,11 +1,11 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import StyleGuide from "../../utilities/styleGuide";
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import StyleGuide from '../../utilities/styleGuide';
 
-export function PeopleScreen() {
+export function ContactsScreen() {
   return (
     <View style={styles.container}>
-      <Text>People</Text>
+      <Text>Contacts</Text>
     </View>
   );
 }
@@ -37,9 +37,9 @@ const styles = StyleSheet.create({
     flex: 1,
     width: StyleGuide.dimensionWidth,
     backgroundColor: StyleGuide.palette.telegram.chatBackground,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: StyleGuide.spacing * 2,
     zIndex: 6,
   },

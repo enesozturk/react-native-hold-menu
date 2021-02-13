@@ -1,64 +1,85 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Icons from "react-native-vector-icons/Feather";
-import { CallsScreen, ChatScreen, PeopleScreen, SettingsScreen } from "./Pages";
+import NavButton from './NavButton';
+import { ContactsScreen, ChatScreen, SettingsScreen } from './Pages';
+import { HoldItem, Backdrop } from 'react-native-hold-menu';
+import { MENU_ITEMS_CHAT, MENU_ITEMS_SETTINGS } from './constants';
 
 const Tab = createBottomTabNavigator();
 
-interface TelegramProps { }
+interface TelegramProps {}
 
-const Telegram = ({ }: TelegramProps) => {
-  const [activeRoute, setActiveRoute] = React.useState<string>("");
+const Telegram = ({}: TelegramProps) => {
+  const active = useSharedValue<number>(0);
 
-  const handleOpenMenu = (routeKey: string) => {
-    setActiveRoute(routeKey);
+  const handleOnActivate = (itemId: number) => {
+    active.value = itemId;
   };
 
-  const handleCloseMenu = () => {
-    setActiveRoute("");
+  const handleOnDeactivate = () => {
+    active.value = 0;
   };
 
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="People"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icons size={24} name="users" color={color} />
-          ),
-        }}
-        component={PeopleScreen}
-      />
-      <Tab.Screen
-        name="Calls"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icons size={24} name="phone" color={color} />
-          ),
-        }}
-        component={CallsScreen}
-      />
-      <Tab.Screen
-        name="Chat"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icons size={24} name="message-square" color={color} />
-          ),
-        }}
-        component={ChatScreen}
-      />
-      <Tab.Screen
-        name="Settings"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icons size={24} name="settings" color={color} />
-          ),
-        }}
-        component={SettingsScreen}
-      />
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Calls"
+          options={{
+            tabBarButton: props => (
+              <NavButton
+                id={1}
+                menuItems={[]}
+                active={active}
+                onActive={handleOnActivate}
+                title="Calls"
+                {...props}
+                icon="users"
+              />
+            ),
+          }}
+          component={ContactsScreen}
+        />
+        <Tab.Screen
+          name="Chat"
+          options={{
+            tabBarButton: props => (
+              <NavButton
+                id={2}
+                menuItems={MENU_ITEMS_SETTINGS}
+                active={active}
+                onActive={handleOnActivate}
+                title="Chat"
+                {...props}
+                icon="message-square"
+              />
+            ),
+          }}
+          component={ChatScreen}
+        />
+        <Tab.Screen
+          name="Settings"
+          options={{
+            tabBarButton: props => (
+              <NavButton
+                id={3}
+                menuItems={MENU_ITEMS_SETTINGS}
+                active={active}
+                onActive={handleOnActivate}
+                title="Settings"
+                {...props}
+                icon="settings"
+              />
+            ),
+          }}
+          component={SettingsScreen}
+        />
+      </Tab.Navigator>
+      <Backdrop activeItem={active} handleDeactivate={handleOnDeactivate} />
+    </>
   );
 };
 

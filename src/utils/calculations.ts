@@ -22,17 +22,18 @@ export type TransformOriginAnchorPosition =
 
 export const menuAnimationAnchor = (
   anchorPoint: TransformOriginAnchorPosition,
-  itemWidth: number
+  itemWidth: number,
+  itemLength: number
 ) => {
   'worklet';
-  const MenuHeight = calculateMenuHeight(2);
+  const MenuHeight = calculateMenuHeight(itemLength);
   const splittetAnchorName: string[] = anchorPoint.split('-');
 
   const Center1 = itemWidth;
   const Center2 = 0;
 
-  const TyTop1 = -MenuHeight - MenuHeight / 2;
-  const TyTop2 = MenuHeight + MenuHeight / 2;
+  const TyTop1 = -(MenuHeight / 2);
+  const TyTop2 = MenuHeight / 2;
 
   const TxLeft1 = (MENU_WIDTH / 2) * -1;
   const TxLeft2 = (MENU_WIDTH / 2) * 1;

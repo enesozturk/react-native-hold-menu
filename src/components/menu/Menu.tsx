@@ -54,7 +54,8 @@ const MenuComponent = ({
   const messageStyles = useAnimatedStyle(() => {
     const translate = menuAnimationAnchor(
       anchorPosition.value,
-      itemWidth.value
+      itemWidth.value,
+      items.length
     );
     const anchorPositionHorizontal = anchorPosition.value.split('-')[1];
 
