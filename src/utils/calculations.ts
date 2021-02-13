@@ -31,8 +31,8 @@ export const menuAnimationAnchor = (
   const Center1 = splittetAnchorName[0] === 'top' ? itemWidth : itemWidth * 1.5;
   const Center2 = 0;
 
-  const TyTop1 = -MenuHeight / 2;
-  const TyTop2 = MenuHeight / 2;
+  const TyTop1 = -MenuHeight - MenuHeight / 2;
+  const TyTop2 = MenuHeight + MenuHeight / 2;
 
   const TxLeft1 = (MENU_WIDTH / 2) * -1;
   const TxLeft2 = (MENU_WIDTH / 2) * 1;
