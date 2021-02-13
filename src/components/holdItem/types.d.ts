@@ -63,6 +63,15 @@ export interface HoldItemCommonProps {
    * theme="light"
    */
   theme?: 'light' | 'dark';
+
+  /**
+   * Set true if you want to open menu from bottom
+   * @type boolean
+   * @default false
+   * @examples
+   * bottom={true}
+   */
+  bottom?: boolean;
 }
 
 export interface HoldItemProps extends HoldItemCommonProps {

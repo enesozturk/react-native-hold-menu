@@ -49,6 +49,7 @@ const HoldItemChildComponent = ({
   id,
   items,
   theme,
+  bottom,
   styles: customStyles,
   children,
   isActive,
@@ -86,7 +87,8 @@ const HoldItemChildComponent = ({
         const position = getTransformOrigin(
           measured.pageX,
           itemRectWidth.value,
-          deviceOrientation == 'portrait' ? WINDOW_WIDTH : WINDOW_HEIGHT
+          deviceOrientation == 'portrait' ? WINDOW_WIDTH : WINDOW_HEIGHT,
+          bottom
         );
         transformOrigin.value = position;
       }

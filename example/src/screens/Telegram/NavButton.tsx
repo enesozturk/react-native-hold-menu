@@ -35,7 +35,7 @@ function NavButton({
         <HoldItem
           id={id}
           disableMove
-          menuAnchorPosition="bottom-right"
+          bottom
           items={menuItems}
           active={active}
           onActivate={onActivate}
