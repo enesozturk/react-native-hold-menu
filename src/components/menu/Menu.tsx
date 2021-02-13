@@ -35,31 +35,35 @@ const MenuComponent = ({
   anchorPosition,
   theme = 'light',
 }: MenuProps) => {
-  const wrapperStyles = useAnimatedStyle(() => {
-    return {
-      top: (itemHeight.value || 0) + styleGuide.spacing,
-      width: itemWidth.value,
-    };
-  });
-
   const menuHeight = useMemo(() => calculateMenuHeight(items.length), [
     anchorPosition,
   ]);
+
+  const wrapperStyles = useAnimatedStyle(() => {
+    const anchorPositionVertical = anchorPosition.value.split('-')[0];
+
+    return {
+      top:
+        anchorPositionVertical === 'top'
+          ? (itemHeight.value || 0) + styleGuide.spacing
+          : -1 * (menuHeight + styleGuide.spacing),
+      width: itemWidth.value,
+    };
+  });
 
   const messageStyles = useAnimatedStyle(() => {
     const translate = menuAnimationAnchor(
       anchorPosition.value,
       itemWidth.value
     );
-    const position = anchorPosition.value;
+    const anchorPositionHorizontal = anchorPosition.value.split('-')[1];
 
-    const leftOrRight = position
-      ? position.includes('right')
+    const leftOrRight =
+      anchorPositionHorizontal === 'right'
         ? { right: 0 }
-        : position.includes('left')
+        : anchorPositionHorizontal === 'left'
         ? { left: 0 }
-        : { left: -itemWidth.value - MENU_WIDTH / 2 + itemWidth.value / 2 }
-      : {};
+        : { left: -itemWidth.value - MENU_WIDTH / 2 + itemWidth.value / 2 };
 
     const menuScaleAnimation = () =>
       isActive.value
@@ -122,21 +126,17 @@ const MenuComponent = ({
           blurAmount={20}
           style={[styles.menuContainer, messageStyles]}
         >
-          {items && items.length > 0 ? (
-            items.map((item: MenuItemProps, index: number) => {
-              return (
-                <MenuItem
-                  key={index}
-                  item={item}
-                  isLast={items.length === index + 1}
-                />
-              );
-            })
-          ) : (
-            <MenuItem
-              item={{ title: 'Empty List', icon: null, onPress: () => {} }}
-            />
-          )}
+          {items && items.length > 0
+            ? items.map((item: MenuItemProps, index: number) => {
+                return (
+                  <MenuItem
+                    key={index}
+                    item={item}
+                    isLast={items.length === index + 1}
+                  />
+                );
+              })
+            : null}
         </AnimatedBlurView>
       )}
     </Animated.View>

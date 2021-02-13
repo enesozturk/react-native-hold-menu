@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 
 import { Portal } from '@gorhom/portal';
 import {
@@ -104,7 +104,7 @@ const HoldItemChildComponent = ({
     LongPressGestureHandlerGestureEvent,
     Context
   >({
-    onActive: ({ state }, context) => {
+    onActive: (_, context) => {
       activateAnimation(context);
       context.didMeasureLayout = true;
 
@@ -113,10 +113,13 @@ const HoldItemChildComponent = ({
           HOLD_ITEM_SCALE_DOWN_VALUE,
           { duration: HOLD_ITEM_SCALE_DOWN_DURATION },
           isFinised => {
-            if (isFinised) {
+            const isListValid = items && items.length > 0;
+            if (isFinised && isListValid) {
               if (onActivate) runOnJS(onActivate)();
               scaleBack();
             }
+
+            // TODO: Warn user if item list is empty or not given
           }
         );
       }
@@ -187,7 +190,7 @@ const HoldItemChildComponent = ({
       ],
     };
   });
-  const portalContainerStyle = React.useMemo(() => [animatedPortalStyle], [
+  const portalContainerStyle = useMemo(() => [animatedPortalStyle], [
     animatedPortalStyle,
     styles.holdItem,
   ]);
@@ -229,12 +232,9 @@ const HoldItemChildComponent = ({
   );
 };
 
-const HoldItemChild = React.memo(
-  HoldItemChildComponent,
-  (prevProps, nextProps) => {
-    if (prevProps.isActive.value === nextProps.isActive.value) return true;
-    else return false;
-  }
-);
+const HoldItemChild = memo(HoldItemChildComponent, (prevProps, nextProps) => {
+  if (prevProps.isActive.value === nextProps.isActive.value) return true;
+  else return false;
+});
 
 export default HoldItemChild;

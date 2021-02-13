@@ -28,7 +28,7 @@ export const menuAnimationAnchor = (
   const MenuHeight = calculateMenuHeight(2);
   const splittetAnchorName: string[] = anchorPoint.split('-');
 
-  const Center1 = splittetAnchorName[0] === 'top' ? itemWidth : itemWidth * 1.5;
+  const Center1 = itemWidth;
   const Center2 = 0;
 
   const TyTop1 = -MenuHeight - MenuHeight / 2;
