@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import Animated, {
-  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -18,18 +17,17 @@ import { BlurView } from '@react-native-community/blur';
 
 // Utils
 import { styles } from './styles';
-import { HOLD_ITEM_TRANSFORM_DURATION, WINDOW_HEIGHT } from '../../constants';
-import { Portal } from '@gorhom/portal';
+import {
+  CONTEXT_MENU_STATE,
+  HOLD_ITEM_TRANSFORM_DURATION,
+  WINDOW_HEIGHT,
+} from '../../constants';
+import { useInternal } from '../../hooks/useInternal';
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
-const BackdropComponent = ({
-  activeItem,
-  handleDeactivate,
-}: {
-  activeItem: Animated.SharedValue<number>;
-  handleDeactivate: () => void;
-}) => {
+const BackdropComponent = () => {
+  const { state } = useInternal();
   const tapGestureState = useSharedValue<State>(State.UNDETERMINED);
   const tapGestureEvent = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>(
     {
@@ -41,37 +39,37 @@ const BackdropComponent = ({
       },
       onCancel: ({ state: handlerState }) => {
         tapGestureState.value = handlerState;
-        runOnJS(handleDeactivate)();
+        state.value = CONTEXT_MENU_STATE.END;
       },
       onEnd: ({ state: handlerState }) => {
         tapGestureState.value = handlerState;
-        runOnJS(handleDeactivate)();
+        state.value = CONTEXT_MENU_STATE.END;
       },
       onFail: ({ state: handlerState }) => {
         tapGestureState.value = handlerState;
-        runOnJS(handleDeactivate)();
+        state.value = CONTEXT_MENU_STATE.END;
       },
       onFinish: ({ state: handlerState }) => {
         tapGestureState.value = handlerState;
-        runOnJS(handleDeactivate)();
+        state.value = CONTEXT_MENU_STATE.END;
       },
     },
-    [tapGestureState]
+    [tapGestureState, state]
   );
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     const topValueAnimation = () =>
-      activeItem.value > 0
-        ? withTiming(activeItem.value > 0 ? 0 : WINDOW_HEIGHT, { duration: 0 })
+      state.value === CONTEXT_MENU_STATE.ACTIVE
+        ? withTiming(0, { duration: 0 })
         : withDelay(
             HOLD_ITEM_TRANSFORM_DURATION,
-            withTiming(activeItem.value > 0 ? 0 : WINDOW_HEIGHT, {
+            withTiming(WINDOW_HEIGHT, {
               duration: 0,
             })
           );
 
     const opacityValueAnimation = () =>
-      withTiming(activeItem.value > 0 ? 1 : 0, {
+      withTiming(state.value === CONTEXT_MENU_STATE.ACTIVE ? 1 : 0, {
         duration: HOLD_ITEM_TRANSFORM_DURATION,
       });
 
@@ -82,18 +80,16 @@ const BackdropComponent = ({
   });
 
   return (
-    <Portal>
-      <TapGestureHandler
-        onGestureEvent={tapGestureEvent}
-        onHandlerStateChange={tapGestureEvent}
-      >
-        <AnimatedBlurView
-          blurType="light"
-          blurAmount={40}
-          style={[styles.container, animatedContainerStyle]}
-        />
-      </TapGestureHandler>
-    </Portal>
+    <TapGestureHandler
+      onGestureEvent={tapGestureEvent}
+      onHandlerStateChange={tapGestureEvent}
+    >
+      <AnimatedBlurView
+        blurType="light"
+        blurAmount={40}
+        style={[styles.container, animatedContainerStyle]}
+      />
+    </TapGestureHandler>
   );
 };
 

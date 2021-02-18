@@ -16,6 +16,7 @@ import Animated, {
   withDelay,
   withTiming,
   withSpring,
+  useAnimatedReaction,
 } from 'react-native-reanimated';
 
 // Components
@@ -34,6 +35,7 @@ import {
   SPRING_CONFIGURATION,
   WINDOW_HEIGHT,
   WINDOW_WIDTH,
+  CONTEXT_MENU_STATE,
 } from '../../constants';
 import { ViewProps } from 'react-native';
 import styles from './styles';
@@ -42,6 +44,7 @@ import { useDeviceOrientation } from '../../hooks';
 // Types
 import type { HoldItemChildProps } from './types';
 import styleGuide from '../../styleGuide';
+import { useInternal } from '../../hooks/useInternal';
 
 type Context = { didMeasureLayout: boolean };
 
@@ -52,11 +55,13 @@ const HoldItemChildComponent = ({
   bottom,
   styles: customStyles,
   children,
-  isActive,
-  onActivate,
+  // isActive,
+  // onActivate,
   disableMove,
   menuAnchorPosition,
 }: HoldItemChildProps) => {
+  const { state } = useInternal();
+  const isActive = useSharedValue(false);
   const containerRef = useAnimatedRef<Animated.View>();
 
   const itemRectY = useSharedValue<number>(0);
@@ -117,7 +122,9 @@ const HoldItemChildComponent = ({
           isFinised => {
             const isListValid = items && items.length > 0;
             if (isFinised && isListValid) {
-              if (onActivate) runOnJS(onActivate)();
+              // if (onActivate) runOnJS(onActivate)();
+              state.value = CONTEXT_MENU_STATE.ACTIVE;
+              isActive.value = true;
               scaleBack();
             }
 
@@ -200,6 +207,15 @@ const HoldItemChildComponent = ({
   const animatedPortalProps = useAnimatedProps<ViewProps>(() => ({
     pointerEvents: isActive.value ? 'auto' : 'none',
   }));
+
+  useAnimatedReaction(
+    () => state.value,
+    _state => {
+      if (_state === CONTEXT_MENU_STATE.END) {
+        isActive.value = false;
+      }
+    }
+  );
 
   return (
     <>

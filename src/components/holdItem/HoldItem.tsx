@@ -24,4 +24,4 @@ const HoldItem = memo(HoldItemComponent, (prevProps, nextProps) => {
   else return false;
 });
 
-export default HoldItem;
+export default HoldItemChild;

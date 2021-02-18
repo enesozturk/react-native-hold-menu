@@ -22,7 +22,7 @@ const Playground = ({}: PlaygroundProps) => {
 
   return (
     <View style={styles.container}>
-      <Backdrop activeItem={active} handleDeactivate={handleOnDeactivate} />
+      {/* <Backdrop activeItem={active} handleDeactivate={handleOnDeactivate} /> */}
       <View
         style={[styles.column, { flex: 1, justifyContent: 'space-between' }]}
       >

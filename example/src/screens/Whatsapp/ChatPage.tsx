@@ -31,10 +31,6 @@ const MessageItemComp = ({
     <HoldItem
       id={message.id}
       items={MenuItems}
-      active={active}
-      onActivate={() => {
-        handleActivate(message.id);
-      }}
       styles={{
         position: 'relative',
         maxWidth: '80%',
@@ -86,7 +82,6 @@ const ChatPage = () => {
         windowSize={5}
         inverted
       />
-      <Backdrop activeItem={active} handleDeactivate={handleOnDeactivate} />
     </>
   );
 };

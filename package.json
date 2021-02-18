@@ -42,8 +42,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios --simulator=\"iPhone 8\"",
     "web": "expo start --web",
-    "eject": "expo eject",
-    "prepare": "bob build"
+    "eject": "expo eject"
   },
   "dependencies": {
     "@gorhom/portal": "^0.2.0",
