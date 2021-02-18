@@ -22,19 +22,19 @@ import {
 } from '../../constants';
 
 import styles from './styles';
-import { MenuItemProps, MenuProps } from './types';
+import { IMenuItem, IMenu } from './types';
+import { useInternal } from '../../hooks/useInternal';
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const MenuComponent = ({
-  id,
   items,
   isActive,
   itemHeight,
   itemWidth,
   anchorPosition,
-  theme = 'light',
-}: MenuProps) => {
+}: IMenu) => {
+  const { theme } = useInternal();
   const menuHeight = useMemo(() => calculateMenuHeight(items.length), [
     anchorPosition,
   ]);
@@ -81,7 +81,8 @@ const MenuComponent = ({
     return {
       ...leftOrRight,
       height: menuHeight,
-      backgroundColor: 'rgba(255,255,255,0.7)',
+      backgroundColor:
+        theme.value == 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(0, 0, 0, 0.2)',
       opacity: opacityAnimation(),
       transform: [
         { translateX: translate.begginingTransformations.translateX },
@@ -98,7 +99,7 @@ const MenuComponent = ({
   const itemList = () => (
     <>
       {items && items.length > 0 ? (
-        items.map((item: MenuItemProps, index: number) => {
+        items.map((item: IMenuItem, index: number) => {
           return (
             <MenuItem
               key={index}
@@ -128,7 +129,7 @@ const MenuComponent = ({
           style={[styles.menuContainer, messageStyles]}
         >
           {items && items.length > 0
-            ? items.map((item: MenuItemProps, index: number) => {
+            ? items.map((item: IMenuItem, index: number) => {
                 return (
                   <MenuItem
                     key={index}
@@ -144,8 +145,6 @@ const MenuComponent = ({
   );
 };
 
-const Menu = React.memo(MenuComponent, (prevProps, nextProps) => {
-  if (prevProps.isActive === nextProps.isActive) return true;
-  else return false;
-});
+const Menu = React.memo(MenuComponent);
+
 export default Menu;

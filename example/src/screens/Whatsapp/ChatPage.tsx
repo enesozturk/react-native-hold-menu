@@ -55,11 +55,7 @@ const ChatPage = () => {
     active.value = itemId;
   };
 
-  const handleOnDeactivate = () => {
-    active.value = 0;
-  };
-
-  const data = useMemo(() => mockWhatsAppData(100), []);
+  const data = useMemo(() => mockWhatsAppData(1000), []);
 
   const renderMessage = useCallback(
     ({ item }) => (
@@ -73,16 +69,14 @@ const ChatPage = () => {
   );
 
   return (
-    <>
-      <AnimatedFlatList
-        data={data}
-        keyExtractor={item => `${item.id}`}
-        renderItem={renderMessage}
-        contentContainerStyle={{ paddingHorizontal: StyleGuide.spacing }}
-        windowSize={5}
-        inverted
-      />
-    </>
+    <AnimatedFlatList
+      data={data}
+      keyExtractor={item => `${item.id}`}
+      renderItem={renderMessage}
+      contentContainerStyle={{ paddingHorizontal: StyleGuide.spacing }}
+      windowSize={5}
+      inverted
+    />
   );
 };
 

@@ -1,26 +1,26 @@
 import * as React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-import { MenuItemProps } from './types';
+import { IMenuItem } from './types';
 
 import styles from './styles';
-import { useHoldMenu } from '../../hooks/useHoldMenu';
+import { useInternal } from '../../hooks/useInternal';
 
 const MenuItemComponent = ({
   item,
   isLast,
 }: {
-  item: MenuItemProps;
+  item: IMenuItem;
   isLast?: boolean;
 }) => {
-  const { menuState } = useHoldMenu();
+  const { state, theme } = useInternal();
 
   const textStyles = React.useMemo(() => {
-    return menuState.theme === 'dark' ? styles.textLight : styles.textDark;
-  }, [menuState]);
+    return theme.value === 'dark' ? styles.textLight : styles.textDark;
+  }, [state]);
 
   const borderStyles = React.useMemo(() => {
-    return menuState.theme === 'dark'
+    return theme.value === 'dark'
       ? {
           borderBottomWidth: 1,
           borderBottomColor: 'rgba(255, 255, 255, 0.1)',
@@ -29,7 +29,7 @@ const MenuItemComponent = ({
           borderBottomWidth: 1,
           borderBottomColor: 'rgba(0, 0, 0, 0.1)',
         };
-  }, [menuState]);
+  }, [state]);
 
   return (
     <TouchableOpacity

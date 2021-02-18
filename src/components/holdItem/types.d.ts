@@ -1,15 +1,10 @@
 import { ViewStyle } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { MenuItemProps } from '../../types';
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
-export interface HoldItemCommonProps {
-  /**
-   * Identifier for hold items. Must be unique.
-   * @type string | number
-   */
-  id: string | number;
+import Animated from 'react-native-reanimated';
 
+export interface IHoldItem {
   /**
    * List of context menu items.
    * @type MenuItemProps[]
@@ -49,14 +44,6 @@ export interface HoldItemCommonProps {
   styles?: ViewStyle | ViewStyle[];
 
   /**
-   * Callback function that need to be set and called when menu is toggled.
-   * @type () => void;
-   * @examples
-   * onActivate={()=>{ handleActivate(item.id) }}
-   */
-  onActivate: () => void;
-
-  /**
    * Theme for menu background and texts
    * @type string
    * @examples
@@ -72,18 +59,4 @@ export interface HoldItemCommonProps {
    * bottom={true}
    */
   bottom?: boolean;
-}
-
-export interface HoldItemProps extends HoldItemCommonProps {
-  /**
-   * Shared value with unique item ID that used to activate related item.
-   * @type Animated.SharedValue<number>
-   * @examples
-   * const active = useSharedValue<number>(0);
-   */
-  active: Animated.SharedValue<number>;
-}
-
-export interface HoldItemChildProps extends HoldItemCommonProps {
-  isActive: Animated.SharedValue<boolean>;
 }

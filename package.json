@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@gorhom/portal": "^0.2.0",
+    "nanoid": "^3.1.20",
     "@react-native-community/blur": "^3.6.0"
   },
   "devDependencies": {
