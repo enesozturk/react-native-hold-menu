@@ -1,23 +1,42 @@
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 
 const StyleGuide = {
   spacing: 8,
   dimensionWidth: Dimensions.get('screen').width,
   dimensionHeight: Dimensions.get('screen').height,
   palette: {
-    primary: '#35B6FF',
-    primaryDark: '#33A1DF',
-    secondary: '#e2e2e2',
-    common: {
-      white: '#fff',
-      black: '#000',
+    light: {
+      backgroundColor: '#FFF',
+      backgroundAccent: '#FFF',
+      color: '#000',
+      primary: '#35B6FF',
+      primaryDark: '#33A1DF',
+      secondary: '#f0f0f0',
+    },
+    dark: {
+      backgroundColor: '#131415',
+      color: '#FFF',
+      primary: '#2FA6EB',
+      primaryDark: '#2B8DC4',
+      secondary: '#2b2d2e',
     },
     whatsapp: {
+      light: {
+        chatBackground: 'rgb(230, 211, 214)',
+        messageBackgroundSender: 'rgb(218, 248, 201)',
+        messageBackgroundReceiver: '#FFF',
+        messageText: '#000',
+      },
+      dark: {
+        chatBackground: '#131415',
+        messageBackgroundSender: '#075E54',
+        messageBackgroundReceiver: '#2b2d2e',
+        messageText: '#FFF',
+      },
       chatBackground: 'rgb(230, 211, 214)',
       messageBackgroundSender: 'rgb(218, 248, 201)',
       messageBackgroundReceiver: 'white',
-      messageText: 'rgb(67, 70, 65)',
-      seenCheckColor: 'rgb(110,193,242)',
+      messageText: 'black',
     },
     telegram: {
       chatBackground: '#C8D9EA',

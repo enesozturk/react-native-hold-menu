@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: WINDOW_WIDTH,
-    backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -26,32 +25,14 @@ const styles = StyleSheet.create({
     padding: StyleGuide.spacing * 4,
     paddingVertical: StyleGuide.spacing * 2,
   },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  header: {
-    borderBottomWidth: 2,
-    borderColor: StyleGuide.palette.secondary,
-    paddingTop: StyleGuide.spacing * 6,
-    paddingBottom: StyleGuide.spacing * 2,
-  },
-  headerTitle: {
-    width: '100%',
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
   footer: {
     borderTopWidth: 2,
-    borderColor: StyleGuide.palette.secondary,
     paddingBottom: StyleGuide.spacing * 2,
   },
   item: {
     width: WINDOW_WIDTH / 5,
     height: 70,
     paddingVertical: StyleGuide.spacing,
-    backgroundColor: StyleGuide.palette.primary,
     borderRadius: StyleGuide.spacing * 1.5,
     display: 'flex',
     justifyContent: 'center',
@@ -61,7 +42,6 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: StyleGuide.palette.primaryDark,
   },
   topRight: {
     position: 'absolute',

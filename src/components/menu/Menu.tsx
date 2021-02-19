@@ -82,7 +82,7 @@ const MenuComponent = ({
       ...leftOrRight,
       height: menuHeight,
       backgroundColor:
-        theme.value == 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(0, 0, 0, 0.2)',
+        theme.value == 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(0, 0, 0, 0.4)',
       opacity: opacityAnimation(),
       transform: [
         { translateX: translate.begginingTransformations.translateX },

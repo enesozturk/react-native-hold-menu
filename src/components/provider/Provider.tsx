@@ -1,28 +1,33 @@
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { PortalHost } from '@gorhom/portal';
 import { useSharedValue } from 'react-native-reanimated';
 import { InternalContext } from '../../context/internal';
+
 // Components
-// import Backdrop from '../backdrop';
+import { Backdrop } from '../backdrop';
 
 // Utils
+import { IHoldMenuProvider } from './types';
 import { StateProps, Action } from './reducer';
-import { ProviderProps } from './types';
-import { Backdrop } from '../backdrop';
 import { CONTEXT_MENU_STATE } from '../../constants';
 export interface Store {
   state: StateProps;
   dispatch?: React.Dispatch<Action>;
 }
-export const HoldMenuContext = React.createContext(null);
 
-const ProviderComponent = ({ children }: ProviderProps) => {
+const ProviderComponent = ({
+  children,
+  theme: selectedTheme,
+}: IHoldMenuProvider) => {
   const state = useSharedValue<CONTEXT_MENU_STATE>(
     CONTEXT_MENU_STATE.UNDETERMINED
   );
-  const theme = useSharedValue<'light' | 'dark'>('light');
+  const theme = useSharedValue<'light' | 'dark'>(selectedTheme || 'light');
 
-  //#region context variables
+  useEffect(() => {
+    theme.value = selectedTheme || 'light';
+  }, [selectedTheme]);
+
   const internalContextVariables = useMemo(
     () => ({
       state,
@@ -30,7 +35,6 @@ const ProviderComponent = ({ children }: ProviderProps) => {
     }),
     [state]
   );
-  //#endregion
 
   return (
     <InternalContext.Provider value={internalContextVariables}>

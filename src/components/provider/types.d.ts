@@ -1,4 +1,4 @@
-export interface ProviderProps {
+export interface IHoldMenuProvider {
   /**
    * Theme of hold menu. Effects to backdrop and context menu styles. Optional.
    * @type "light" | "dark"

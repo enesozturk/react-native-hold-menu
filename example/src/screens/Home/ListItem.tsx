@@ -1,9 +1,10 @@
-import React from "react";
-import { StyleSheet, Image, View, Text, TouchableOpacity } from "react-native";
+import React, { useMemo } from 'react';
+import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native';
 
-import { ListItemProps } from "./types";
-import StyleGuide from "../../utilities/styleGuide";
-import Icons from "react-native-vector-icons/Feather";
+import { ListItemProps } from './types';
+import StyleGuide from '../../utilities/styleGuide';
+import Icons from 'react-native-vector-icons/Feather';
+import { useAppContext } from '../../hooks/useAppContext';
 
 interface ListItemCompProps {
   item: ListItemProps;
@@ -12,15 +13,42 @@ interface ListItemCompProps {
 }
 
 const ListItem = ({ item, onPress, isLast }: ListItemCompProps) => {
+  const { theme } = useAppContext();
+
+  const themeStyles = useMemo(() => {
+    return {
+      container: [
+        styles.container,
+        {
+          backgroundColor: StyleGuide.palette[theme].secondary,
+        },
+      ],
+      bottomBorder: {
+        borderBottomWidth: 1,
+        borderBottomColor: StyleGuide.palette[theme].backgroundColor,
+      },
+      title: [
+        styles.title,
+        {
+          color: StyleGuide.palette[theme].color,
+        },
+      ],
+    };
+  }, [theme]);
+
   return (
     <TouchableOpacity
       activeOpacity={0.6}
       onPress={onPress}
-      style={[styles.container, styles.row, !isLast && styles.bottomBorder]}
+      style={[
+        themeStyles.container,
+        styles.row,
+        !isLast && themeStyles.bottomBorder,
+      ]}
     >
       <View style={styles.row}>
-        {item.image && (<Image style={styles.image} source={item.image} />)}
-        <Text style={styles.title}>{item.title}</Text>
+        {item.image && <Image style={styles.image} source={item.image} />}
+        <Text style={themeStyles.title}>{item.title}</Text>
       </View>
       <Icons name="chevron-right" size={24} />
     </TouchableOpacity>
@@ -30,14 +58,13 @@ const ListItem = ({ item, onPress, isLast }: ListItemCompProps) => {
 export default ListItem;
 
 const styles = StyleSheet.create({
-  row: { display: "flex", flexDirection: "row", alignItems: "center" },
+  row: { display: 'flex', flexDirection: 'row', alignItems: 'center' },
   container: {
-    width: "100%",
+    width: '100%',
     padding: StyleGuide.spacing * 2,
-    backgroundColor: "white",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   image: {
     width: StyleGuide.spacing * 4,
@@ -47,8 +74,4 @@ const styles = StyleSheet.create({
     ...StyleGuide.typography.body,
     marginLeft: StyleGuide.spacing,
   },
-  bottomBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: StyleGuide.palette.secondary
-  }
 });

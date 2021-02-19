@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import Animated, {
   useAnimatedGestureHandler,
+  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -27,7 +28,7 @@ import { useInternal } from '../../hooks/useInternal';
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const BackdropComponent = () => {
-  const { state } = useInternal();
+  const { state, theme } = useInternal();
   const tapGestureState = useSharedValue<State>(State.UNDETERMINED);
   const tapGestureEvent = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>(
     {
@@ -79,14 +80,20 @@ const BackdropComponent = () => {
     };
   });
 
+  const animatedProps = useAnimatedProps(() => {
+    return {
+      blurType: theme.value,
+    };
+  }, [theme]);
+
   return (
     <TapGestureHandler
       onGestureEvent={tapGestureEvent}
       onHandlerStateChange={tapGestureEvent}
     >
       <AnimatedBlurView
-        blurType="light"
         blurAmount={40}
+        animatedProps={animatedProps}
         style={[styles.container, animatedContainerStyle]}
       />
     </TapGestureHandler>
