@@ -20,12 +20,14 @@ function NavButton({ icon, title, menuItems, activeTintColor }: INavButton) {
   return (
     <>
       <Pressable style={styles.button}>
-        <HoldItem bottom items={menuItems}>
-          <View style={styles.content}>
-            <Icons size={18} name={icon} color={activeTintColor} />
-            <Text style={styles.text}>{title}</Text>
-          </View>
-        </HoldItem>
+        <View style={styles.wrapper}>
+          <HoldItem bottom items={menuItems} styles={styles.holdItem}>
+            <View style={styles.content}>
+              <Icons size={18} name={icon} color={activeTintColor} />
+              <Text style={styles.text}>{title}</Text>
+            </View>
+          </HoldItem>
+        </View>
       </Pressable>
     </>
   );
@@ -41,9 +43,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  holdItem: { width: '100%' },
   content: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  wrapper: {
+    width: '60%',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
