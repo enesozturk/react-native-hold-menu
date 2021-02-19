@@ -40,9 +40,12 @@ const StyleGuide = {
         color: '#474747',
       },
       dark: {
-        background: 'black',
+        background: '#FFF',
         color: '#FFF',
       },
+    },
+    clubhouse: {
+      background: '#F3F0E7',
     },
   },
   typography: {

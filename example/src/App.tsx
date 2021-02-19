@@ -18,9 +18,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 // Screens
 import Home, { ToggleThemeButton } from './screens/Home';
+import Playground from './screens/Playground';
 import Whatsapp from './screens/Whatsapp';
 import Telegram from './screens/Telegram';
-import Playground from './screens/Playground';
+import Clubhouse, { ClubhouseNavButton } from './screens/Clubhouse';
 
 // Hold Menu
 import { HoldMenuProvider } from 'react-native-hold-menu';
@@ -96,6 +97,18 @@ const App = () => {
                 name="Telegram"
                 options={{ ...headerOptions }}
                 component={Telegram}
+              />
+              <Stack.Screen
+                name="Clubhouse"
+                options={{
+                  headerStyle: {
+                    backgroundColor: StyleGuide.palette.clubhouse.background,
+                    shadowColor: StyleGuide.palette.clubhouse.background,
+                  },
+                  headerTintColor: StyleGuide.palette.light.color,
+                  headerLeft: () => <ClubhouseNavButton />,
+                }}
+                component={Clubhouse}
               />
             </Stack.Navigator>
           </NavigationContainer>
