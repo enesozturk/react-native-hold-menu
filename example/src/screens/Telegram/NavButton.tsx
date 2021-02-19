@@ -21,7 +21,7 @@ function NavButton({ icon, title, menuItems, activeTintColor }: INavButton) {
     <>
       <Pressable style={styles.button}>
         <View style={styles.wrapper}>
-          <HoldItem bottom items={menuItems} styles={styles.holdItem}>
+          <HoldItem bottom items={menuItems} containerStyles={styles.holdItem}>
             <View style={styles.content}>
               <Icons size={18} name={icon} color={activeTintColor} />
               <Text style={styles.text}>{title}</Text>

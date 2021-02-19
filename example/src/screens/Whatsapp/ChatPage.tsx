@@ -1,4 +1,4 @@
-import React, { useMemo, memo, useCallback } from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import { View, StyleSheet, Text, FlatList } from 'react-native';
 
 import StyleGuide from '../../utilities/styleGuide';
@@ -7,21 +7,13 @@ import { MessageStyles } from './variables';
 import { mockWhatsAppData } from '../../utilities/data';
 
 // React Native Hold Menu Components
-import { HoldItem, Backdrop } from 'react-native-hold-menu';
-import Animated, { useSharedValue } from 'react-native-reanimated';
+import { HoldItem } from 'react-native-hold-menu';
+import Animated from 'react-native-reanimated';
 import { MenuItems } from '../../constants';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-const MessageItemComp = ({
-  active,
-  message,
-  handleActivate,
-}: {
-  active: Animated.SharedValue<number>;
-  handleActivate: (arg: number) => void;
-  message: any;
-}) => (
+const MessageItemComp = ({ message }: { message: any }) => (
   <View
     style={[
       styles.messageContainer,
@@ -29,9 +21,8 @@ const MessageItemComp = ({
     ]}
   >
     <HoldItem
-      id={message.id}
       items={MenuItems}
-      styles={{
+      containerStyles={{
         position: 'relative',
         maxWidth: '80%',
       }}
@@ -43,28 +34,13 @@ const MessageItemComp = ({
   </View>
 );
 
-const MessageItem = memo(MessageItemComp, (prevProps, nextProps) => {
-  if (prevProps.active == nextProps.active) return true;
-  else return false;
-});
+const MessageItem = memo(MessageItemComp);
 
 const ChatPage = () => {
-  const active = useSharedValue<number>(0);
-
-  const handleOnActivate = (itemId: number) => {
-    active.value = itemId;
-  };
-
   const data = useMemo(() => mockWhatsAppData(1000), []);
 
   const renderMessage = useCallback(
-    ({ item }) => (
-      <MessageItem
-        active={active}
-        handleActivate={handleOnActivate}
-        message={item}
-      />
-    ),
+    ({ item }) => <MessageItem message={item} />,
     []
   );
 
@@ -119,16 +95,5 @@ const styles = StyleSheet.create({
     ...StyleGuide.typography.body,
     color: StyleGuide.palette.whatsapp.messageText,
     textAlign: 'left',
-  },
-  messageTimeAndSeenContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  messageTimeText: {
-    marginRight: StyleGuide.spacing / 2,
-    textAlign: 'right',
-    fontSize: 12,
-    color: 'gray',
   },
 });

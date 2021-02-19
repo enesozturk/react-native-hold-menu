@@ -52,7 +52,7 @@ const HoldItemChildComponent = ({
   items,
   theme,
   bottom,
-  styles: customStyles,
+  containerStyles,
   disableMove,
   menuAnchorPosition,
   children,
@@ -152,7 +152,7 @@ const HoldItemChildComponent = ({
     };
   });
   const containerStyle = React.useMemo(
-    () => [customStyles, animatedContainerStyle],
+    () => [containerStyles, animatedContainerStyle],
     [animatedContainerStyle]
   );
 

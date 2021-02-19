@@ -39,9 +39,9 @@ export interface IHoldItem {
    * @type ViewStyles
    * @default {}
    * @examples
-   * styles={{ maxWidth: '80%' }}
+   * containerStyles={{ maxWidth: '80%' }}
    */
-  styles?: ViewStyle | ViewStyle[];
+  containerStyles?: ViewStyle | ViewStyle[];
 
   /**
    * Theme for menu background and texts
