@@ -31,6 +31,8 @@ const { height: WINDOW_HEIGHT, width: WINDOW_WIDTH } = Dimensions.get('screen');
 const MENU_CONTAINER_WIDTH = 100;
 const MENU_WIDTH = (WINDOW_WIDTH * 60) / 100;
 
+const MENU_TRANSFORM_ORIGIN_TOLERENCE = 10;
+
 const IS_IOS = Platform.OS == 'ios';
 
 export {
@@ -44,5 +46,6 @@ export {
   HOLD_ITEM_SCALE_DOWN_DURATION,
   SPRING_CONFIGURATION,
   SPRING_CONFIGURATION_MENU,
+  MENU_TRANSFORM_ORIGIN_TOLERENCE,
   IS_IOS,
 };

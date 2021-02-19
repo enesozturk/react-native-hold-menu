@@ -1,6 +1,5 @@
-import { WINDOW_WIDTH } from '../constants';
 import styleGuide from '../styleGuide';
-import { MENU_WIDTH } from '../constants';
+import { MENU_WIDTH, MENU_TRANSFORM_ORIGIN_TOLERENCE } from '../constants';
 
 export const MenuItemHeight = () => {
   'worklet';
@@ -77,17 +76,20 @@ export const getTransformOrigin = (
   bottom?: boolean
 ): TransformOriginAnchorPosition => {
   'worklet';
-  const distanceToLeft = posX + itemWidth / 2;
-  const distanceToRight = windowWidth - distanceToLeft;
+  const distanceToLeft = Math.round(posX + itemWidth / 2);
+  const distanceToRight = Math.round(windowWidth - distanceToLeft);
 
   let position: TransformOriginAnchorPosition = bottom
     ? 'bottom-right'
     : 'top-right';
 
-  if (distanceToLeft < distanceToRight)
-    position = bottom ? 'bottom-left' : 'top-left';
-  else if (distanceToRight === distanceToLeft)
+  const majority = Math.abs(distanceToLeft - distanceToRight);
+
+  if (majority < MENU_TRANSFORM_ORIGIN_TOLERENCE) {
     position = bottom ? 'bottom-center' : 'top-center';
+  } else if (distanceToLeft < distanceToRight) {
+    position = bottom ? 'bottom-left' : 'top-left';
+  }
 
   return position;
 };
