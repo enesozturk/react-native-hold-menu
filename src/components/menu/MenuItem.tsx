@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 import { IMenuItem } from './types';
 
 import styles from './styles';
 import { useInternal } from '../../hooks/useInternal';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 const MenuItemComponent = ({
   item,
@@ -13,13 +16,15 @@ const MenuItemComponent = ({
   item: IMenuItem;
   isLast?: boolean;
 }) => {
-  const { state, theme } = useInternal();
+  const { theme } = useInternal();
 
-  const textStyles = React.useMemo(() => {
-    return theme.value === 'dark' ? styles.textLight : styles.textDark;
-  }, [state]);
+  const textStyles = useAnimatedStyle(() => {
+    return {
+      color: theme.value === 'dark' ? 'white' : 'black',
+    };
+  }, [theme]);
 
-  const borderStyles = React.useMemo(() => {
+  const borderStyles = useAnimatedStyle(() => {
     return theme.value === 'dark'
       ? {
           borderBottomWidth: 1,
@@ -29,16 +34,18 @@ const MenuItemComponent = ({
           borderBottomWidth: 1,
           borderBottomColor: 'rgba(0, 0, 0, 0.1)',
         };
-  }, [state]);
+  }, [theme]);
 
   return (
-    <TouchableOpacity
+    <AnimatedTouchable
       activeOpacity={0.4}
       style={[styles.menuItem, !isLast ? borderStyles : {}]}
     >
-      <Text style={[styles.menuItemText, textStyles]}>{item.title}</Text>
+      <Animated.Text style={[styles.menuItemText, textStyles]}>
+        {item.title}
+      </Animated.Text>
       {item.icon}
-    </TouchableOpacity>
+    </AnimatedTouchable>
   );
 };
 

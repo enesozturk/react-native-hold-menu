@@ -25,7 +25,7 @@ const StyleGuide = {
         chatBackground: 'rgb(230, 211, 214)',
         messageBackgroundSender: 'rgb(218, 248, 201)',
         messageBackgroundReceiver: '#FFF',
-        messageText: '#000',
+        messageText: '#474747',
       },
       dark: {
         chatBackground: '#131415',
@@ -33,10 +33,6 @@ const StyleGuide = {
         messageBackgroundReceiver: '#2b2d2e',
         messageText: '#FFF',
       },
-      chatBackground: 'rgb(230, 211, 214)',
-      messageBackgroundSender: 'rgb(218, 248, 201)',
-      messageBackgroundReceiver: 'white',
-      messageText: 'black',
     },
     telegram: {
       chatBackground: '#C8D9EA',

@@ -17,7 +17,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // Screens
-import Home from './screens/Home';
+import Home, { ToggleThemeButton } from './screens/Home';
 import Whatsapp from './screens/Whatsapp';
 import Telegram from './screens/Telegram';
 import Playground from './screens/Playground';
@@ -67,7 +67,13 @@ const App = () => {
         />
         <HoldMenuProvider theme={state.theme}>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home" headerMode="screen">
+            <Stack.Navigator
+              initialRouteName="Home"
+              headerMode="screen"
+              screenOptions={{
+                headerRight: () => <ToggleThemeButton theme={state.theme} />,
+              }}
+            >
               <Stack.Screen
                 name="Home"
                 component={Home}

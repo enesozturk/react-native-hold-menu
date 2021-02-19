@@ -32,7 +32,6 @@ const Home = ({}: HomeProps) => {
     <View style={[themeStyles.container, { flex: 1, zIndex: 6 }]}>
       <Text style={[themeStyles.title, styles.title]}>Examples</Text>
       <List onPress={(route: string) => navigation.navigate(route)} />
-      <Button title="Toggle Theme" onPress={toggleTheme} />
     </View>
   );
 };
