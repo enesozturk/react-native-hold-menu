@@ -35,7 +35,14 @@ const StyleGuide = {
       },
     },
     telegram: {
-      chatBackground: '#C8D9EA',
+      light: {
+        background: '#C8D9EA',
+        color: '#474747',
+      },
+      dark: {
+        background: 'black',
+        color: '#FFF',
+      },
     },
   },
   typography: {

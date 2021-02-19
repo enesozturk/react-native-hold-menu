@@ -1,19 +1,41 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import NavButton from './NavButton';
 import { ContactsScreen, ChatScreen, SettingsScreen } from './Pages';
 import { MENU_ITEMS_SETTINGS } from './constants';
+import StyleGuide from '../../utilities/styleGuide';
+import { useAppContext } from '../../hooks/useAppContext';
 
 const Tab = createBottomTabNavigator();
 
 interface TelegramProps {}
 
 const Telegram = ({}: TelegramProps) => {
+  const { theme } = useAppContext();
+
+  const themeStyles = useMemo(() => {
+    return {
+      sceneContainer: {
+        backgroundColor: StyleGuide.palette.telegram[theme].background,
+      },
+      tabBarStyle: {
+        backgroundColor: StyleGuide.palette[theme].secondary,
+        borderTopColor: StyleGuide.palette[theme].secondary,
+        paddingTop: StyleGuide.spacing / 2,
+      },
+    };
+  }, [theme]);
+
   return (
     <>
-      <Tab.Navigator>
+      <Tab.Navigator
+        sceneContainerStyle={themeStyles.sceneContainer}
+        tabBarOptions={{
+          style: themeStyles.tabBarStyle,
+        }}
+      >
         <Tab.Screen
           name="Calls"
           options={{

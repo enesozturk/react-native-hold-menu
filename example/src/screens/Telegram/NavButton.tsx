@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
@@ -6,6 +6,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Icons from 'react-native-vector-icons/Feather';
 import StyleGuide from '../../utilities/styleGuide';
 import { HoldItem } from 'react-native-hold-menu';
+import { useAppContext } from '../../hooks/useAppContext';
 
 interface INavButton extends BottomTabBarProps {
   icon: string;
@@ -16,15 +17,28 @@ interface INavButton extends BottomTabBarProps {
   onActive: (arg: number) => void;
 }
 
-function NavButton({ icon, title, menuItems, activeTintColor }: INavButton) {
+function NavButton({ icon, title, menuItems }: INavButton) {
+  const { theme } = useAppContext();
+
+  const themeStyles = useMemo(() => {
+    return {
+      button: [
+        styles.button,
+        { backgroundColor: StyleGuide.palette[theme].secondary },
+      ],
+      text: [styles.text, { color: StyleGuide.palette[theme].color }],
+      color: StyleGuide.palette[theme].color,
+    };
+  }, [theme]);
+
   return (
     <>
-      <Pressable style={styles.button}>
+      <Pressable style={themeStyles.button}>
         <View style={styles.wrapper}>
           <HoldItem bottom items={menuItems} containerStyles={styles.holdItem}>
             <View style={styles.content}>
-              <Icons size={18} name={icon} color={activeTintColor} />
-              <Text style={styles.text}>{title}</Text>
+              <Icons size={18} name={icon} color={themeStyles.color} />
+              <Text style={themeStyles.text}>{title}</Text>
             </View>
           </HoldItem>
         </View>

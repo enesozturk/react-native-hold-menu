@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: StyleGuide.dimensionWidth,
-    backgroundColor: StyleGuide.palette.telegram.chatBackground,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
