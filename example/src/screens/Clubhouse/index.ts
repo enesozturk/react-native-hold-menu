@@ -1,2 +1,3 @@
 export { default } from './Clubhouse';
-export { default as ClubhouseNavButton } from './ClubhouseNavButton';
+export { default as ClubhouseNavButtonLeft } from './ClubhouseNavButtonLeft';
+export { default as ClubhouseNavButtonRight } from './ClubhouseNavButtonRight';

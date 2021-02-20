@@ -21,7 +21,10 @@ import Home, { ToggleThemeButton } from './screens/Home';
 import Playground from './screens/Playground';
 import Whatsapp from './screens/Whatsapp';
 import Telegram from './screens/Telegram';
-import Clubhouse, { ClubhouseNavButton } from './screens/Clubhouse';
+import Clubhouse, {
+  ClubhouseNavButtonLeft,
+  ClubhouseNavButtonRight,
+} from './screens/Clubhouse';
 
 // Hold Menu
 import { HoldMenuProvider } from 'react-native-hold-menu';
@@ -34,7 +37,7 @@ const Stack = createStackNavigator();
 
 const App = () => {
   const [state, setState] = useState<IAppContext>({
-    theme: 'dark',
+    theme: 'light',
     toggleTheme: () => {},
   });
 
@@ -104,9 +107,11 @@ const App = () => {
                   headerStyle: {
                     backgroundColor: StyleGuide.palette.clubhouse.background,
                     shadowColor: StyleGuide.palette.clubhouse.background,
+                    height: StyleGuide.spacing * 12,
                   },
                   headerTintColor: StyleGuide.palette.light.color,
-                  headerLeft: () => <ClubhouseNavButton />,
+                  headerLeft: () => <ClubhouseNavButtonLeft />,
+                  headerRight: () => <ClubhouseNavButtonRight />,
                 }}
                 component={Clubhouse}
               />
