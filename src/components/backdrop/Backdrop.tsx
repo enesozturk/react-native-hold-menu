@@ -94,7 +94,7 @@ const BackdropComponent = () => {
       onHandlerStateChange={tapGestureEvent}
     >
       <AnimatedBlurView
-        blurAmount={20}
+        blurAmount={40}
         animatedProps={animatedProps}
         style={[styles.container, animatedContainerStyle]}
       />
