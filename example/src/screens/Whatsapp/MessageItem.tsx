@@ -9,6 +9,7 @@ import { MenuItems } from '../../constants';
 
 // React Native Hold Menu Components
 import { HoldItem } from 'react-native-hold-menu';
+import { IS_IOS } from '../../constants';
 
 const MessageItemComp = ({ message }: { message: any }) => {
   const { theme } = useAppContext();
@@ -41,6 +42,7 @@ const MessageItemComp = ({ message }: { message: any }) => {
         <View
           style={[
             themeStyles.message,
+            IS_IOS && styles.shadow,
             { ...MessageStyles(message.fromMe, theme) },
           ]}
         >
@@ -73,6 +75,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: StyleGuide.spacing,
     paddingVertical: StyleGuide.spacing,
     borderRadius: StyleGuide.spacing,
+  },
+  shadow: {
     shadowColor: 'rgba(0, 0, 0, .2)',
     shadowOffset: {
       width: 0,

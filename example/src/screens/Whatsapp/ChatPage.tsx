@@ -19,6 +19,8 @@ const ChatPage = () => {
     []
   );
 
+  const keyExtractor = useCallback(item => item.id.toString(), []);
+
   const themeStyles = useMemo(() => {
     return {
       container: {
@@ -30,11 +32,12 @@ const ChatPage = () => {
   return (
     <AnimatedFlatList
       data={data}
-      keyExtractor={item => `${item.id}`}
+      keyExtractor={keyExtractor}
       renderItem={renderMessage}
       style={themeStyles.container}
       contentContainerStyle={styles.contentContainer}
       windowSize={5}
+      maxToRenderPerBatch={4}
       inverted
     />
   );
