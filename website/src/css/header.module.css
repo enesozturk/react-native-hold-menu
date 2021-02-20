@@ -71,7 +71,7 @@
   outline: none;
   white-space: nowrap;
   font-family: var(--sans-serif);
-  color: #fff;
+  color: #fff !important;
   cursor: url(/pointer.svg), pointer;
   margin-left: 0;
 }
@@ -97,12 +97,14 @@
 .phoneImageWrapper,
 .phoneImageWrapperOnLeft {
   flex: 3;
-  display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-
   perspective: 1500px;
+}
+
+.phoneImageWrapper {
+  display: flex;
 }
 
 .phoneImageWrapperOnLeft {
@@ -155,4 +157,9 @@
   .phoneImageWrapper {
     display: none;
   }
+}
+
+.copyIcon {
+  color: var(--ifm-color-emphasis-600);
+  margin-left: 8px;
 }

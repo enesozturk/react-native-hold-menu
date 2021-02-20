@@ -1,55 +1,50 @@
 module.exports = {
-  title: "My Site",
-  tagline: "The tagline of my site",
-  url: "https://your-docusaurus-test-site.com",
-  baseUrl: "/",
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
-  favicon: "img/favicon.ico",
-  organizationName: "facebook", // Usually your GitHub org/user name.
-  projectName: "docusaurus", // Usually your repo name.
+  title: 'React Native Hold Menu',
+  tagline:
+    'A performant, easy to use and extensible hold to open context menu for React Native powered by Reanimated.',
+  url: 'https://enesozturk.github.io',
+  baseUrl: '/react-native-hold-menu/',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
+  favicon: 'img/favicon.ico',
+  organizationName: 'enesozturk',
+  projectName: 'react-native-hold-menu',
   themeConfig: {
+    image: 'img/logo.png',
     navbar: {
-      title: "React Native Hold Menu",
+      title: 'React Native Hold Menu',
       items: [
         {
-          to: "docs/",
-          activeBasePath: "docs",
-          label: "Docs",
-          position: "left",
+          to: 'docs/',
+          activeBasePath: 'docs',
+          label: 'Docs',
+          position: 'left',
         },
-        { to: "examples", label: "Examples", position: "left" },
         {
-          href: "https://github.com/enesozturk/react-native-hold-menu",
-          label: "GitHub",
-          position: "right",
+          href: 'https://github.com/enesozturk/react-native-hold-menu',
+          label: 'GitHub',
+          position: 'right',
         },
       ],
     },
     footer: {
-      style: "dark",
+      style: 'dark',
       links: [],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} React Native Hold Menu. Built with Docusaurus.`,
     },
   },
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: require.resolve("./sidebars.js"),
+          sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/",
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/blog/",
+            'https://github.com/facebook/docusaurus/edit/master/website/',
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: require.resolve('./src/css/custom.css'),
         },
       },
     ],

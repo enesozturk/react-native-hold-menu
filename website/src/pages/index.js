@@ -1,11 +1,13 @@
-import React from "react";
-import Layout from "@theme/Layout";
-import useThemeContext from "@theme/hooks/useThemeContext";
+import React from 'react';
+import Layout from '@theme/Layout';
+import useThemeContext from '@theme/hooks/useThemeContext';
 
-import styles from "../css/header.module.css";
-import LightMenu from "@site/static/img/light-phone.png";
-import DarkImage from "@site/static/img/masked-dark-phone.png";
-import LightImage from "@site/static/img/masked-light-phone.png";
+import styles from '../css/header.module.css';
+import CopySvg from '@site/static/svg/copy.svg';
+import DarkImage from '@site/static/img/masked-dark-phone.png';
+import LightImage from '@site/static/img/masked-light-phone.png';
+
+import Link from '@docusaurus/Link';
 
 function Content() {
   const { isDarkTheme } = useThemeContext();
@@ -25,17 +27,27 @@ function Content() {
               Make your components more interactable
             </h1>
             <h2 className={styles.subHeading}>
-              A performant, easy to use and extensible{" "}
+              A performant, easy to use and extensible{' '}
               <strong>hold to open context menu</strong> for React Native
               powered by Reanimated.
             </h2>
             <div className={`${styles.flex} ${styles.buttonsWrapper}`}>
               <div className={styles.flexItem}>
-                <button className={styles.button}>Get Started</button>
+                <Link className={styles.button} to="/docs">
+                  Get Started
+                </Link>
               </div>
               <div className={styles.flexItem}>
-                <button className={styles.copyPaste}>
+                <button
+                  className={styles.copyPaste}
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      'yarn add react-native-hold-menu'
+                    )
+                  }
+                >
                   yarn add react-native-hold-menu
+                  <CopySvg className={styles.copyIcon} />
                 </button>
               </div>
             </div>
