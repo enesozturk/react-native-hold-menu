@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -40,7 +40,7 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default memo(ChatPage);
 
 const styles = StyleSheet.create({
   contentContainer: {

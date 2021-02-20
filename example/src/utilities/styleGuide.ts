@@ -40,7 +40,7 @@ const StyleGuide = {
         color: '#474747',
       },
       dark: {
-        background: '#FFF',
+        background: 'black',
         color: '#FFF',
       },
     },

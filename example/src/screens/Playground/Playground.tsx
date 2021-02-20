@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { View } from 'react-native';
 
 import { HoldItem } from 'react-native-hold-menu';
@@ -95,4 +95,4 @@ const Playground = ({}: PlaygroundProps) => {
   );
 };
 
-export default Playground;
+export default memo(Playground);
