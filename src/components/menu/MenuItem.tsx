@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler';
 
 import { IMenuItem } from './types';
 
 import styles from './styles';
+import { IS_IOS } from '../../constants';
 import { useInternal } from '../../hooks/useInternal';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity;
+const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent);
 
 const MenuItemComponent = ({
   item,

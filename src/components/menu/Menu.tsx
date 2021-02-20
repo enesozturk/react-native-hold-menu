@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
+import { View } from 'react-native';
 
 import Animated, {
+  useAnimatedProps,
   useAnimatedStyle,
   withSpring,
   withTiming,
@@ -25,7 +27,8 @@ import styles from './styles';
 import { IMenuItem, IMenu } from './types';
 import { useInternal } from '../../hooks/useInternal';
 
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const MenuContainerComponent = IS_IOS ? BlurView : View;
+const AnimatedView = Animated.createAnimatedComponent(MenuContainerComponent);
 
 const MenuComponent = ({
   items,
@@ -82,7 +85,7 @@ const MenuComponent = ({
       ...leftOrRight,
       height: menuHeight,
       backgroundColor:
-        theme.value == 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(0, 0, 0, 0.4)',
+        theme.value == 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(0, 0, 0, 0.6)',
       opacity: opacityAnimation(),
       transform: [
         { translateX: translate.begginingTransformations.translateX },
@@ -96,51 +99,40 @@ const MenuComponent = ({
     };
   });
 
-  const itemList = () => (
-    <>
-      {items && items.length > 0 ? (
-        items.map((item: IMenuItem, index: number) => {
-          return (
-            <MenuItem
-              key={index}
-              item={item}
-              isLast={items.length === index + 1}
-            />
-          );
-        })
-      ) : (
-        <MenuItem
-          item={{ title: 'Empty List', icon: null, onPress: () => {} }}
-        />
-      )}
-    </>
+  const itemList = useMemo(
+    () => (
+      <>
+        {items && items.length > 0
+          ? items.map((item: IMenuItem, index: number) => {
+              return (
+                <MenuItem
+                  key={index}
+                  item={item}
+                  isLast={items.length === index + 1}
+                />
+              );
+            })
+          : null}
+      </>
+    ),
+    [items]
   );
+
+  const animatedProps = useAnimatedProps(() => {
+    return {
+      blurType: theme.value,
+    };
+  }, [theme]);
 
   return (
     <Animated.View style={[styles.menuWrapper, wrapperStyles]}>
-      {!IS_IOS ? (
-        <Animated.View style={[styles.menuContainer, messageStyles]}>
-          {itemList}
-        </Animated.View>
-      ) : (
-        <AnimatedBlurView
-          blurType="light"
-          blurAmount={20}
-          style={[styles.menuContainer, messageStyles]}
-        >
-          {items && items.length > 0
-            ? items.map((item: IMenuItem, index: number) => {
-                return (
-                  <MenuItem
-                    key={index}
-                    item={item}
-                    isLast={items.length === index + 1}
-                  />
-                );
-              })
-            : null}
-        </AnimatedBlurView>
-      )}
+      <AnimatedView
+        blurAmount={20}
+        animatedProps={animatedProps}
+        style={[styles.menuContainer, messageStyles]}
+      >
+        {itemList}
+      </AnimatedView>
     </Animated.View>
   );
 };
