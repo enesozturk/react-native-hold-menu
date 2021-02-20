@@ -77,6 +77,8 @@ const BackdropComponent = () => {
     return {
       top: topValueAnimation(),
       opacity: opacityValueAnimation(),
+      backgroundColor:
+        theme.value == 'light' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.5)',
     };
   });
 
@@ -92,7 +94,7 @@ const BackdropComponent = () => {
       onHandlerStateChange={tapGestureEvent}
     >
       <AnimatedBlurView
-        blurAmount={40}
+        blurAmount={20}
         animatedProps={animatedProps}
         style={[styles.container, animatedContainerStyle]}
       />
