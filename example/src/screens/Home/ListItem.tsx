@@ -50,7 +50,11 @@ const ListItem = ({ item, onPress, isLast }: ListItemCompProps) => {
         {item.image && <Image style={styles.image} source={item.image} />}
         <Text style={themeStyles.title}>{item.title}</Text>
       </View>
-      <Icons name="chevron-right" size={24} />
+      <Icons
+        name="chevron-right"
+        size={24}
+        color={StyleGuide.palette[theme].color}
+      />
     </TouchableOpacity>
   );
 };
