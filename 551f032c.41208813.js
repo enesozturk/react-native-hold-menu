@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[10],{80:function(e){e.exports=JSON.parse('{"allTagsPath":"/react-native-hold-menu/blog/tags","slug":"hello","name":"hello","count":2,"permalink":"/react-native-hold-menu/blog/tags/hello"}')}}]);
