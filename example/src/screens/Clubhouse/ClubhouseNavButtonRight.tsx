@@ -6,7 +6,7 @@ import Icons from 'react-native-vector-icons/Feather';
 const ClubhouseNavButtonRight = () => {
   return (
     <View style={styles.container}>
-      <Icons name="at-sign" size={24} style={{ marginRight: 32 }} />
+      <Icons name="at-sign" size={24} style={styles.atSign} />
       <Icons name="settings" size={24} />
     </View>
   );
@@ -15,6 +15,7 @@ const ClubhouseNavButtonRight = () => {
 export default memo(ClubhouseNavButtonRight);
 
 const styles = StyleSheet.create({
+  atSign: { marginRight: 32 },
   container: {
     display: 'flex',
     flexDirection: 'row',

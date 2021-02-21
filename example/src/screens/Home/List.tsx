@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
 import ListItem from './ListItem';
 import { ListItemProps } from './types';
@@ -29,7 +29,7 @@ const List = ({ onPress }: ListProps) => {
       data={ListItems}
       keyExtractor={(_, index) => String(index)}
       renderItem={({ item, index }: { item: ListItemProps; index: number }) => {
-        const isLastItem = index == ListItems.length - 1;
+        const isLastItem = index === ListItems.length - 1;
         return (
           <ListItem
             item={item}

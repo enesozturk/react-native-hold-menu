@@ -29,11 +29,13 @@ const MessageItemComp = ({ message }: { message: any }) => {
     <View
       style={[
         themeStyles.messageContainer,
+        // eslint-disable-next-line react-native/no-inline-styles
         { alignItems: message.fromMe ? 'flex-end' : 'flex-start' },
       ]}
     >
       <HoldItem
         items={MenuItems}
+        // eslint-disable-next-line react-native/no-inline-styles
         containerStyles={{
           position: 'relative',
           maxWidth: '80%',

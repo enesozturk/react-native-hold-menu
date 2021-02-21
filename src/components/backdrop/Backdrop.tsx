@@ -78,7 +78,7 @@ const BackdropComponent = () => {
       top: topValueAnimation(),
       opacity: opacityValueAnimation(),
       backgroundColor:
-        theme.value == 'light' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.5)',
+        theme.value === 'light' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.5)',
     };
   });
 

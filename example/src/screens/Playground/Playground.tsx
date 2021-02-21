@@ -36,9 +36,7 @@ const Playground = ({}: PlaygroundProps) => {
 
   return (
     <View style={themeStyles.containerStyles}>
-      <View
-        style={[styles.column, { flex: 1, justifyContent: 'space-between' }]}
-      >
+      <View style={[styles.column, styles.content]}>
         <View style={[styles.row]}>
           <HoldItem items={MenuItems} menuAnchorPosition="bottom-left">
             <View style={themeStyles.item}>

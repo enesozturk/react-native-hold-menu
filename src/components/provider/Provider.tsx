@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import { PortalHost } from '@gorhom/portal';
 import { useSharedValue } from 'react-native-reanimated';
 import { InternalContext } from '../../context/internal';
@@ -26,6 +26,7 @@ const ProviderComponent = ({
 
   useEffect(() => {
     theme.value = selectedTheme || 'light';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTheme]);
 
   const internalContextVariables = useMemo(
@@ -33,7 +34,7 @@ const ProviderComponent = ({
       state,
       theme,
     }),
-    [state]
+    [state, theme]
   );
 
   return (

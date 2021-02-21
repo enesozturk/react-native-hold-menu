@@ -38,9 +38,7 @@ const MenuComponent = ({
   anchorPosition,
 }: IMenu) => {
   const { theme } = useInternal();
-  const menuHeight = useMemo(() => calculateMenuHeight(items.length), [
-    anchorPosition,
-  ]);
+  const menuHeight = useMemo(() => calculateMenuHeight(items.length), [items]);
 
   const wrapperStyles = useAnimatedStyle(() => {
     const anchorPositionVertical = anchorPosition.value.split('-')[0];
@@ -85,7 +83,9 @@ const MenuComponent = ({
       ...leftOrRight,
       height: menuHeight,
       backgroundColor:
-        theme.value == 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(0, 0, 0, 0.6)',
+        theme.value === 'light'
+          ? 'rgba(255,255,255,0.7)'
+          : 'rgba(0, 0, 0, 0.6)',
       opacity: opacityAnimation(),
       transform: [
         { translateX: translate.begginingTransformations.translateX },

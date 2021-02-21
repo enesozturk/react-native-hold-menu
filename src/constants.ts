@@ -33,7 +33,7 @@ const MENU_WIDTH = (WINDOW_WIDTH * 60) / 100;
 
 const MENU_TRANSFORM_ORIGIN_TOLERENCE = 10;
 
-const IS_IOS = Platform.OS == 'ios';
+const IS_IOS = Platform.OS === 'ios';
 
 export {
   CONTEXT_MENU_STATE,

@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import NavButton from './NavButton';
@@ -79,5 +78,3 @@ const Telegram = ({}: TelegramProps) => {
 };
 
 export default Telegram;
-
-const styles = StyleSheet.create({});

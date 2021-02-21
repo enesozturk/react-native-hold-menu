@@ -90,7 +90,7 @@ const HoldItemChildComponent = ({
         const position = getTransformOrigin(
           measured.pageX,
           itemRectWidth.value,
-          deviceOrientation == 'portrait' ? WINDOW_WIDTH : WINDOW_HEIGHT,
+          deviceOrientation === 'portrait' ? WINDOW_WIDTH : WINDOW_HEIGHT,
           bottom
         );
         transformOrigin.value = position;
@@ -153,7 +153,7 @@ const HoldItemChildComponent = ({
   });
   const containerStyle = React.useMemo(
     () => [containerStyles, animatedContainerStyle],
-    [animatedContainerStyle]
+    [containerStyles, animatedContainerStyle]
   );
 
   const animatedPortalStyle = useAnimatedStyle(() => {
@@ -161,7 +161,7 @@ const HoldItemChildComponent = ({
       withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(0, { duration: 0 }));
 
     const height =
-      deviceOrientation == 'portrait' ? WINDOW_HEIGHT : WINDOW_WIDTH;
+      deviceOrientation === 'portrait' ? WINDOW_HEIGHT : WINDOW_WIDTH;
 
     const isAnchorPointTop = transformOrigin.value.includes('top');
     let transformValue = 0;
@@ -205,10 +205,10 @@ const HoldItemChildComponent = ({
       ],
     };
   });
-  const portalContainerStyle = useMemo(() => [animatedPortalStyle], [
-    animatedPortalStyle,
-    styles.holdItem,
-  ]);
+  const portalContainerStyle = useMemo(
+    () => [styles.holdItem, animatedPortalStyle],
+    [animatedPortalStyle]
+  );
 
   const animatedPortalProps = useAnimatedProps<ViewProps>(() => ({
     pointerEvents: isActive.value ? 'auto' : 'none',

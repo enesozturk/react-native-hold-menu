@@ -14,7 +14,7 @@ const ToggleThemeButton = ({ theme }: { theme: 'light' | 'dark' }) => {
       style={{ marginRight: StyleGuide.spacing * 2 }}
     >
       <Icons
-        name={theme == 'light' ? 'sun' : 'moon'}
+        name={theme === 'light' ? 'sun' : 'moon'}
         size={24}
         color={StyleGuide.palette[theme].color}
       />

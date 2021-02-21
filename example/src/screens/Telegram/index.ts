@@ -1,1 +1,1 @@
-export { default } from "./Telegram";
+export { default } from './Telegram';

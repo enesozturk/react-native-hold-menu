@@ -2,8 +2,6 @@ import { ViewStyle } from 'react-native';
 import { MenuItemProps } from '../../types';
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
-import Animated from 'react-native-reanimated';
-
 export interface IHoldItem {
   /**
    * List of context menu items.

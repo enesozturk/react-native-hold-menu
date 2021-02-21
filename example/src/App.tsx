@@ -42,7 +42,7 @@ const App = () => {
   });
 
   const toggleTheme = useCallback(() => {
-    setState({ ...state, theme: state.theme == 'light' ? 'dark' : 'light' });
+    setState({ ...state, theme: state.theme === 'light' ? 'dark' : 'light' });
   }, [state]);
 
   const appContextVariables = useMemo(
@@ -50,7 +50,7 @@ const App = () => {
       ...state,
       toggleTheme,
     }),
-    [state]
+    [state, toggleTheme]
   );
 
   const headerOptions = useMemo(() => {
@@ -67,7 +67,7 @@ const App = () => {
     <>
       <AppContext.Provider value={appContextVariables}>
         <StatusBar
-          barStyle={state.theme == 'light' ? 'dark-content' : 'light-content'}
+          barStyle={state.theme === 'light' ? 'dark-content' : 'light-content'}
         />
         <HoldMenuProvider theme={state.theme}>
           <NavigationContainer>
