@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/enesozturk/react-native-hold-menu/issues"
   },
-  "homepage": "https://react-native-hold-menu.vercel.app",
+  "homepage": "https://enesozturk.github.io/react-native-hold-menu",
   "scripts": {
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@gorhom/portal": "^0.2.0",
-    "@react-native-community/blur": "^3.6.0",
+    "expo-blur": "^9.0.0",
     "lodash.isequal": "^4.5.0",
     "nanoid": "^3.1.20"
   },

@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@gorhom/portal": "^0.2.0",
-    "@react-native-community/blur": "^3.6.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
+    "expo-blur": "^9.0.0",
     "expo-haptics": "^9.0.0",
     "faker": "^5.3.1",
     "lodash.isequal": "^4.5.0",

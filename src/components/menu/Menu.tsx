@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import Animated, {
   useAnimatedProps,
@@ -13,7 +13,7 @@ import {
   calculateMenuHeight,
   menuAnimationAnchor,
 } from '../../utils/calculations';
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from 'expo-blur';
 
 import MenuItem from './MenuItem';
 import {
@@ -82,10 +82,6 @@ const MenuComponent = ({
     return {
       ...leftOrRight,
       height: menuHeight,
-      backgroundColor:
-        theme.value === 'light'
-          ? 'rgba(255,255,255,0.7)'
-          : 'rgba(0, 0, 0, 0.6)',
       opacity: opacityAnimation(),
       transform: [
         { translateX: translate.begginingTransformations.translateX },
@@ -118,20 +114,35 @@ const MenuComponent = ({
     [items]
   );
 
-  const animatedProps = useAnimatedProps(() => {
+  const animatedInnerContainerStyle = useAnimatedStyle(() => {
     return {
-      blurType: theme.value,
+      backgroundColor:
+        theme.value === 'light'
+          ? 'rgba(255, 255, 255, .75)'
+          : 'rgba(0,0,0,0.5)',
     };
+  }, [theme]);
+
+  const animatedProps = useAnimatedProps(() => {
+    return { blurType: theme.value };
   }, [theme]);
 
   return (
     <Animated.View style={[styles.menuWrapper, wrapperStyles]}>
       <AnimatedView
-        blurAmount={20}
+        // @ts-ignore
+        intensity={100}
         animatedProps={animatedProps}
         style={[styles.menuContainer, messageStyles]}
       >
-        {itemList}
+        <Animated.View
+          style={[
+            { ...StyleSheet.absoluteFillObject },
+            animatedInnerContainerStyle,
+          ]}
+        >
+          {itemList}
+        </Animated.View>
       </AnimatedView>
     </Animated.View>
   );

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
+import { StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedGestureHandler,
-  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -14,7 +14,7 @@ import {
 } from 'react-native-gesture-handler';
 
 // Components
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from 'expo-blur';
 
 // Utils
 import { styles } from './styles';
@@ -77,14 +77,13 @@ const BackdropComponent = () => {
     return {
       top: topValueAnimation(),
       opacity: opacityValueAnimation(),
-      backgroundColor:
-        theme.value === 'light' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.5)',
     };
   });
 
-  const animatedProps = useAnimatedProps(() => {
+  const animatedInnerContainerStyle = useAnimatedStyle(() => {
     return {
-      blurType: theme.value,
+      backgroundColor:
+        theme.value === 'light' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.75)',
     };
   }, [theme]);
 
@@ -94,10 +93,18 @@ const BackdropComponent = () => {
       onHandlerStateChange={tapGestureEvent}
     >
       <AnimatedBlurView
-        blurAmount={40}
-        animatedProps={animatedProps}
+        // @ts-ignore
+        intensity={100}
+        tint="default"
         style={[styles.container, animatedContainerStyle]}
-      />
+      >
+        <Animated.View
+          style={[
+            { ...StyleSheet.absoluteFillObject },
+            animatedInnerContainerStyle,
+          ]}
+        />
+      </AnimatedBlurView>
     </TapGestureHandler>
   );
 };
