@@ -1,14 +1,12 @@
 import React, { memo, useMemo, useCallback } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { StyleSheet } from 'react-native';
 
 import StyleGuide from '../../utilities/styleGuide';
 
 import MessageItem from './MessageItem';
 import { mockWhatsAppData } from '../../utilities/data';
 import { useAppContext } from '../../hooks/useAppContext';
-
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+import { HoldMenuFlatList } from 'react-native-hold-menu';
 
 const ChatPage = () => {
   const { theme } = useAppContext();
@@ -30,7 +28,7 @@ const ChatPage = () => {
   }, [theme]);
 
   return (
-    <AnimatedFlatList
+    <HoldMenuFlatList
       data={data}
       keyExtractor={keyExtractor}
       renderItem={renderMessage}
