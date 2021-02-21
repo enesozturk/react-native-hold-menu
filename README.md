@@ -1,61 +1,32 @@
 # React Native Hold Menu
 
-**react-native-hold-menu** is an easy to use hold to open context menu for your React Native projects powered by Reanimated 2 🔥
+A performant, easy to use hold to open context menu for React Native powered by Reanimated. 🔥
 
-## ⚙️ Installation
+---
 
-To install the package;
+## Features
 
-```
-$ yarn add react-native-hold-menu
-```
+- Powered with Reanimated v2. 🚀
+- Smooth interactions & animations.
+- Supports dark/light Mode. 🌚 🌝
+- Supports device orientation change.
+- Compatible with Expo. [CHECK]
+- Written in `TypeScript`.
 
-It is done! ✅
+## Getting Started
 
-## 🚀 How to use
+Check out [the documentation website](https://enesozturk.github.io/react-native-hold-menu).
 
-```javascript
-import React from "react";
-import { View } from "react-native";
+---
 
-import { HoldMenuProvider, HoldItem } from "react-native-hold-menu";
+## Contributors
 
-export const MenuItems = [
-  {
-    title: "Edit",
-    icon: null,
-    onPress: () => {
-      console.log("EDIT ACTION");
-    },
-  },
-  {
-    title: "Delete",
-    icon: null,
-    onPress: () => {
-      console.log("DELETE ACTION");
-    },
-  },
-];
+- [Mo Gorhom](https://gorhom.dev/)
 
-export default App = () => {
-  return (
-     <HoldMenuProvider>
-        <HoldItem id="item-1" items={MenuItems}>
-            <View style={styles.item}>
-        </HoldItem>
-    </HoldMenuProvider>
-  );
-};
-```
+## License
 
-## ☝️ Options
+[MIT](./LICENSE)
 
-TODO: Options will be added
+#### Show Your Support
 
-#### ⭐️ Show Your Support
-
-Please give a ⭐️ if you like this project!
-
-#### 👏 Contributing
-
-If you have any questions or requests or want to contribute to `react-native-hold-menu`, please write the [issue](https://github.com/enesozturk/react-native-hold-menu/issues) or give me a Pull Request freely.
+Please give a star if you like this project! 🤩

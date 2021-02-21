@@ -1,7 +1,7 @@
 ---
 id: getting-started
 title: Getting Started
-description: A performant, easy to use and extensible hold to open context menu for React Native powered by Reanimated.
+description: A performant, easy to use hold to open context menu for React Native powered by Reanimated. 🔥
 hide_title: true
 slug: /
 hide_table_of_contents: true
@@ -48,5 +48,4 @@ yarn add react-native-reanimated@2.0.0-rc.2 react-native-gesture-handler
 
 ## Contributors
 
-- [Enes Öztürk](https://twitter.com/enesozt_)
 - [Mo Gorhom](https://twitter.com/gorhom)
