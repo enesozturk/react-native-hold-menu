@@ -27,7 +27,7 @@ function Content() {
               Make your components more interactable
             </h1>
             <h2 className={styles.subHeading}>
-              A performant, easy to use and extensible{' '}
+              A performant, easy to use
               <strong>hold to open context menu</strong> for React Native
               powered by Reanimated.
             </h2>

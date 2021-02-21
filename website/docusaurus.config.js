@@ -1,7 +1,7 @@
 module.exports = {
   title: 'React Native Hold Menu',
   tagline:
-    'A performant, easy to use and extensible hold to open context menu for React Native powered by Reanimated.',
+    'A performant, easy to use hold to open context menu for React Native powered by Reanimated.',
   url: 'https://enesozturk.github.io',
   baseUrl: '/react-native-hold-menu/',
   onBrokenLinks: 'throw',
@@ -10,7 +10,8 @@ module.exports = {
   organizationName: 'enesozturk',
   projectName: 'react-native-hold-menu',
   themeConfig: {
-    image: 'img/logo.png',
+    twitterImage: 'img/og.png',
+    image: 'img/og.png',
     navbar: {
       title: 'React Native Hold Menu',
       items: [

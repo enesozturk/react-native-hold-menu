@@ -9,7 +9,7 @@ hide_table_of_contents: true
 
 # React Native Hold Menu
 
-A performant, easy to use and extensible hold to open context menu for React Native powered by Reanimated.
+A performant, easy to use hold to open context menu for React Native powered by Reanimated.
 
 ## Features
 
