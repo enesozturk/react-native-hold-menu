@@ -35,7 +35,7 @@ const MenuComponent = ({}: IMenu) => {
     const anchorPositionVertical = menuProps.value.anchorPosition.split('-')[0];
 
     const top =
-      anchorPositionVertical == 'top'
+      anchorPositionVertical === 'top'
         ? menuProps.value.itemHeight + menuProps.value.itemY + 8
         : menuProps.value.itemY - 8 - 30;
     const left = menuProps.value.itemX;
@@ -55,7 +55,30 @@ const MenuComponent = ({}: IMenu) => {
         },
       ],
     };
-  });
+  }, [menuProps]);
+
+  const leftOrRight = () => {
+    'worklet';
+
+    const anchorPositionHorizontal = menuProps.value.anchorPosition.split(
+      '-'
+    )[1];
+    const itemWidth = menuProps.value.itemWidth;
+
+    let style = {};
+    anchorPositionHorizontal === 'right'
+      ? (style = { left: -MENU_WIDTH + itemWidth })
+      : anchorPositionHorizontal === 'left'
+      ? (style = { left: 0 })
+      : (style = {
+          left:
+            -menuProps.value.itemWidth -
+            MENU_WIDTH / 2 +
+            menuProps.value.itemWidth / 2,
+        });
+
+    return style;
+  };
 
   const messageStyles = useAnimatedStyle(() => {
     const translate = menuAnimationAnchor(
@@ -63,21 +86,8 @@ const MenuComponent = ({}: IMenu) => {
       menuProps.value.itemWidth,
       menuProps.value.items.length
     );
-    const anchorPositionHorizontal = menuProps.value.anchorPosition.split(
-      '-'
-    )[1];
 
-    const leftOrRight =
-      anchorPositionHorizontal === 'right'
-        ? { right: 0 }
-        : anchorPositionHorizontal === 'left'
-        ? { left: 0 }
-        : {
-            left:
-              -menuProps.value.itemWidth -
-              MENU_WIDTH / 2 +
-              menuProps.value.itemWidth / 2,
-          };
+    const _leftOrRight = leftOrRight();
 
     const menuScaleAnimation = () =>
       state.value === CONTEXT_MENU_STATE.ACTIVE
@@ -92,7 +102,7 @@ const MenuComponent = ({}: IMenu) => {
       });
 
     return {
-      ...leftOrRight,
+      ..._leftOrRight,
       height: 200,
       opacity: opacityAnimation(),
       transform: [

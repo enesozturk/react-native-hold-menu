@@ -103,7 +103,7 @@ const HoldItemChildComponent = ({
 
     const isAnchorPointTop = transformOrigin.value.includes('top');
 
-    let transformValue = 0;
+    let tY = 0;
     if (!disableMove) {
       if (isAnchorPointTop) {
         const topTransform =
@@ -112,14 +112,14 @@ const HoldItemChildComponent = ({
           menuHeight +
           styleGuide.spacing * 2;
 
-        transformValue = topTransform > height ? height - topTransform : 0;
+        tY = topTransform > height ? height - topTransform : 0;
       } else {
         const bototmTransform = itemRectY.value - menuHeight;
-        transformValue =
+        tY =
           bototmTransform < 0 ? -bototmTransform + styleGuide.spacing * 2 : 0;
       }
     }
-    return transformValue;
+    return tY;
   };
 
   const setMenuProps = () => {
@@ -201,7 +201,14 @@ const HoldItemChildComponent = ({
   const animatedPortalStyle = useAnimatedStyle(() => {
     const animateOpacity = () =>
       withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(0, { duration: 0 }));
-    let transformValue = calculateTransformValue();
+
+    let tY = calculateTransformValue();
+    const transformAnimation = () =>
+      disableMove
+        ? 0
+        : isActive.value
+        ? withSpring(tY, SPRING_CONFIGURATION)
+        : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION });
 
     return {
       zIndex: 10,
@@ -213,11 +220,7 @@ const HoldItemChildComponent = ({
       opacity: isActive.value ? 1 : animateOpacity(),
       transform: [
         {
-          translateY: disableMove
-            ? 0
-            : isActive.value
-            ? withSpring(transformValue, SPRING_CONFIGURATION)
-            : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION }),
+          translateY: transformAnimation(),
         },
         {
           scale: isActive.value
@@ -263,14 +266,6 @@ const HoldItemChildComponent = ({
           animatedProps={animatedPortalProps}
         >
           {children}
-          {/* <Menu
-            items={items}
-            isActive={isActive}
-            itemHeight={itemRectHeight}
-            itemWidth={itemRectWidth}
-            anchorPosition={transformOrigin}
-            theme={theme || 'light'}
-          /> */}
         </Animated.View>
       </Portal>
     </>
