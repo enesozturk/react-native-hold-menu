@@ -4,14 +4,30 @@ import { View } from 'react-native';
 import { HoldItem } from 'react-native-hold-menu';
 
 import styles from './styles';
-import { MenuItems } from '../../constants';
+// import { MenuItems } from '../../constants';
 import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
+// import Icon from 'react-native-vector-icons/Feather';
 
 interface PlaygroundProps {}
 
 const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
+
+  // [Message]: Here, MenuItem does not render icon
+  const items = [
+    {
+      title: 'Reply',
+      icon: () => {
+        return (
+          <View style={{ width: 20, height: 20, backgroundColor: 'red' }} />
+        );
+      },
+      onPress: () => {
+        console.log('[ACTION]: Reply');
+      },
+    },
+  ];
 
   const themeStyles = useMemo(() => {
     return {
@@ -38,34 +54,34 @@ const Playground = ({}: PlaygroundProps) => {
     <View style={themeStyles.containerStyles}>
       <View style={[styles.column, styles.content]}>
         <View style={[styles.row]}>
-          <HoldItem items={MenuItems} menuAnchorPosition="bottom-left">
+          <HoldItem items={items} menuAnchorPosition="bottom-left">
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.bottomLeft]} />
             </View>
           </HoldItem>
-          <HoldItem items={MenuItems}>
+          <HoldItem items={items}>
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.topCenter]} />
             </View>
           </HoldItem>
-          <HoldItem items={MenuItems}>
+          <HoldItem items={items}>
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.topRight]} />
             </View>
           </HoldItem>
         </View>
         <View style={[styles.row]}>
-          <HoldItem items={MenuItems}>
+          <HoldItem items={items}>
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.topLeft]} />
             </View>
           </HoldItem>
-          <HoldItem items={MenuItems}>
+          <HoldItem items={items}>
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.topCenter]} />
             </View>
           </HoldItem>
-          <HoldItem items={MenuItems}>
+          <HoldItem items={items}>
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.topRight]} />
             </View>
@@ -73,17 +89,17 @@ const Playground = ({}: PlaygroundProps) => {
         </View>
       </View>
       <View style={[themeStyles.footer, styles.row]}>
-        <HoldItem menuAnchorPosition="bottom-left" items={MenuItems}>
+        <HoldItem menuAnchorPosition="bottom-left" items={items}>
           <View style={themeStyles.item}>
             <View style={[themeStyles.dot, styles.bottomLeft]} />
           </View>
         </HoldItem>
-        <HoldItem menuAnchorPosition="bottom-center" items={MenuItems}>
+        <HoldItem menuAnchorPosition="bottom-center" items={items}>
           <View style={themeStyles.item}>
             <View style={[themeStyles.dot, styles.bottomCenter]} />
           </View>
         </HoldItem>
-        <HoldItem menuAnchorPosition="bottom-right" items={MenuItems}>
+        <HoldItem menuAnchorPosition="bottom-right" items={items}>
           <View style={themeStyles.item}>
             <View style={[themeStyles.dot, styles.bottomRight]} />
           </View>

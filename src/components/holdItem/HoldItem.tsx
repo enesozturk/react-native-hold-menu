@@ -149,11 +149,12 @@ const HoldItemChildComponent = ({
     Context
   >({
     onActive: (_, context) => {
-      activateAnimation(context);
-      transformValue.value = calculateTransformValue();
-      setMenuProps();
-
-      context.didMeasureLayout = true;
+      if (!context.didMeasureLayout) {
+        activateAnimation(context);
+        transformValue.value = calculateTransformValue();
+        setMenuProps();
+        context.didMeasureLayout = true;
+      }
 
       if (!isActive.value) {
         itemScale.value = withTiming(

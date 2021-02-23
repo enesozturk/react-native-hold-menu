@@ -2,7 +2,7 @@ import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export interface IMenuItem {
   title: string;
-  icon?: React.ReactNode | null;
+  icon: any;
   onPress: () => void;
 }
 
@@ -12,6 +12,10 @@ export interface IMenu {
   // itemHeight: Animated.SharedValue<number>;
   // itemWidth: Animated.SharedValue<number>;
   // anchorPosition: Animated.SharedValue<TransformOriginAnchorPosition>;
+}
+
+export interface IMenuList {
+  items: IMenuItem[];
 }
 
 export interface IMenuInternal {

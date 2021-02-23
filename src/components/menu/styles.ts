@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   menuItemText: {
     width: '100%',
     ...styleGuide.typography.callout,
+    flex: 1,
   },
   textDark: {
     color: 'black',

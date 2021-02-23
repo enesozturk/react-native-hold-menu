@@ -5,7 +5,8 @@ import StyleGuide from '../../utilities/styleGuide';
 
 import { MessageStyles } from './variables';
 import { useAppContext } from '../../hooks/useAppContext';
-import { MenuItems } from '../../constants';
+// import { MenuItems } from '../../constants';
+// import Icons from 'react-native-vector-icons/Feather';
 
 // React Native Hold Menu Components
 import { HoldItem } from 'react-native-hold-menu';
@@ -25,6 +26,19 @@ const MessageItemComp = ({ message }: { message: any }) => {
     };
   }, [theme]);
 
+  const menuItems = useMemo(
+    () => [
+      {
+        title: 'Reply',
+        icon: null,
+        onPress: () => {
+          console.log('[ACTION]: Reply');
+        },
+      },
+    ],
+    []
+  );
+
   return (
     <View
       style={[
@@ -34,7 +48,7 @@ const MessageItemComp = ({ message }: { message: any }) => {
       ]}
     >
       <HoldItem
-        items={MenuItems}
+        items={menuItems}
         // eslint-disable-next-line react-native/no-inline-styles
         containerStyles={{
           position: 'relative',
