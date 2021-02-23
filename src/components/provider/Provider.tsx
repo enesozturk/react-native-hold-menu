@@ -10,6 +10,8 @@ import { Backdrop } from '../backdrop';
 import { IHoldMenuProvider } from './types';
 import { StateProps, Action } from './reducer';
 import { CONTEXT_MENU_STATE } from '../../constants';
+import { IMenuInternal } from '../menu/types';
+import Menu from '../menu';
 export interface Store {
   state: StateProps;
   dispatch?: React.Dispatch<Action>;
@@ -23,6 +25,16 @@ const ProviderComponent = ({
     CONTEXT_MENU_STATE.UNDETERMINED
   );
   const theme = useSharedValue<'light' | 'dark'>(selectedTheme || 'light');
+  const menuProps = useSharedValue<IMenuInternal>({
+    itemHeight: 0,
+    itemWidth: 0,
+    itemX: 0,
+    itemY: 0,
+    items: [],
+    anchorPosition: 'top-center',
+    menuHeight: 0,
+    transformValue: 0,
+  });
 
   useEffect(() => {
     theme.value = selectedTheme || 'light';
@@ -33,8 +45,9 @@ const ProviderComponent = ({
     () => ({
       state,
       theme,
+      menuProps,
     }),
-    [state, theme]
+    [state, theme, menuProps]
   );
 
   return (
@@ -42,6 +55,7 @@ const ProviderComponent = ({
       <PortalHost>
         {children}
         <Backdrop />
+        <Menu />
       </PortalHost>
     </InternalContext.Provider>
   );

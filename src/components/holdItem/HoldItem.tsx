@@ -19,9 +19,6 @@ import Animated, {
   useAnimatedReaction,
 } from 'react-native-reanimated';
 
-// Components
-import Menu from '../menu';
-
 // Utils
 import {
   TransformOriginAnchorPosition,
@@ -50,14 +47,13 @@ type Context = { didMeasureLayout: boolean };
 
 const HoldItemChildComponent = ({
   items,
-  theme,
   bottom,
   containerStyles,
   disableMove,
   menuAnchorPosition,
   children,
 }: IHoldItem) => {
-  const { state } = useInternal();
+  const { state, menuProps } = useInternal();
   const isActive = useSharedValue(false);
   const containerRef = useAnimatedRef<Animated.View>();
 
@@ -66,6 +62,7 @@ const HoldItemChildComponent = ({
   const itemRectWidth = useSharedValue<number>(0);
   const itemRectHeight = useSharedValue<number>(0);
   const itemScale = useSharedValue<number>(1);
+  const transformValue = useSharedValue<number>(0);
 
   const transformOrigin = useSharedValue<TransformOriginAnchorPosition>(
     menuAnchorPosition || 'top-right'
@@ -98,6 +95,48 @@ const HoldItemChildComponent = ({
     }
   };
 
+  const calculateTransformValue = () => {
+    'worklet';
+
+    const height =
+      deviceOrientation === 'portrait' ? WINDOW_HEIGHT : WINDOW_WIDTH;
+
+    const isAnchorPointTop = transformOrigin.value.includes('top');
+
+    let transformValue = 0;
+    if (!disableMove) {
+      if (isAnchorPointTop) {
+        const topTransform =
+          itemRectY.value +
+          itemRectHeight.value +
+          menuHeight +
+          styleGuide.spacing * 2;
+
+        transformValue = topTransform > height ? height - topTransform : 0;
+      } else {
+        const bototmTransform = itemRectY.value - menuHeight;
+        transformValue =
+          bototmTransform < 0 ? -bototmTransform + styleGuide.spacing * 2 : 0;
+      }
+    }
+    return transformValue;
+  };
+
+  const setMenuProps = () => {
+    'worklet';
+
+    menuProps.value = {
+      itemHeight: itemRectHeight.value,
+      itemWidth: itemRectWidth.value,
+      itemY: itemRectY.value,
+      itemX: itemRectX.value,
+      anchorPosition: transformOrigin.value,
+      menuHeight: menuHeight,
+      items: items,
+      transformValue: transformValue.value,
+    };
+  };
+
   const scaleBack = () => {
     'worklet';
     itemScale.value = withTiming(1, {
@@ -111,6 +150,9 @@ const HoldItemChildComponent = ({
   >({
     onActive: (_, context) => {
       activateAnimation(context);
+      transformValue.value = calculateTransformValue();
+      setMenuProps();
+
       context.didMeasureLayout = true;
 
       if (!isActive.value) {
@@ -159,27 +201,7 @@ const HoldItemChildComponent = ({
   const animatedPortalStyle = useAnimatedStyle(() => {
     const animateOpacity = () =>
       withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(0, { duration: 0 }));
-
-    const height =
-      deviceOrientation === 'portrait' ? WINDOW_HEIGHT : WINDOW_WIDTH;
-
-    const isAnchorPointTop = transformOrigin.value.includes('top');
-    let transformValue = 0;
-    if (!disableMove) {
-      if (isAnchorPointTop) {
-        const topTransform =
-          itemRectY.value +
-          itemRectHeight.value +
-          menuHeight +
-          styleGuide.spacing * 2;
-
-        transformValue = topTransform > height ? height - topTransform : 0;
-      } else {
-        const bototmTransform = itemRectY.value - menuHeight;
-        transformValue =
-          bototmTransform < 0 ? -bototmTransform + styleGuide.spacing * 2 : 0;
-      }
-    }
+    let transformValue = calculateTransformValue();
 
     return {
       zIndex: 10,
@@ -241,14 +263,14 @@ const HoldItemChildComponent = ({
           animatedProps={animatedPortalProps}
         >
           {children}
-          <Menu
+          {/* <Menu
             items={items}
             isActive={isActive}
             itemHeight={itemRectHeight}
             itemWidth={itemRectWidth}
             anchorPosition={transformOrigin}
             theme={theme || 'light'}
-          />
+          /> */}
         </Animated.View>
       </Portal>
     </>

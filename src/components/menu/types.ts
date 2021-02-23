@@ -1,5 +1,3 @@
-import { ViewStyle } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export interface IMenuItem {
@@ -9,11 +7,20 @@ export interface IMenuItem {
 }
 
 export interface IMenu {
-  isActive: Animated.SharedValue<boolean>;
+  // isActive: Animated.SharedValue<boolean>;
+  // items: IMenuItem[];
+  // itemHeight: Animated.SharedValue<number>;
+  // itemWidth: Animated.SharedValue<number>;
+  // anchorPosition: Animated.SharedValue<TransformOriginAnchorPosition>;
+}
+
+export interface IMenuInternal {
   items: IMenuItem[];
-  itemHeight: Animated.SharedValue<number>;
-  itemWidth: Animated.SharedValue<number>;
-  anchorPosition: Animated.SharedValue<TransformOriginAnchorPosition>;
-  menuStyles?: ViewStyle;
-  theme?: 'light' | 'dark';
+  itemHeight: number;
+  itemWidth: number;
+  itemY: number;
+  itemX: number;
+  anchorPosition: TransformOriginAnchorPosition;
+  menuHeight: number;
+  transformValue: number;
 }
