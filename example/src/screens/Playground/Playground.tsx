@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { HoldItem } from 'react-native-hold-menu';
 
 import styles from './styles';
-// import { MenuItems } from '../../constants';
+import { MenuItems } from '../../constants';
 import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
 // import Icon from 'react-native-vector-icons/Feather';
@@ -15,19 +15,7 @@ const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
 
   // [Message]: Here, MenuItem does not render icon
-  const items = [
-    {
-      title: 'Reply',
-      icon: () => {
-        return (
-          <View style={{ width: 20, height: 20, backgroundColor: 'red' }} />
-        );
-      },
-      onPress: () => {
-        console.log('[ACTION]: Reply');
-      },
-    },
-  ];
+  const items = useMemo(() => MenuItems, []);
 
   const themeStyles = useMemo(() => {
     return {

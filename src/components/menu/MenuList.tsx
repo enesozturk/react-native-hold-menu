@@ -31,7 +31,6 @@ import {
 import styles from './styles';
 import { IMenuItem } from './types';
 import { useInternal } from '../../hooks/useInternal';
-// import isEqual from 'lodash.isequal';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;
 const AnimatedView = Animated.createAnimatedComponent(MenuContainerComponent);
@@ -119,37 +118,40 @@ const MenuListComponent = () => {
     return { blurType: theme.value };
   }, [theme]);
 
-  function isObject(object: any) {
+  function deepEqual(array1: IMenuItem[], array2: IMenuItem[] | null) {
     'worklet';
-    return object != null && typeof object === 'object';
-  }
+    let areEqual = false;
 
-  function deepEqual(object1: any, object2: any) {
-    'worklet';
-    if (object1 === null || object2 === null) {
-      return false;
+    const areArrays = Array.isArray(array1) && Array.isArray(array2);
+    const areSameLength =
+      areArrays && array2 && array1.length === array2.length;
+    if (areArrays && areSameLength && array2) {
+      array1.forEach((menuItem: IMenuItem, index) => {
+        if (menuItem === null || !array2[index]) {
+          return false;
+        }
+
+        const keys1 = Object.keys(menuItem);
+        const menuItemFrom2 = array2[index];
+
+        for (const key of keys1) {
+          // @ts-ignore
+          const val1 = menuItem[key];
+          // @ts-ignore
+          const val2 = menuItemFrom2[key];
+
+          // console.log(val1, val2, val1 === val2);
+          let areKeysSame = val1 === val2;
+
+          if (areKeysSame) {
+            areEqual = true;
+          }
+        }
+        return null;
+      });
     }
 
-    const keys1 = Object.keys(object1);
-    const keys2 = Object.keys(object2);
-
-    if (keys1.length !== keys2.length) {
-      return false;
-    }
-
-    for (const key of keys1) {
-      const val1 = object1[key];
-      const val2 = object2[key];
-      const areObjects = isObject(val1) && isObject(val2);
-      if (
-        (areObjects && !deepEqual(val1, val2)) ||
-        (!areObjects && val1 !== val2)
-      ) {
-        return false;
-      }
-    }
-
-    return true;
+    return areEqual;
   }
 
   const setter = (items: IMenuItem[]) => {
@@ -172,7 +174,11 @@ const MenuListComponent = () => {
         {itemList && itemList.length > 0
           ? itemList.map((item: IMenuItem, index: number) => {
               return (
-                <MenuItem item={item} isLast={itemList.length === index + 1} />
+                <MenuItem
+                  key={index}
+                  item={item}
+                  isLast={itemList.length === index + 1}
+                />
               );
             })
           : null}

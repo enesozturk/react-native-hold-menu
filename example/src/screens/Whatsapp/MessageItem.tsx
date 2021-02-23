@@ -5,7 +5,7 @@ import StyleGuide from '../../utilities/styleGuide';
 
 import { MessageStyles } from './variables';
 import { useAppContext } from '../../hooks/useAppContext';
-// import { MenuItems } from '../../constants';
+import { MenuItems } from '../../constants';
 // import Icons from 'react-native-vector-icons/Feather';
 
 // React Native Hold Menu Components
@@ -26,18 +26,7 @@ const MessageItemComp = ({ message }: { message: any }) => {
     };
   }, [theme]);
 
-  const menuItems = useMemo(
-    () => [
-      {
-        title: 'Reply',
-        icon: null,
-        onPress: () => {
-          console.log('[ACTION]: Reply');
-        },
-      },
-    ],
-    []
-  );
+  const menuItems = useMemo(() => MenuItems, []);
 
   return (
     <View

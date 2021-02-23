@@ -2,7 +2,7 @@ import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export interface IMenuItem {
   title: string;
-  icon: any;
+  icon?: () => React.ReactNode;
   onPress: () => void;
 }
 
