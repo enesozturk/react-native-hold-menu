@@ -26,7 +26,7 @@ const MenuComponent = ({}: IMenu) => {
     const top =
       anchorPositionVertical === 'top'
         ? menuProps.value.itemHeight + menuProps.value.itemY + 8
-        : menuProps.value.itemY - 8 - 30;
+        : menuProps.value.itemY - 8;
     const left = menuProps.value.itemX;
     const width = menuProps.value.itemWidth;
     const tY = menuProps.value.transformValue;

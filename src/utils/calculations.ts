@@ -49,7 +49,7 @@ export const menuAnimationAnchor = (
         splittetAnchorName[0] === 'top'
           ? TyTop1
           : splittetAnchorName[0] === 'bottom'
-          ? -TyTop1
+          ? TyTop1
           : Center2,
     },
     endingTransformations: {
