@@ -1,10 +1,9 @@
 import React, { memo, useMemo } from 'react';
 import { View } from 'react-native';
 
-import { HoldItem } from 'react-native-hold-menu';
+import { HoldItem, useHoldMenuList } from 'react-native-hold-menu';
 
 import styles from './styles';
-import { MenuItems } from '../../constants';
 import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
 // import Icon from 'react-native-vector-icons/Feather';
@@ -15,7 +14,26 @@ const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
 
   // [Message]: Here, MenuItem does not render icon
-  const items = useMemo(() => MenuItems, []);
+  const items = useHoldMenuList([
+    {
+      title: 'Reply 1',
+      onPress: () => {
+        console.log('[ACTION]: Reply');
+      },
+    },
+    {
+      title: 'Copy',
+      onPress: () => {
+        console.log('[ACTION]: Copy');
+      },
+    },
+    {
+      title: 'Edit',
+      onPress: () => {
+        console.log('[ACTION]: Edit');
+      },
+    },
+  ]);
 
   const themeStyles = useMemo(() => {
     return {

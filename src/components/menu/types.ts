@@ -6,6 +6,10 @@ export interface IMenuItem {
   onPress: () => void;
 }
 
+export interface IInternalMenuItem extends IMenuItem {
+  id: string;
+}
+
 export interface IMenu {
   // isActive: Animated.SharedValue<boolean>;
   // items: IMenuItem[];
@@ -19,7 +23,7 @@ export interface IMenuList {
 }
 
 export interface IMenuInternal {
-  items: IMenuItem[];
+  items: IInternalMenuItem[];
   itemHeight: number;
   itemWidth: number;
   itemY: number;

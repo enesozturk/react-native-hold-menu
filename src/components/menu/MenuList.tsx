@@ -18,7 +18,6 @@ import {
 import { BlurView } from 'expo-blur';
 
 import MenuItem from './MenuItem';
-// import { HoldMenuFlatList } from '../flatList';
 
 import {
   MENU_WIDTH,
@@ -29,7 +28,7 @@ import {
 } from '../../constants';
 
 import styles from './styles';
-import { IMenuItem } from './types';
+import { IInternalMenuItem, IMenuItem } from './types';
 import { useInternal } from '../../hooks/useInternal';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;
@@ -118,38 +117,26 @@ const MenuListComponent = () => {
     return { blurType: theme.value };
   }, [theme]);
 
-  function deepEqual(array1: IMenuItem[], array2: IMenuItem[] | null) {
+  function deepEqual(
+    array1: IInternalMenuItem[],
+    array2: IInternalMenuItem[] | null
+  ) {
     'worklet';
-    let areEqual = false;
+    let areEqual = true;
 
     const areArrays = Array.isArray(array1) && Array.isArray(array2);
     const areSameLength =
       areArrays && array2 && array1.length === array2.length;
+
     if (areArrays && areSameLength && array2) {
-      array1.forEach((menuItem: IMenuItem, index) => {
-        if (menuItem === null || !array2[index]) {
-          return false;
-        }
+      array1.forEach((menuItem: IInternalMenuItem, index) => {
+        const obj1 = menuItem;
+        const obj2 = array2[index];
 
-        const keys1 = Object.keys(menuItem);
-        const menuItemFrom2 = array2[index];
-
-        for (const key of keys1) {
-          // @ts-ignore
-          const val1 = menuItem[key];
-          // @ts-ignore
-          const val2 = menuItemFrom2[key];
-
-          // console.log(val1, val2, val1 === val2);
-          let areKeysSame = val1 === val2;
-
-          if (areKeysSame) {
-            areEqual = true;
-          }
-        }
-        return null;
+        const isFieldsAreSame = obj1.id === obj2.id;
+        if (!isFieldsAreSame) areEqual = false;
       });
-    }
+    } else areEqual = false;
 
     return areEqual;
   }
