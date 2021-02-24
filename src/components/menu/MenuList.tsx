@@ -28,8 +28,9 @@ import {
 } from '../../constants';
 
 import styles from './styles';
-import { IInternalMenuItem, IMenuItem } from './types';
+import { IMenuItem } from './types';
 import { useInternal } from '../../hooks/useInternal';
+import { deepEqual } from '../../utils/validations';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;
 const AnimatedView = Animated.createAnimatedComponent(MenuContainerComponent);
@@ -116,30 +117,6 @@ const MenuListComponent = () => {
   const animatedProps = useAnimatedProps(() => {
     return { blurType: theme.value };
   }, [theme]);
-
-  function deepEqual(
-    array1: IInternalMenuItem[],
-    array2: IInternalMenuItem[] | null
-  ) {
-    'worklet';
-    let areEqual = true;
-
-    const areArrays = Array.isArray(array1) && Array.isArray(array2);
-    const areSameLength =
-      areArrays && array2 && array1.length === array2.length;
-
-    if (areArrays && areSameLength && array2) {
-      array1.forEach((menuItem: IInternalMenuItem, index) => {
-        const obj1 = menuItem;
-        const obj2 = array2[index];
-
-        const isFieldsAreSame = obj1.id === obj2.id;
-        if (!isFieldsAreSame) areEqual = false;
-      });
-    } else areEqual = false;
-
-    return areEqual;
-  }
 
   const setter = (items: IMenuItem[]) => {
     setItemList(items);

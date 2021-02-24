@@ -8,13 +8,11 @@ import { mockWhatsAppData } from '../../utilities/data';
 import { useAppContext } from '../../hooks/useAppContext';
 import { HoldMenuFlatList } from 'react-native-hold-menu';
 
-import { useHoldMenuList } from 'react-native-hold-menu';
-
 const ChatPage = () => {
   const { theme } = useAppContext();
   const data = useMemo(() => mockWhatsAppData(1000), []);
 
-  const myMenu = useHoldMenuList([
+  const myMenu = [
     {
       title: 'Reply',
       onPress: () => {
@@ -31,8 +29,8 @@ const ChatPage = () => {
       title: 'Edit',
       onPress: () => {},
     },
-  ]);
-  const otherMenu = useHoldMenuList([
+  ];
+  const otherMenu = [
     {
       title: 'Pin',
       onPress: () => {
@@ -51,7 +49,7 @@ const ChatPage = () => {
         console.log('[ACTION]: Delete');
       },
     },
-  ]);
+  ];
 
   const renderMessage = useCallback(
     ({ item }) => (

@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react';
 import { View } from 'react-native';
 
-import { HoldItem, useHoldMenuList } from 'react-native-hold-menu';
+import { HoldItem } from 'react-native-hold-menu';
 
 import styles from './styles';
 import { useAppContext } from '../../hooks/useAppContext';
@@ -13,8 +13,8 @@ interface PlaygroundProps {}
 const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
 
-  // [Message]: Here, MenuItem does not render icon
-  const items = useHoldMenuList([
+  // [TODO]: MenuItem does not render icon
+  const items = [
     {
       title: 'Reply 1',
       onPress: () => {
@@ -33,7 +33,7 @@ const Playground = ({}: PlaygroundProps) => {
         console.log('[ACTION]: Edit');
       },
     },
-  ]);
+  ];
 
   const themeStyles = useMemo(() => {
     return {
