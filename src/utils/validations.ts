@@ -1,4 +1,4 @@
-import { IMenuItem } from '../components/menu';
+import { IMenuItem } from '../components/menu/types';
 
 function fieldAreSame(obj1: IMenuItem, obj2: IMenuItem) {
   'worklet';
