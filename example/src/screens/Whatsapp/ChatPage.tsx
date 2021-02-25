@@ -12,9 +12,54 @@ const ChatPage = () => {
   const { theme } = useAppContext();
   const data = useMemo(() => mockWhatsAppData(1000), []);
 
+  const myMenu = [
+    {
+      title: 'Reply',
+      onPress: () => {
+        console.log('[ACTION]: Reply');
+      },
+    },
+    {
+      title: 'Copy',
+      onPress: () => {
+        console.log('[ACTION]: Copy');
+      },
+    },
+    {
+      title: 'Edit',
+      onPress: () => {},
+    },
+  ];
+  const otherMenu = [
+    {
+      title: 'Pin',
+      onPress: () => {
+        console.log('[ACTION]: Pin');
+      },
+    },
+    {
+      title: 'Forward',
+      onPress: () => {
+        console.log('[ACTION]: Forward');
+      },
+    },
+    {
+      title: 'Delete',
+      onPress: () => {
+        console.log('[ACTION]: Delete');
+      },
+    },
+  ];
+
   const renderMessage = useCallback(
-    ({ item }) => <MessageItem message={item} />,
-    []
+    ({ item }) => (
+      <MessageItem
+        senderMenu={myMenu}
+        receiverMenu={otherMenu}
+        message={item}
+      />
+    ),
+    [myMenu, otherMenu]
   );
 
   const keyExtractor = useCallback(item => item.id.toString(), []);

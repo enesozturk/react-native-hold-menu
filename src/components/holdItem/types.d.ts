@@ -1,5 +1,5 @@
 import { ViewStyle } from 'react-native';
-import { MenuItemProps } from '../../types';
+import { IMenuItem } from '../menu/types';
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export interface IHoldItem {
@@ -8,7 +8,7 @@ export interface IHoldItem {
    * @type MenuItemProps[]
    * @default []
    */
-  items: MenuItemProps[];
+  items: IMenuItem[];
 
   children: React.ReactElement | React.ReactElement[];
 

@@ -19,9 +19,6 @@ import Animated, {
   useAnimatedReaction,
 } from 'react-native-reanimated';
 
-// Components
-import Menu from '../menu';
-
 // Utils
 import {
   TransformOriginAnchorPosition,
@@ -44,20 +41,19 @@ import { useDeviceOrientation } from '../../hooks';
 // Types
 import type { IHoldItem } from './types';
 import styleGuide from '../../styleGuide';
-import { useInternal } from '../../hooks/useInternal';
+import { useInternal } from '../../hooks';
 
 type Context = { didMeasureLayout: boolean };
 
 const HoldItemChildComponent = ({
   items,
-  theme,
   bottom,
   containerStyles,
   disableMove,
   menuAnchorPosition,
   children,
 }: IHoldItem) => {
-  const { state } = useInternal();
+  const { state, menuProps } = useInternal();
   const isActive = useSharedValue(false);
   const containerRef = useAnimatedRef<Animated.View>();
 
@@ -66,6 +62,7 @@ const HoldItemChildComponent = ({
   const itemRectWidth = useSharedValue<number>(0);
   const itemRectHeight = useSharedValue<number>(0);
   const itemScale = useSharedValue<number>(1);
+  const transformValue = useSharedValue<number>(0);
 
   const transformOrigin = useSharedValue<TransformOriginAnchorPosition>(
     menuAnchorPosition || 'top-right'
@@ -98,6 +95,48 @@ const HoldItemChildComponent = ({
     }
   };
 
+  const calculateTransformValue = () => {
+    'worklet';
+
+    const height =
+      deviceOrientation === 'portrait' ? WINDOW_HEIGHT : WINDOW_WIDTH;
+
+    const isAnchorPointTop = transformOrigin.value.includes('top');
+
+    let tY = 0;
+    if (!disableMove) {
+      if (isAnchorPointTop) {
+        const topTransform =
+          itemRectY.value +
+          itemRectHeight.value +
+          menuHeight +
+          styleGuide.spacing * 2;
+
+        tY = topTransform > height ? height - topTransform : 0;
+      } else {
+        const bototmTransform = itemRectY.value - menuHeight;
+        tY =
+          bototmTransform < 0 ? -bototmTransform + styleGuide.spacing * 2 : 0;
+      }
+    }
+    return tY;
+  };
+
+  const setMenuProps = () => {
+    'worklet';
+
+    menuProps.value = {
+      itemHeight: itemRectHeight.value,
+      itemWidth: itemRectWidth.value,
+      itemY: itemRectY.value,
+      itemX: itemRectX.value,
+      anchorPosition: transformOrigin.value,
+      menuHeight: menuHeight,
+      items: items,
+      transformValue: transformValue.value,
+    };
+  };
+
   const scaleBack = () => {
     'worklet';
     itemScale.value = withTiming(1, {
@@ -110,8 +149,12 @@ const HoldItemChildComponent = ({
     Context
   >({
     onActive: (_, context) => {
-      activateAnimation(context);
-      context.didMeasureLayout = true;
+      if (!context.didMeasureLayout) {
+        activateAnimation(context);
+        transformValue.value = calculateTransformValue();
+        setMenuProps();
+        context.didMeasureLayout = true;
+      }
 
       if (!isActive.value) {
         itemScale.value = withTiming(
@@ -160,26 +203,13 @@ const HoldItemChildComponent = ({
     const animateOpacity = () =>
       withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(0, { duration: 0 }));
 
-    const height =
-      deviceOrientation === 'portrait' ? WINDOW_HEIGHT : WINDOW_WIDTH;
-
-    const isAnchorPointTop = transformOrigin.value.includes('top');
-    let transformValue = 0;
-    if (!disableMove) {
-      if (isAnchorPointTop) {
-        const topTransform =
-          itemRectY.value +
-          itemRectHeight.value +
-          menuHeight +
-          styleGuide.spacing * 2;
-
-        transformValue = topTransform > height ? height - topTransform : 0;
-      } else {
-        const bototmTransform = itemRectY.value - menuHeight;
-        transformValue =
-          bototmTransform < 0 ? -bototmTransform + styleGuide.spacing * 2 : 0;
-      }
-    }
+    let tY = calculateTransformValue();
+    const transformAnimation = () =>
+      disableMove
+        ? 0
+        : isActive.value
+        ? withSpring(tY, SPRING_CONFIGURATION)
+        : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION });
 
     return {
       zIndex: 10,
@@ -191,11 +221,7 @@ const HoldItemChildComponent = ({
       opacity: isActive.value ? 1 : animateOpacity(),
       transform: [
         {
-          translateY: disableMove
-            ? 0
-            : isActive.value
-            ? withSpring(transformValue, SPRING_CONFIGURATION)
-            : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION }),
+          translateY: transformAnimation(),
         },
         {
           scale: isActive.value
@@ -241,14 +267,6 @@ const HoldItemChildComponent = ({
           animatedProps={animatedPortalProps}
         >
           {children}
-          <Menu
-            items={items}
-            isActive={isActive}
-            itemHeight={itemRectHeight}
-            itemWidth={itemRectWidth}
-            anchorPosition={transformOrigin}
-            theme={theme || 'light'}
-          />
         </Animated.View>
       </Portal>
     </>

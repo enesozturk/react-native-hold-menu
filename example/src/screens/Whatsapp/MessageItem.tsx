@@ -5,13 +5,20 @@ import StyleGuide from '../../utilities/styleGuide';
 
 import { MessageStyles } from './variables';
 import { useAppContext } from '../../hooks/useAppContext';
-import { MenuItems } from '../../constants';
 
 // React Native Hold Menu Components
 import { HoldItem } from 'react-native-hold-menu';
 import { IS_IOS } from '../../constants';
 
-const MessageItemComp = ({ message }: { message: any }) => {
+const MessageItemComp = ({
+  senderMenu,
+  receiverMenu,
+  message,
+}: {
+  senderMenu: any;
+  receiverMenu: any;
+  message: any;
+}) => {
   const { theme } = useAppContext();
 
   const themeStyles = useMemo(() => {
@@ -34,7 +41,7 @@ const MessageItemComp = ({ message }: { message: any }) => {
       ]}
     >
       <HoldItem
-        items={MenuItems}
+        items={message.fromMe ? senderMenu : receiverMenu}
         // eslint-disable-next-line react-native/no-inline-styles
         containerStyles={{
           position: 'relative',

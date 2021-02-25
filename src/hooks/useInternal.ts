@@ -1,14 +1,4 @@
 import { useContext } from 'react';
-import { InternalContext } from '../context/internal';
+import { InternalContext } from '../context';
 
-export const useInternal = () => {
-  const context = useContext(InternalContext);
-
-  if (context === null) {
-    throw new Error(
-      "Internal context cannot be null, please add 'Provider' to the root component."
-    );
-  }
-
-  return context;
-};
+export const useInternal = () => useContext(InternalContext);

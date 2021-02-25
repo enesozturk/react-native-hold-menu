@@ -1,19 +1,22 @@
-import { ViewStyle } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export interface IMenuItem {
   title: string;
-  icon?: React.ReactNode | null;
+  icon?: () => React.ReactNode;
   onPress: () => void;
 }
 
-export interface IMenu {
-  isActive: Animated.SharedValue<boolean>;
+export interface IMenuList {
   items: IMenuItem[];
-  itemHeight: Animated.SharedValue<number>;
-  itemWidth: Animated.SharedValue<number>;
-  anchorPosition: Animated.SharedValue<TransformOriginAnchorPosition>;
-  menuStyles?: ViewStyle;
-  theme?: 'light' | 'dark';
+}
+
+export interface IMenuInternal {
+  items: IMenuItem[];
+  itemHeight: number;
+  itemWidth: number;
+  itemY: number;
+  itemX: number;
+  anchorPosition: TransformOriginAnchorPosition;
+  menuHeight: number;
+  transformValue: number;
 }
