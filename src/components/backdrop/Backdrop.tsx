@@ -3,12 +3,10 @@ import { StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
-  useSharedValue,
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
 import {
-  State,
   TapGestureHandler,
   TapGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
@@ -29,39 +27,32 @@ const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const BackdropComponent = () => {
   const { state, theme } = useInternal();
-  const tapGestureState = useSharedValue<State>(State.UNDETERMINED);
+
   const tapGestureEvent = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>(
     {
-      onStart: ({ state: handlerState }) => {
-        tapGestureState.value = handlerState;
-      },
-      onActive: ({ state: handlerState }) => {
-        tapGestureState.value = handlerState;
-      },
-      onCancel: ({ state: handlerState }) => {
-        tapGestureState.value = handlerState;
+      onActive: () => {},
+      onCancel: () => {
         state.value = CONTEXT_MENU_STATE.END;
       },
-      onEnd: ({ state: handlerState }) => {
-        tapGestureState.value = handlerState;
+      onEnd: () => {
+        if (state.value === CONTEXT_MENU_STATE.ACTIVE) {
+          state.value = CONTEXT_MENU_STATE.END;
+        }
+      },
+      onFail: () => {
         state.value = CONTEXT_MENU_STATE.END;
       },
-      onFail: ({ state: handlerState }) => {
-        tapGestureState.value = handlerState;
-        state.value = CONTEXT_MENU_STATE.END;
-      },
-      onFinish: ({ state: handlerState }) => {
-        tapGestureState.value = handlerState;
+      onFinish: () => {
         state.value = CONTEXT_MENU_STATE.END;
       },
     },
-    [tapGestureState, state]
+    [state]
   );
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     const topValueAnimation = () =>
       state.value === CONTEXT_MENU_STATE.ACTIVE
-        ? withTiming(0, { duration: 0 })
+        ? 0
         : withDelay(
             HOLD_ITEM_TRANSFORM_DURATION,
             withTiming(WINDOW_HEIGHT, {
