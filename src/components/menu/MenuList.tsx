@@ -29,7 +29,7 @@ import {
 
 import styles from './styles';
 import { IMenuItem } from './types';
-import { useInternal } from '../../hooks/useInternal';
+import { useInternal } from '../../hooks';
 import { deepEqual } from '../../utils/validations';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;

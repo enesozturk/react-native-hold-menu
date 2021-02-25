@@ -9,15 +9,14 @@ import Animated, {
 import MenuList from './MenuList';
 
 import styles from './styles';
-import { IMenu } from './types';
-import { useInternal } from '../../hooks/useInternal';
+import { useInternal } from '../../hooks';
 import {
   HOLD_ITEM_TRANSFORM_DURATION,
   CONTEXT_MENU_STATE,
   SPRING_CONFIGURATION,
 } from '../../constants';
 
-const MenuComponent = ({}: IMenu) => {
+const MenuComponent = () => {
   const { state, menuProps } = useInternal();
 
   const wrapperStyles = useAnimatedStyle(() => {

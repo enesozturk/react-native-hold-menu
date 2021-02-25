@@ -41,7 +41,7 @@ import { useDeviceOrientation } from '../../hooks';
 // Types
 import type { IHoldItem } from './types';
 import styleGuide from '../../styleGuide';
-import { useInternal } from '../../hooks/useInternal';
+import { useInternal } from '../../hooks';
 
 type Context = { didMeasureLayout: boolean };
 

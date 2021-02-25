@@ -23,7 +23,7 @@ import {
   HOLD_ITEM_TRANSFORM_DURATION,
   WINDOW_HEIGHT,
 } from '../../constants';
-import { useInternal } from '../../hooks/useInternal';
+import { useInternal } from '../../hooks';
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 

@@ -6,7 +6,7 @@ import { IMenuItem } from './types';
 
 import styles from './styles';
 import { IS_IOS } from '../../constants';
-import { useInternal } from '../../hooks/useInternal';
+import { useInternal } from '../../hooks';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity;
