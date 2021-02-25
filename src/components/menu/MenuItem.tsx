@@ -5,7 +5,7 @@ import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-han
 import { IMenuItem } from './types';
 
 import styles from './styles';
-import { IS_IOS } from '../../constants';
+import { CONTEXT_MENU_STATE, IS_IOS } from '../../constants';
 import { useInternal } from '../../hooks';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
@@ -19,7 +19,7 @@ const MenuItemComponent = ({
   item: IMenuItem;
   isLast?: boolean;
 }) => {
-  const { theme } = useInternal();
+  const { state, theme } = useInternal();
 
   const textStyles = useAnimatedStyle(() => {
     return {
@@ -39,8 +39,14 @@ const MenuItemComponent = ({
         };
   }, [theme]);
 
+  const handleOnPress = React.useCallback(() => {
+    if (item.onPress) item.onPress();
+    state.value = CONTEXT_MENU_STATE.END;
+  }, [state, item]);
+
   return (
     <AnimatedTouchable
+      onPress={handleOnPress}
       activeOpacity={0.4}
       style={[styles.menuItem, !isLast ? borderStyles : {}]}
     >
