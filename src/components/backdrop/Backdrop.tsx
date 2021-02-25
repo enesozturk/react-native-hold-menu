@@ -25,25 +25,30 @@ import { useInternal } from '../../hooks';
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
+type Context = { startPosition: string };
+
 const BackdropComponent = () => {
   const { state, theme } = useInternal();
 
-  const tapGestureEvent = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>(
+  const tapGestureEvent = useAnimatedGestureHandler<
+    TapGestureHandlerGestureEvent,
+    Context
+  >(
     {
-      onActive: () => {},
+      onStart: (event, context) => {
+        context.startPosition = `${event.x}-${event.y}`;
+      },
       onCancel: () => {
         state.value = CONTEXT_MENU_STATE.END;
       },
-      onEnd: () => {
-        if (state.value === CONTEXT_MENU_STATE.ACTIVE) {
+      onEnd: (event, context) => {
+        const endPosition = `${event.x}-${event.y}`;
+        const isSamePosition = endPosition === context.startPosition;
+        const isStateActive = state.value === CONTEXT_MENU_STATE.ACTIVE;
+
+        if (isSamePosition && isStateActive) {
           state.value = CONTEXT_MENU_STATE.END;
         }
-      },
-      onFail: () => {
-        state.value = CONTEXT_MENU_STATE.END;
-      },
-      onFinish: () => {
-        state.value = CONTEXT_MENU_STATE.END;
       },
     },
     [state]
