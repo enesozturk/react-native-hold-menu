@@ -9,12 +9,12 @@ import Animated from 'react-native-reanimated';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(RNFlatList);
 
-type BottomSheetFlatListProps<T> = Omit<
+export type HoldMenuFlatListProps<T> = Omit<
   RNFlatListProps<T>,
   'scrollEventThrottle'
 >;
 
-const HoldMenuFlatListComponent = (props: BottomSheetFlatListProps<any>) => {
+const HoldMenuFlatListComponent = (props: HoldMenuFlatListProps<any>) => {
   return <AnimatedFlatList {...props} scrollEventThrottle={16} />;
 };
 
