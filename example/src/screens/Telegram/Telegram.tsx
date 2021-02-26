@@ -3,9 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import NavButton from './NavButton';
 import { ContactsScreen, ChatScreen, SettingsScreen } from './Pages';
-import { MENU_ITEMS_SETTINGS } from './constants';
 import StyleGuide from '../../utilities/styleGuide';
 import { useAppContext } from '../../hooks/useAppContext';
+
+import Icon from 'react-native-vector-icons/Feather';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,6 +14,57 @@ interface TelegramProps {}
 
 const Telegram = ({}: TelegramProps) => {
   const { theme } = useAppContext();
+
+  const profileMenu = useMemo(
+    () => [
+      {
+        title: 'Add Account',
+        icon: () => (
+          <Icon
+            name="plus"
+            size={18}
+            color={theme == 'light' ? 'black' : 'white'}
+          />
+        ),
+        onPress: () => {
+          console.log('[ACTION]: Add Account');
+        },
+      },
+      {
+        title: 'Enes Ozturk',
+        icon: () => (
+          <Icon
+            name="user"
+            size={18}
+            color={theme == 'light' ? 'black' : 'white'}
+          />
+        ),
+        onPress: () => {
+          console.log('[ACTION]: Profile');
+        },
+      },
+    ],
+    [theme]
+  );
+
+  const chatMenu = useMemo(
+    () => [
+      {
+        title: 'Add Folder',
+        icon: () => (
+          <Icon
+            name="plus"
+            size={18}
+            color={theme == 'light' ? 'black' : 'white'}
+          />
+        ),
+        onPress: () => {
+          console.log('[ACTION]: Add Folder');
+        },
+      },
+    ],
+    [theme]
+  );
 
   const themeStyles = useMemo(() => {
     return {
@@ -51,7 +103,7 @@ const Telegram = ({}: TelegramProps) => {
               <NavButton
                 title="Chat"
                 icon="message-square"
-                menuItems={MENU_ITEMS_SETTINGS}
+                menuItems={chatMenu}
                 {...props}
               />
             ),
@@ -65,7 +117,7 @@ const Telegram = ({}: TelegramProps) => {
               <NavButton
                 title="Settings"
                 icon="settings"
-                menuItems={MENU_ITEMS_SETTINGS}
+                menuItems={profileMenu}
                 {...props}
               />
             ),

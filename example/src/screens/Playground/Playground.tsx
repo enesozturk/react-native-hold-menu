@@ -6,7 +6,7 @@ import { HoldItem } from 'react-native-hold-menu';
 import styles from './styles';
 import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
-// import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Feather';
 
 interface PlaygroundProps {}
 
@@ -14,26 +14,49 @@ const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
 
   // [TODO]: MenuItem does not render icon
-  const items = [
-    {
-      title: 'Reply 1',
-      onPress: () => {
-        console.log('[ACTION]: Reply');
+  const items = useMemo(
+    () => [
+      {
+        title: 'Action 1',
+        icon: () => (
+          <Icon
+            name="star"
+            size={18}
+            color={theme == 'light' ? 'black' : 'white'}
+          />
+        ),
+        onPress: () => {
+          console.log('[ACTION]: Action 1');
+        },
       },
-    },
-    {
-      title: 'Copy',
-      onPress: () => {
-        console.log('[ACTION]: Copy');
+      {
+        title: 'Action 2',
+        icon: () => (
+          <Icon
+            name="smile"
+            size={18}
+            color={theme == 'light' ? 'black' : 'white'}
+          />
+        ),
+        onPress: () => {
+          console.log('[ACTION]: Action 2');
+        },
       },
-    },
-    {
-      title: 'Edit',
-      onPress: () => {
-        console.log('[ACTION]: Edit');
+      {
+        title: 'Action 3',
+        onPress: () => {
+          console.log('[ACTION]: Action 3');
+        },
       },
-    },
-  ];
+      {
+        title: 'Action 4',
+        onPress: () => {
+          console.log('[ACTION]: Action 4');
+        },
+      },
+    ],
+    [theme]
+  );
 
   const themeStyles = useMemo(() => {
     return {
