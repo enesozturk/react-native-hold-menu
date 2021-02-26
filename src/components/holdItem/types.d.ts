@@ -1,14 +1,14 @@
 import { ViewStyle } from 'react-native';
-import { IMenuItem } from '../menu/types';
+import { MenuItemProps } from '../menu/types';
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
-export interface IHoldItem {
+export type HoldItemProps = {
   /**
    * List of context menu items.
    * @type MenuItemProps[]
    * @default []
    */
-  items: IMenuItem[];
+  items: MenuItemProps[];
 
   children: React.ReactElement | React.ReactElement[];
 
@@ -57,4 +57,4 @@ export interface IHoldItem {
    * bottom={true}
    */
   bottom?: boolean;
-}
+};

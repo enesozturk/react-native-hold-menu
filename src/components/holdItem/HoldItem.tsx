@@ -39,20 +39,20 @@ import styles from './styles';
 import { useDeviceOrientation } from '../../hooks';
 
 // Types
-import type { IHoldItem } from './types';
+import type { HoldItemProps } from './types';
 import styleGuide from '../../styleGuide';
 import { useInternal } from '../../hooks';
 
 type Context = { didMeasureLayout: boolean };
 
-const HoldItemChildComponent = ({
+const HoldItemComponent = ({
   items,
   bottom,
   containerStyles,
   disableMove,
   menuAnchorPosition,
   children,
-}: IHoldItem) => {
+}: HoldItemProps) => {
   const { state, menuProps } = useInternal();
   const isActive = useSharedValue(false);
   const containerRef = useAnimatedRef<Animated.View>();
@@ -273,6 +273,6 @@ const HoldItemChildComponent = ({
   );
 };
 
-const HoldItemChild = memo(HoldItemChildComponent);
+const HoldItem = memo(HoldItemComponent);
 
-export default HoldItemChild;
+export default HoldItem;

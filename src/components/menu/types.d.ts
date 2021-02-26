@@ -1,17 +1,17 @@
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
-export interface IMenuItem {
+export type MenuItemProps = {
   title: string;
   icon?: () => React.ReactNode;
   onPress: () => void;
-}
+};
 
-export interface IMenuList {
-  items: IMenuItem[];
-}
+export type MenuListProps = {
+  items: MenuItemProps[];
+};
 
-export interface IMenuInternal {
-  items: IMenuItem[];
+export type MenuInternalProps = {
+  items: MenuItemProps[];
   itemHeight: number;
   itemWidth: number;
   itemY: number;
@@ -19,4 +19,4 @@ export interface IMenuInternal {
   anchorPosition: TransformOriginAnchorPosition;
   menuHeight: number;
   transformValue: number;
-}
+};

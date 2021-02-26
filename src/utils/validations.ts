@@ -1,6 +1,6 @@
-import { IMenuItem } from '../components/menu/types';
+import { MenuItemProps } from '../components/menu/types';
 
-function fieldAreSame(obj1: IMenuItem, obj2: IMenuItem) {
+function fieldAreSame(obj1: MenuItemProps, obj2: MenuItemProps) {
   'worklet';
   let areObjectsSame = true;
 
@@ -22,7 +22,7 @@ function fieldAreSame(obj1: IMenuItem, obj2: IMenuItem) {
   return areObjectsSame;
 }
 
-function deepEqual(array1: IMenuItem[], array2: IMenuItem[] | null) {
+function deepEqual(array1: MenuItemProps[], array2: MenuItemProps[] | null) {
   'worklet';
   let areEqual = true;
 
@@ -30,7 +30,7 @@ function deepEqual(array1: IMenuItem[], array2: IMenuItem[] | null) {
   const areSameLength = areArrays && array2 && array1.length === array2.length;
 
   if (areArrays && areSameLength && array2) {
-    array1.forEach((menuItem: IMenuItem, index) => {
+    array1.forEach((menuItem: MenuItemProps, index) => {
       const obj1 = menuItem;
       const obj2 = array2[index];
 

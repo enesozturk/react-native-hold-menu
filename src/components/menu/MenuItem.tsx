@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler';
 
-import { IMenuItem } from './types';
+import { MenuItemProps } from './types';
 
 import styles from './styles';
 import { CONTEXT_MENU_STATE, IS_IOS } from '../../constants';
@@ -16,7 +16,7 @@ const MenuItemComponent = ({
   item,
   isLast,
 }: {
-  item: IMenuItem;
+  item: MenuItemProps;
   isLast?: boolean;
 }) => {
   const { state, theme } = useInternal();

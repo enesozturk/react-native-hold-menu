@@ -7,10 +7,10 @@ import { InternalContext } from '../../context/internal';
 import { Backdrop } from '../backdrop';
 
 // Utils
-import { IHoldMenuProvider } from './types';
+import { HoldMenuProviderProps } from './types';
 import { StateProps, Action } from './reducer';
 import { CONTEXT_MENU_STATE } from '../../constants';
-import { IMenuInternal } from '../menu/types';
+import { MenuInternalProps } from '../menu/types';
 import Menu from '../menu';
 export interface Store {
   state: StateProps;
@@ -20,12 +20,12 @@ export interface Store {
 const ProviderComponent = ({
   children,
   theme: selectedTheme,
-}: IHoldMenuProvider) => {
+}: HoldMenuProviderProps) => {
   const state = useSharedValue<CONTEXT_MENU_STATE>(
     CONTEXT_MENU_STATE.UNDETERMINED
   );
   const theme = useSharedValue<'light' | 'dark'>(selectedTheme || 'light');
-  const menuProps = useSharedValue<IMenuInternal>({
+  const menuProps = useSharedValue<MenuInternalProps>({
     itemHeight: 0,
     itemWidth: 0,
     itemX: 0,

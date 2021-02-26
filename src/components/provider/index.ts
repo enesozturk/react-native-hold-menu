@@ -1,1 +1,2 @@
-export { default as HoldMenuProvider } from './Provider';
+export { default } from './Provider';
+export type { HoldMenuProviderProps } from './types';

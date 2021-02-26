@@ -1,1 +1,2 @@
-export { default as HoldItem } from './HoldItem';
+export { default } from './HoldItem';
+export type { HoldItemProps } from './types';

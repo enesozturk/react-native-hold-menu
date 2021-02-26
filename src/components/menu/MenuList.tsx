@@ -28,7 +28,7 @@ import {
 } from '../../constants';
 
 import styles from './styles';
-import { IMenuItem } from './types';
+import { MenuItemProps } from './types';
 import { useInternal } from '../../hooks';
 import { deepEqual } from '../../utils/validations';
 
@@ -38,7 +38,7 @@ const AnimatedView = Animated.createAnimatedComponent(MenuContainerComponent);
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal();
 
-  const [itemList, setItemList] = React.useState<IMenuItem[]>([]);
+  const [itemList, setItemList] = React.useState<MenuItemProps[]>([]);
 
   const menuHeight = useDerivedValue(
     () => calculateMenuHeight(itemList.length),
@@ -118,7 +118,7 @@ const MenuListComponent = () => {
     return { blurType: theme.value };
   }, [theme]);
 
-  const setter = (items: IMenuItem[]) => {
+  const setter = (items: MenuItemProps[]) => {
     setItemList(items);
   };
 
@@ -136,7 +136,7 @@ const MenuListComponent = () => {
     () => (
       <>
         {itemList && itemList.length > 0
-          ? itemList.map((item: IMenuItem, index: number) => {
+          ? itemList.map((item: MenuItemProps, index: number) => {
               return (
                 <MenuItem
                   key={index}
