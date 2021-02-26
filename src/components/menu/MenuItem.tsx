@@ -53,7 +53,7 @@ const MenuItemComponent = ({
       <Animated.Text style={[styles.menuItemText, textStyles]}>
         {item.title}
       </Animated.Text>
-      {/* {item.icon} */}
+      {item.icon && item.icon()}
     </AnimatedTouchable>
   );
 };
