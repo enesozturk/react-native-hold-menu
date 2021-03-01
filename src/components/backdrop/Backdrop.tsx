@@ -25,7 +25,12 @@ import { useInternal } from '../../hooks';
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
-type Context = { startPosition: string };
+type Context = {
+  startPosition: {
+    x: number;
+    y: number;
+  };
+};
 
 const BackdropComponent = () => {
   const { state, theme } = useInternal();
@@ -36,17 +41,20 @@ const BackdropComponent = () => {
   >(
     {
       onStart: (event, context) => {
-        context.startPosition = `${event.x}-${event.y}`;
+        context.startPosition = { x: event.x, y: event.y };
       },
       onCancel: () => {
         state.value = CONTEXT_MENU_STATE.END;
       },
       onEnd: (event, context) => {
-        const endPosition = `${event.x}-${event.y}`;
-        const isSamePosition = endPosition === context.startPosition;
+        const distance = Math.hypot(
+          event.x - context.startPosition.x,
+          event.y - context.startPosition.y
+        );
+        const shouldClose = distance < 10;
         const isStateActive = state.value === CONTEXT_MENU_STATE.ACTIVE;
 
-        if (isSamePosition && isStateActive) {
+        if (shouldClose && isStateActive) {
           state.value = CONTEXT_MENU_STATE.END;
         }
       },
