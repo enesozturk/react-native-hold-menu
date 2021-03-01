@@ -39,7 +39,7 @@ const MenuComponent = () => {
           translateY:
             state.value === CONTEXT_MENU_STATE.ACTIVE
               ? withSpring(tY, SPRING_CONFIGURATION)
-              : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION }),
+              : withTiming(0, { duration: HOLD_ITEM_TRANSFORM_DURATION }),
         },
       ],
     };

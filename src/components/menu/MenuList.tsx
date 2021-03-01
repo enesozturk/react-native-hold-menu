@@ -7,6 +7,7 @@ import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
+  useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
@@ -20,7 +21,6 @@ import { BlurView } from 'expo-blur';
 import MenuItem from './MenuItem';
 
 import {
-  MENU_WIDTH,
   SPRING_CONFIGURATION_MENU,
   HOLD_ITEM_TRANSFORM_DURATION,
   IS_IOS,
@@ -31,6 +31,7 @@ import styles from './styles';
 import { MenuItemProps } from './types';
 import { useInternal } from '../../hooks';
 import { deepEqual } from '../../utils/validations';
+import { leftOrRight } from './calculations';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;
 const AnimatedView = Animated.createAnimatedComponent(MenuContainerComponent);
@@ -44,29 +45,7 @@ const MenuListComponent = () => {
     () => calculateMenuHeight(itemList.length),
     [itemList]
   );
-
-  const leftOrRight = () => {
-    'worklet';
-
-    const anchorPositionHorizontal = menuProps.value.anchorPosition.split(
-      '-'
-    )[1];
-    const itemWidth = menuProps.value.itemWidth;
-
-    let style = {};
-    anchorPositionHorizontal === 'right'
-      ? (style = { left: -MENU_WIDTH + itemWidth })
-      : anchorPositionHorizontal === 'left'
-      ? (style = { left: 0 })
-      : (style = {
-          left:
-            -menuProps.value.itemWidth -
-            MENU_WIDTH / 2 +
-            menuProps.value.itemWidth / 2,
-        });
-
-    return style;
-  };
+  const prevList = useSharedValue<MenuItemProps[]>([]);
 
   const messageStyles = useAnimatedStyle(() => {
     const translate = menuAnimationAnchor(
@@ -75,7 +54,7 @@ const MenuListComponent = () => {
       menuProps.value.items.length
     );
 
-    const _leftOrRight = leftOrRight();
+    const _leftOrRight = leftOrRight(menuProps);
 
     const menuScaleAnimation = () =>
       state.value === CONTEXT_MENU_STATE.ACTIVE
@@ -120,12 +99,13 @@ const MenuListComponent = () => {
 
   const setter = (items: MenuItemProps[]) => {
     setItemList(items);
+    prevList.value = items;
   };
 
   useAnimatedReaction(
     () => menuProps.value.items,
-    (_items, _prevItems) => {
-      if (!deepEqual(_items, _prevItems)) {
+    _items => {
+      if (!deepEqual(_items, prevList.value)) {
         runOnJS(setter)(_items);
       }
     },

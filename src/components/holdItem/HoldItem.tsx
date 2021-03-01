@@ -132,7 +132,7 @@ const HoldItemComponent = ({
       itemX: itemRectX.value,
       anchorPosition: transformOrigin.value,
       menuHeight: menuHeight,
-      items: items,
+      items,
       transformValue: transformValue.value,
     };
   };

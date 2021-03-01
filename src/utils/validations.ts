@@ -22,7 +22,7 @@ function fieldAreSame(obj1: MenuItemProps, obj2: MenuItemProps) {
   return areObjectsSame;
 }
 
-function deepEqual(array1: MenuItemProps[], array2: MenuItemProps[] | null) {
+function deepEqual(array1: MenuItemProps[], array2: MenuItemProps[]) {
   'worklet';
   let areEqual = true;
 
