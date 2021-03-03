@@ -21,6 +21,10 @@ import {
   HOLD_ITEM_TRANSFORM_DURATION,
   WINDOW_HEIGHT,
 } from '../../constants';
+import {
+  BACKDROP_LIGHT_BACKGROUND_COLOR,
+  BACKDROP_DARK_BACKGROUND_COLOR,
+} from './constants';
 import { useInternal } from '../../hooks';
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
@@ -85,10 +89,12 @@ const BackdropComponent = () => {
   });
 
   const animatedInnerContainerStyle = useAnimatedStyle(() => {
-    return {
-      backgroundColor:
-        theme.value === 'light' ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.75)',
-    };
+    const backgroundColor =
+      theme.value === 'light'
+        ? BACKDROP_LIGHT_BACKGROUND_COLOR
+        : BACKDROP_DARK_BACKGROUND_COLOR;
+
+    return { backgroundColor };
   }, [theme]);
 
   return (

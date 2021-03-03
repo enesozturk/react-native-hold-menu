@@ -21,6 +21,10 @@ const styleGuide = {
       fontSize: 16,
       lineHeight: 20,
     },
+    callout2: {
+      fontSize: 14,
+      lineHeight: 18,
+    },
   },
 };
 

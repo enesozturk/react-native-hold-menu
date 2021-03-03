@@ -1,9 +1,12 @@
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export type MenuItemProps = {
-  title: string;
+  text: string;
   icon?: () => React.ReactNode;
   onPress: () => void;
+  isTitle?: boolean;
+  isSeperator?: boolean;
+  isDestructive?: boolean;
 };
 
 export type MenuListProps = {

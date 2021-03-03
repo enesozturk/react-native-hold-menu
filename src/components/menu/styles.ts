@@ -36,8 +36,15 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
   menuItemText: {
-    width: '100%',
     ...styleGuide.typography.callout,
+    textAlign: 'left',
+    width: '100%',
+    flex: 1,
+  },
+  menuItemTitleText: {
+    ...styleGuide.typography.callout2,
+    textAlign: 'center',
+    width: '100%',
     flex: 1,
   },
   textDark: {

@@ -17,12 +17,12 @@ const ChatPage = () => {
   const myMenu = useMemo(
     () => [
       {
-        title: 'Reply',
+        text: 'Reply',
         icon: () => (
           <Icon
             name="corner-down-left"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
@@ -30,12 +30,12 @@ const ChatPage = () => {
         },
       },
       {
-        title: 'Copy',
+        text: 'Copy',
         icon: () => (
           <Icon
             name="copy"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
@@ -43,45 +43,45 @@ const ChatPage = () => {
         },
       },
       {
-        title: 'Edit',
+        text: 'Edit',
         icon: () => (
           <Icon
             name="edit"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {},
       },
       {
-        title: 'Pin',
+        text: 'Pin',
         icon: () => (
           <Icon
             name="map-pin"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {},
       },
       {
-        title: 'Forward',
+        text: 'Forward',
         icon: () => (
           <Icon
             name="corner-up-right"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {},
       },
       {
-        title: 'Delete',
+        text: 'Delete',
         icon: () => (
           <Icon
             name="trash-2"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {},
@@ -93,12 +93,12 @@ const ChatPage = () => {
   const otherMenu = useMemo(
     () => [
       {
-        title: 'Reply',
+        text: 'Reply',
         icon: () => (
           <Icon
             name="corner-down-left"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
@@ -106,12 +106,12 @@ const ChatPage = () => {
         },
       },
       {
-        title: 'Copy',
+        text: 'Copy',
         icon: () => (
           <Icon
             name="copy"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
@@ -119,34 +119,34 @@ const ChatPage = () => {
         },
       },
       {
-        title: 'Pin',
+        text: 'Pin',
         icon: () => (
           <Icon
             name="map-pin"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {},
       },
       {
-        title: 'Forward',
+        text: 'Forward',
         icon: () => (
           <Icon
             name="corner-up-right"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {},
       },
       {
-        title: 'Delete',
+        text: 'Delete',
         icon: () => (
           <Icon
             name="trash-2"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {},

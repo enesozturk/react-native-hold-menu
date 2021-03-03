@@ -6,42 +6,42 @@ const IS_IOS = Platform.OS === 'ios';
 
 const MenuItems = [
   {
-    title: 'Reply',
+    text: 'Reply',
     icon: null,
     onPress: () => {
       console.log('[ACTION]: Reply');
     },
   },
   {
-    title: 'Copy',
+    text: 'Copy',
     icon: null,
     onPress: () => {
       console.log('[ACTION]: Copy');
     },
   },
   {
-    title: 'Edit',
+    text: 'Edit',
     icon: null,
     onPress: () => {
       console.log('[ACTION]: Edit');
     },
   },
   {
-    title: 'Pin',
+    text: 'Pin',
     icon: null,
     onPress: () => {
       console.log('[ACTION]: Pin');
     },
   },
   {
-    title: 'Forward',
+    text: 'Forward',
     icon: null,
     onPress: () => {
       console.log('[ACTION]: Forward');
     },
   },
   {
-    title: 'Delete',
+    text: 'Delete',
     icon: null,
     onPress: () => {
       console.log('[ACTION]: Delete');

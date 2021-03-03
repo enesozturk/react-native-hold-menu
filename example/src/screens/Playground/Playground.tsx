@@ -11,31 +11,38 @@ import Icon from 'react-native-vector-icons/Feather';
 interface PlaygroundProps {}
 
 const Playground = ({}: PlaygroundProps) => {
-  const { theme } = useAppContext();
+  const { theme, toggleTheme } = useAppContext();
 
   // [TODO]: MenuItem does not render icon
   const items = useMemo(
     () => [
       {
-        title: 'Action 1',
-        icon: () => (
-          <Icon
-            name="star"
-            size={18}
-            color={theme == 'light' ? 'black' : 'white'}
-          />
-        ),
+        isTitle: true,
+        text: 'Actions',
         onPress: () => {
           console.log('[ACTION]: Action 1');
         },
       },
       {
-        title: 'Action 2',
+        text: 'Theme Change',
+        icon: () => (
+          <Icon
+            name="star"
+            size={18}
+            color={theme === 'light' ? 'black' : 'white'}
+          />
+        ),
+        onPress: () => {
+          toggleTheme();
+        },
+      },
+      {
+        text: 'Action 2',
         icon: () => (
           <Icon
             name="smile"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
@@ -43,19 +50,20 @@ const Playground = ({}: PlaygroundProps) => {
         },
       },
       {
-        title: 'Action 3',
+        text: 'Action 3',
         onPress: () => {
           console.log('[ACTION]: Action 3');
         },
       },
       {
-        title: 'Action 4',
+        text: 'Action 4',
         onPress: () => {
           console.log('[ACTION]: Action 4');
         },
+        isDestructive: true,
       },
     ],
-    [theme]
+    [theme, toggleTheme]
   );
 
   const themeStyles = useMemo(() => {

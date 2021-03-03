@@ -18,12 +18,12 @@ const Telegram = ({}: TelegramProps) => {
   const profileMenu = useMemo(
     () => [
       {
-        title: 'Add Account',
+        text: 'Add Account',
         icon: () => (
           <Icon
             name="plus"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
@@ -31,12 +31,12 @@ const Telegram = ({}: TelegramProps) => {
         },
       },
       {
-        title: 'Enes Ozturk',
+        text: 'Enes Ozturk',
         icon: () => (
           <Icon
             name="user"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
@@ -50,12 +50,12 @@ const Telegram = ({}: TelegramProps) => {
   const chatMenu = useMemo(
     () => [
       {
-        title: 'Add Folder',
+        text: 'Add Folder',
         icon: () => (
           <Icon
             name="plus"
             size={18}
-            color={theme == 'light' ? 'black' : 'white'}
+            color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {

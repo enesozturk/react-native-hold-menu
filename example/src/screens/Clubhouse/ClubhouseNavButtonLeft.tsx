@@ -10,8 +10,8 @@ const ClubhouseNavButtonLeft = () => {
     <View style={styles.container}>
       <HoldItem
         items={[
-          { title: '@enesozt', onProfile: () => {} },
-          { title: 'All Rooms', onProfile: () => {} },
+          { text: '@enesozt', onPress: () => {} },
+          { text: 'All Rooms', onPress: () => {} },
         ]}
       >
         <Icons name="chevron-left" size={32} style={styles.icon} />

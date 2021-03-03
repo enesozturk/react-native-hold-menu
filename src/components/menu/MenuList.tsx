@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Animated, {
@@ -18,7 +18,7 @@ import {
 } from '../../utils/calculations';
 import { BlurView } from 'expo-blur';
 
-import MenuItem from './MenuItem';
+import MenuItems from './MenuItems';
 
 import {
   SPRING_CONFIGURATION_MENU,
@@ -42,8 +42,8 @@ const MenuListComponent = () => {
   const [itemList, setItemList] = React.useState<MenuItemProps[]>([]);
 
   const menuHeight = useDerivedValue(
-    () => calculateMenuHeight(itemList.length),
-    [itemList]
+    () => calculateMenuHeight(menuProps.value.items.length),
+    [menuProps]
   );
   const prevList = useSharedValue<MenuItemProps[]>([]);
 
@@ -112,25 +112,6 @@ const MenuListComponent = () => {
     [menuProps]
   );
 
-  const renderItems = useMemo(
-    () => (
-      <>
-        {itemList && itemList.length > 0
-          ? itemList.map((item: MenuItemProps, index: number) => {
-              return (
-                <MenuItem
-                  key={index}
-                  item={item}
-                  isLast={itemList.length === index + 1}
-                />
-              );
-            })
-          : null}
-      </>
-    ),
-    [itemList]
-  );
-
   return (
     <AnimatedView
       // @ts-ignore
@@ -144,7 +125,7 @@ const MenuListComponent = () => {
           animatedInnerContainerStyle,
         ]}
       >
-        {renderItems}
+        <MenuItems items={itemList} theme={theme.value} />
       </Animated.View>
     </AnimatedView>
   );
