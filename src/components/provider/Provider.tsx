@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useMemo } from 'react';
-import { PortalHost } from '@gorhom/portal';
+import { PortalProvider } from '@gorhom/portal';
 import { useSharedValue } from 'react-native-reanimated';
 import { InternalContext } from '../../context/internal';
 
@@ -52,11 +52,11 @@ const ProviderComponent = ({
 
   return (
     <InternalContext.Provider value={internalContextVariables}>
-      <PortalHost>
+      <PortalProvider>
         {children}
         <Backdrop />
         <Menu />
-      </PortalHost>
+      </PortalProvider>
     </InternalContext.Provider>
   );
 };
