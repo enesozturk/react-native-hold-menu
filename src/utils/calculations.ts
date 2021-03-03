@@ -6,9 +6,16 @@ export const MenuItemHeight = () => {
   return styleGuide.typography.callout.lineHeight + styleGuide.spacing * 2.5;
 };
 
-export const calculateMenuHeight = (itemLength: number) => {
+export const calculateMenuHeight = (
+  itemLength: number,
+  seperatorCount: number
+) => {
   'worklet';
-  return MenuItemHeight() * itemLength;
+  return (
+    MenuItemHeight() * itemLength +
+    (itemLength - 1) +
+    seperatorCount * styleGuide.spacing
+  );
 };
 
 export type TransformOriginAnchorPosition =
@@ -22,10 +29,11 @@ export type TransformOriginAnchorPosition =
 export const menuAnimationAnchor = (
   anchorPoint: TransformOriginAnchorPosition,
   itemWidth: number,
-  itemLength: number
+  itemLength: number,
+  itemsWithSeperatorLength: number
 ) => {
   'worklet';
-  const MenuHeight = calculateMenuHeight(itemLength);
+  const MenuHeight = calculateMenuHeight(itemLength, itemsWithSeperatorLength);
   const splittetAnchorName: string[] = anchorPoint.split('-');
 
   const Center1 = itemWidth;

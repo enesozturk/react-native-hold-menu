@@ -41,17 +41,27 @@ const MenuListComponent = () => {
 
   const [itemList, setItemList] = React.useState<MenuItemProps[]>([]);
 
-  const menuHeight = useDerivedValue(
-    () => calculateMenuHeight(menuProps.value.items.length),
-    [menuProps]
-  );
+  const menuHeight = useDerivedValue(() => {
+    const itemsWithSeperator = menuProps.value.items.filter(
+      item => item.withSeperator
+    );
+    return calculateMenuHeight(
+      menuProps.value.items.length,
+      itemsWithSeperator.length
+    );
+  }, [menuProps]);
   const prevList = useSharedValue<MenuItemProps[]>([]);
 
   const messageStyles = useAnimatedStyle(() => {
+    const itemsWithSeperator = menuProps.value.items.filter(
+      item => item.withSeperator
+    );
+
     const translate = menuAnimationAnchor(
       menuProps.value.anchorPosition,
       menuProps.value.itemWidth,
-      menuProps.value.items.length
+      menuProps.value.items.length,
+      itemsWithSeperator.length
     );
 
     const _leftOrRight = leftOrRight(menuProps);
@@ -121,7 +131,8 @@ const MenuListComponent = () => {
     >
       <Animated.View
         style={[
-          { ...StyleSheet.absoluteFillObject },
+          StyleSheet.absoluteFillObject,
+          styles.menuInnerContainer,
           animatedInnerContainerStyle,
         ]}
       >

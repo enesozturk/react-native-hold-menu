@@ -71,7 +71,10 @@ const HoldItemComponent = ({
   const deviceOrientation = useDeviceOrientation();
   const key = useMemo(() => `hold-item-${nanoid()}`, []);
 
-  const menuHeight = useMemo(() => calculateMenuHeight(items.length), [items]);
+  const menuHeight = useMemo(() => {
+    const itemsWithSeperator = items.filter(item => item.withSeperator);
+    return calculateMenuHeight(items.length, itemsWithSeperator.length);
+  }, [items]);
 
   const activateAnimation = (ctx: any) => {
     'worklet';

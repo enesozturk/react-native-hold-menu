@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
+import Seperator from './Seperator';
 import styles from './styles';
 
 import { MenuItemProps } from './types';
@@ -34,7 +35,10 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
     const borderBottomColor =
       theme === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR;
 
-    return { borderBottomColor, borderBottomWidth: isLast ? 0 : 1 };
+    return {
+      borderBottomColor,
+      borderBottomWidth: isLast ? 0 : 1,
+    };
   }, [theme, isLast]);
 
   const textColor = useMemo(() => {
@@ -49,27 +53,32 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
     };
   }, [item, theme]);
 
-  const handleOnPress = React.useCallback(() => {
-    if (item.onPress) item.onPress();
-    state.value = CONTEXT_MENU_STATE.END;
+  const handleOnPress = useCallback(() => {
+    if (!item.isTitle) {
+      if (item.onPress) item.onPress();
+      state.value = CONTEXT_MENU_STATE.END;
+    }
   }, [state, item]);
 
   return (
-    <AnimatedTouchable
-      onPress={handleOnPress}
-      activeOpacity={0.4}
-      style={[styles.menuItem, borderStyles]}
-    >
-      <Text
-        style={[
-          item.isTitle ? styles.menuItemTitleText : styles.menuItemText,
-          textColor,
-        ]}
+    <>
+      <AnimatedTouchable
+        onPress={handleOnPress}
+        activeOpacity={!item.isTitle ? 0.4 : 1}
+        style={[styles.menuItem, borderStyles]}
       >
-        {item.text}
-      </Text>
-      {!item.isSeperator && !item.isTitle && item.icon && item.icon()}
-    </AnimatedTouchable>
+        <Text
+          style={[
+            item.isTitle ? styles.menuItemTitleText : styles.menuItemText,
+            textColor,
+          ]}
+        >
+          {item.text}
+        </Text>
+        {!item.withSeperator && !item.isTitle && item.icon && item.icon()}
+      </AnimatedTouchable>
+      {item.withSeperator && <Seperator theme={theme} />}
+    </>
   );
 };
 

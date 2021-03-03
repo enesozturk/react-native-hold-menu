@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { MENU_WIDTH } from '../../constants';
-import { MenuItemHeight } from '../../utils/calculations';
 import styleGuide from '../../styleGuide';
 
 const styles = StyleSheet.create({
@@ -15,21 +14,26 @@ const styles = StyleSheet.create({
     width: MENU_WIDTH,
     borderRadius: styleGuide.spacing * 1.5,
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     overflow: 'hidden',
     zIndex: 15,
   },
+  menuInnerContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   menuItem: {
     width: '100%',
-    height: MenuItemHeight(),
-
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: styleGuide.spacing * 2,
+    paddingVertical: styleGuide.spacing * 1.25,
   },
   border: {
     borderBottomWidth: 1,

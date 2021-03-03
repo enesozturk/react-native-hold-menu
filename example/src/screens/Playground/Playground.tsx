@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Feather';
 interface PlaygroundProps {}
 
 const Playground = ({}: PlaygroundProps) => {
-  const { theme, toggleTheme } = useAppContext();
+  const { theme } = useAppContext();
 
   // [TODO]: MenuItem does not render icon
   const items = useMemo(
@@ -19,9 +19,7 @@ const Playground = ({}: PlaygroundProps) => {
       {
         isTitle: true,
         text: 'Actions',
-        onPress: () => {
-          console.log('[ACTION]: Action 1');
-        },
+        onPress: () => {},
       },
       {
         text: 'Theme Change',
@@ -33,7 +31,7 @@ const Playground = ({}: PlaygroundProps) => {
           />
         ),
         onPress: () => {
-          toggleTheme();
+          console.log('[ACTION]: Action 1');
         },
       },
       {
@@ -54,6 +52,7 @@ const Playground = ({}: PlaygroundProps) => {
         onPress: () => {
           console.log('[ACTION]: Action 3');
         },
+        withSeperator: true,
       },
       {
         text: 'Action 4',
@@ -63,7 +62,7 @@ const Playground = ({}: PlaygroundProps) => {
         isDestructive: true,
       },
     ],
-    [theme, toggleTheme]
+    [theme]
   );
 
   const themeStyles = useMemo(() => {

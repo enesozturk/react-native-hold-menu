@@ -5,8 +5,8 @@ export type MenuItemProps = {
   icon?: () => React.ReactNode;
   onPress: () => void;
   isTitle?: boolean;
-  isSeperator?: boolean;
   isDestructive?: boolean;
+  withSeperator?: boolean;
 };
 
 export type MenuListProps = {
