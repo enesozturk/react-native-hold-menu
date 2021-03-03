@@ -22,44 +22,78 @@ const Playground = ({}: PlaygroundProps) => {
         onPress: () => {},
       },
       {
-        text: 'Theme Change',
+        text: 'Home',
         icon: () => (
           <Icon
-            name="star"
+            name="home"
             size={18}
             color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
-          console.log('[ACTION]: Action 1');
+          console.log('[ACTION]: Home');
         },
       },
       {
-        text: 'Action 2',
+        text: 'Edit',
         icon: () => (
           <Icon
-            name="smile"
+            name="edit"
             size={18}
             color={theme === 'light' ? 'black' : 'white'}
           />
         ),
         onPress: () => {
-          console.log('[ACTION]: Action 2');
+          console.log('[ACTION]: Edit');
         },
       },
       {
-        text: 'Action 3',
+        text: 'Download',
         onPress: () => {
-          console.log('[ACTION]: Action 3');
+          console.log('[ACTION]: Download');
         },
+        icon: () => (
+          <Icon
+            name="download"
+            size={18}
+            color={theme === 'light' ? 'black' : 'white'}
+          />
+        ),
+      },
+      {
+        text: 'Delete',
+        onPress: () => {
+          console.log('[ACTION]: Delete');
+        },
+        icon: () => <Icon name="trash" size={18} color={'red'} />,
         withSeperator: true,
+        isDestructive: true,
       },
       {
-        text: 'Action 4',
+        text: 'Share',
         onPress: () => {
-          console.log('[ACTION]: Action 4');
+          console.log('[ACTION]: Share');
         },
-        isDestructive: true,
+        icon: () => (
+          <Icon
+            name="share"
+            size={18}
+            color={theme === 'light' ? 'black' : 'white'}
+          />
+        ),
+      },
+      {
+        text: 'More',
+        onPress: () => {
+          console.log('[ACTION]: More');
+        },
+        icon: () => (
+          <Icon
+            name="more-horizontal"
+            size={18}
+            color={theme === 'light' ? 'black' : 'white'}
+          />
+        ),
       },
     ],
     [theme]
