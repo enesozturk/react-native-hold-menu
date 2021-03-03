@@ -43,9 +43,9 @@ import { HoldItem } from 'react-native-hold-menu';
 import styles from './styles';
 
 const MenuItems = [
-  { title: 'Action 1', icon: null, onPress: () => {} },
-  { title: 'Action 2', icon: null, onPress: () => {} },
-  { title: 'Action 3', icon: null, onPress: () => {} },
+  { text: 'Action 1', icon: null, onPress: () => {} },
+  { text: 'Action 2', icon: null, onPress: () => {} },
+  { text: 'Action 3', icon: null, onPress: () => {} },
 ];
 
 const Example = () => {

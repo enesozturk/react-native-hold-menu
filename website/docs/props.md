@@ -21,8 +21,8 @@ Array of menu items.
 ```tsx
 <HoldItem
   items={[
-    { title: 'Action 1', icon: null, onPress: () => {} },
-    { title: 'Action 2', icon: null, onPress: () => {} },
+    { text: 'Action 1', icon: null, onPress: () => {} },
+    { text: 'Action 2', icon: null, onPress: () => {} },
   ]}
 />
 ```
