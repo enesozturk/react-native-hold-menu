@@ -10,7 +10,7 @@ A performant, easy to use hold to open context menu for React Native powered by 
 - Smooth interactions & animations.
 - Supports dark/light Mode. 🌚 🌝
 - Supports device orientation change.
-- Compatible with Expo. [CHECK]
+- Compatible with Expo.
 - Written in `TypeScript`.
 
 ## Getting Started

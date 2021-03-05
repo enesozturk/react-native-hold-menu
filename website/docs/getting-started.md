@@ -32,7 +32,7 @@ yarn add react-native-hold-menu
 This library needs these dependencies to be installed in your project before you can use it:
 
 ```bash
-yarn add react-native-reanimated@2.0.0-rc.2 react-native-gesture-handler
+yarn add react-native-reanimated@2.0.0-rc.0 react-native-gesture-handler
 ```
 
 :::info

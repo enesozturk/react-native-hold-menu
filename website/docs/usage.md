@@ -3,6 +3,7 @@ id: usage
 title: Usage
 slug: /usage
 hide_table_of_contents: true
+hide_title: true
 ---
 
 ## Usage
@@ -10,11 +11,7 @@ hide_table_of_contents: true
 Before using Hold Menu in your application, you need to wrap your app with `HoldMenuProvider` first.
 
 ```tsx
-import 'react-native-gesture-handler';
-
 import React from 'react';
-
-import { NavigationContainer } from '@react-navigation/native';
 
 // Hold Menu
 import { HoldMenuProvider } from 'react-native-hold-menu';
@@ -22,9 +19,7 @@ import { HoldMenuProvider } from 'react-native-hold-menu';
 const App = () => {
   return (
     <HoldMenuProvider theme="light">
-      <NavigationContainer>
-        {/* Your navigation components */}
-      </NavigationContainer>
+      {/* Your app components */}
     </HoldMenuProvider>
   );
 };
@@ -43,9 +38,10 @@ import { HoldItem } from 'react-native-hold-menu';
 import styles from './styles';
 
 const MenuItems = [
-  { text: 'Action 1', icon: null, onPress: () => {} },
-  { text: 'Action 2', icon: null, onPress: () => {} },
-  { text: 'Action 3', icon: null, onPress: () => {} },
+  { text: 'Actions', isTitle: true, onPress: () => {} },
+  { text: 'Action 1', onPress: () => {} },
+  { text: 'Action 2', withSeperator: true, onPress: () => {} },
+  { text: 'Action 3', isDestructive: true, onPress: () => {} },
 ];
 
 const Example = () => {
