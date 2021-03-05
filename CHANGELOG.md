@@ -1,13 +1,23 @@
 # Changelog
 
-## [v0.0.7](https://github.com/enesozturk/react-native-hold-menu-dev/compare/v0.0.6...v0.0.7)
+## [v0.0.8](https://github.com/enesozturk/react-native-hold-menu-dev/compare/v0.0.7...v0.0.8)
+
+#### Improvements
+
+- chore: update destructive text colors ([715e70f](https://github.com/enesozturk/react-native-hold-menu-dev/commit/715e70f9bb86cf74146029cb5f41c81d321663d9)).
+
+#### Documentations
+
+- docs: update website with example usages and readme ([03da41a](https://github.com/enesozturk/react-native-hold-menu-dev/commit/03da41abd2958c791b933d3e45a0380dcb5b5131)).
+- docs: update footer and docs ([39c53bb](https://github.com/enesozturk/react-native-hold-menu-dev/commit/39c53bb59718184b383f303aa4be1abe749a905e)).
+
+## [v0.0.7](https://github.com/enesozturk/react-native-hold-menu-dev/compare/v0.0.6...v0.0.7) - 2021-03-03
 
 #### Improvements
 
 - chore: update playground example ([928c5c8](https://github.com/enesozturk/react-native-hold-menu-dev/commit/928c5c82b76740a8741fc8eae625e7c613d7ca9c)).
-- chore: enable icon rendering with seperator item ([c4c386b](https://github.com/enesozturk/react-native-hold-menu/commit/c4c386b1d728916bca0798193b89f0871d1aa080).
+- chore: release v0.0.7 ([50a5e5d](https://github.com/enesozturk/react-native-hold-menu-dev/commit/50a5e5d37d960be1de36d47db3edba98c674ad87)).
 - chore: consider font scale for menu item text ([c17327d](https://github.com/enesozturk/react-native-hold-menu-dev/commit/c17327d51e22efa42f8ac702afc93e6213064d0c)).
-- chore: update background color configs for platforms ([0391747](https://github.com/enesozturk/react-native-hold-menu-dev/commit/03917471aba6a3339ebdd5de74b44cccdb97e38e)).
 
 ## [v0.0.6](https://github.com/enesozturk/react-native-hold-menu-dev/compare/v0.0.5...v0.0.6) - 2021-03-03
 
