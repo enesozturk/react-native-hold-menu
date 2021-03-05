@@ -65,7 +65,13 @@ const Playground = ({}: PlaygroundProps) => {
         onPress: () => {
           console.log('[ACTION]: Delete');
         },
-        icon: () => <Icon name="trash" size={18} color={'red'} />,
+        icon: () => (
+          <Icon
+            name="trash"
+            size={18}
+            color={theme == 'dark' ? 'rgb(255, 59,48)' : 'rgb(255, 69,58)'}
+          />
+        ),
         withSeperator: true,
         isDestructive: true,
       },

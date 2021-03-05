@@ -13,7 +13,8 @@ import {
   BORDER_LIGHT_COLOR,
   BORDER_DARK_COLOR,
   MENU_TITLE_COLOR,
-  MENU_TEXT_DESTRUCTIVE_COLOR,
+  MENU_TEXT_DESTRUCTIVE_COLOR_LIGHT,
+  MENU_TEXT_DESTRUCTIVE_COLOR_DARK,
   MENU_TEXT_DARK_COLOR,
   MENU_TEXT_LIGHT_COLOR,
 } from './constants';
@@ -46,7 +47,9 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
       color: item.isTitle
         ? MENU_TITLE_COLOR
         : item.isDestructive
-        ? MENU_TEXT_DESTRUCTIVE_COLOR
+        ? theme === 'dark'
+          ? MENU_TEXT_DESTRUCTIVE_COLOR_DARK
+          : MENU_TEXT_DESTRUCTIVE_COLOR_LIGHT
         : theme === 'dark'
         ? MENU_TEXT_DARK_COLOR
         : MENU_TEXT_LIGHT_COLOR,
