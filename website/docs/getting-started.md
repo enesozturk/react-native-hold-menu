@@ -13,10 +13,11 @@ A performant, easy to use hold to open context menu for React Native powered by 
 
 ## Features
 
-- Powered with Reanimated v2 🚀
-- Easy to use 😊
-- Dark/Light Mode 🌚
-- Device orientation change
+- Powered with Reanimated v2. 🚀
+- Smooth interactions & animations.
+- Supports dark/light Mode. 🌚 🌝
+- Supports device orientation change.
+- Compatible with Expo.
 - Written in `TypeScript`.
 
 ## Installation

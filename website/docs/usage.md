@@ -13,7 +13,6 @@ Before using Hold Menu in your application, you need to wrap your app with `Hold
 ```tsx
 import React from 'react';
 
-// Hold Menu
 import { HoldMenuProvider } from 'react-native-hold-menu';
 
 const App = () => {
