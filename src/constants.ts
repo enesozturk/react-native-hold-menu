@@ -35,6 +35,8 @@ const MENU_TRANSFORM_ORIGIN_TOLERENCE = 10;
 
 const IS_IOS = Platform.OS === 'ios';
 
+const FONT_SCALE = Dimensions.get('screen').fontScale;
+
 export {
   CONTEXT_MENU_STATE,
   WINDOW_HEIGHT,
@@ -48,4 +50,5 @@ export {
   SPRING_CONFIGURATION_MENU,
   MENU_TRANSFORM_ORIGIN_TOLERENCE,
   IS_IOS,
+  FONT_SCALE,
 };

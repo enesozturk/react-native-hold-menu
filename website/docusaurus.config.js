@@ -30,8 +30,6 @@ module.exports = {
     },
     footer: {
       style: 'dark',
-      links: [],
-      copyright: `Copyright © ${new Date().getFullYear()} React Native Hold Menu. Built with Docusaurus.`,
     },
   },
   presets: [

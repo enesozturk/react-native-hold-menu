@@ -1,9 +1,16 @@
 import styleGuide from '../styleGuide';
-import { MENU_WIDTH, MENU_TRANSFORM_ORIGIN_TOLERENCE } from '../constants';
+import {
+  MENU_WIDTH,
+  MENU_TRANSFORM_ORIGIN_TOLERENCE,
+  FONT_SCALE,
+} from '../constants';
 
 export const MenuItemHeight = () => {
   'worklet';
-  return styleGuide.typography.callout.lineHeight + styleGuide.spacing * 2.5;
+  return (
+    styleGuide.typography.callout.lineHeight * FONT_SCALE +
+    styleGuide.spacing * 2.5
+  );
 };
 
 export const calculateMenuHeight = (

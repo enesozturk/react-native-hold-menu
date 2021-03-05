@@ -10,11 +10,14 @@ slug: /props
 
 Array of menu items.
 
-| name    | type                          | required |
-| ------- | ----------------------------- | -------- |
-| title   | string                        | YES      |
-| icon    | () => React.ReactNode \| null | NO       |
-| onPress | function                      | YES      |
+| name          | type                          | required |
+| ------------- | ----------------------------- | -------- |
+| text          | string                        | YES      |
+| icon          | () => React.ReactNode \| null | NO       |
+| onPress       | function                      | YES      |
+| isTitle       | boolean                       | NO       |
+| isDestructive | boolean                       | NO       |
+| withSeperator | boolean                       | NO       |
 
 #### Example
 
@@ -26,6 +29,8 @@ Array of menu items.
   ]}
 />
 ```
+
+Check out the other examples [here](examples).
 
 ### `menuAnchorPosition`
 

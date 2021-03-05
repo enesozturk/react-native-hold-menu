@@ -98,8 +98,12 @@ const MenuListComponent = () => {
     return {
       backgroundColor:
         theme.value === 'light'
-          ? 'rgba(255, 255, 255, .75)'
-          : 'rgba(0,0,0,0.5)',
+          ? IS_IOS
+            ? 'rgba(255, 255, 255, .75)'
+            : 'rgba(255, 255, 255, .95)'
+          : IS_IOS
+          ? 'rgba(0,0,0,0.5)'
+          : 'rgba(39, 39, 39, .8)',
     };
   }, [theme]);
 
