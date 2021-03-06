@@ -74,13 +74,12 @@ const HoldItemComponent = ({
 
   const deviceOrientation = useDeviceOrientation();
   const key = useMemo(() => `hold-item-${nanoid()}`, []);
-  const isHold = useMemo(() => !activateOn || activateOn === 'hold', [
-    activateOn,
-  ]);
   const menuHeight = useMemo(() => {
     const itemsWithSeperator = items.filter(item => item.withSeperator);
     return calculateMenuHeight(items.length, itemsWithSeperator.length);
   }, [items]);
+
+  const isHold = !activateOn || activateOn === 'hold';
 
   const activateAnimation = (ctx: any) => {
     'worklet';
