@@ -3,7 +3,9 @@ import React, { memo, useMemo } from 'react';
 import { Portal } from '@gorhom/portal';
 import { nanoid } from 'nanoid/non-secure';
 import {
+  TapGestureHandler,
   LongPressGestureHandler,
+  TapGestureHandlerGestureEvent,
   LongPressGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
 import Animated, {
@@ -15,6 +17,7 @@ import Animated, {
   useSharedValue,
   withDelay,
   withTiming,
+  withSequence,
   withSpring,
   useAnimatedReaction,
 } from 'react-native-reanimated';
@@ -39,7 +42,7 @@ import styles from './styles';
 import { useDeviceOrientation } from '../../hooks';
 
 // Types
-import type { HoldItemProps } from './types';
+import type { HoldItemProps, GestureHandlerProps } from './types';
 import styleGuide from '../../styleGuide';
 import { useInternal } from '../../hooks';
 
@@ -51,6 +54,7 @@ const HoldItemComponent = ({
   containerStyles,
   disableMove,
   menuAnchorPosition,
+  activateOn,
   children,
 }: HoldItemProps) => {
   const { state, menuProps } = useInternal();
@@ -70,7 +74,9 @@ const HoldItemComponent = ({
 
   const deviceOrientation = useDeviceOrientation();
   const key = useMemo(() => `hold-item-${nanoid()}`, []);
-
+  const isHold = useMemo(() => !activateOn || activateOn === 'hold', [
+    activateOn,
+  ]);
   const menuHeight = useMemo(() => {
     const itemsWithSeperator = items.filter(item => item.withSeperator);
     return calculateMenuHeight(items.length, itemsWithSeperator.length);
@@ -147,8 +153,45 @@ const HoldItemComponent = ({
     });
   };
 
-  const longPressGestureEvent = useAnimatedGestureHandler<
-    LongPressGestureHandlerGestureEvent,
+  const onCompletion = (isFinised: boolean) => {
+    'worklet';
+    const isListValid = items && items.length > 0;
+    if (isFinised && isListValid) {
+      state.value = CONTEXT_MENU_STATE.ACTIVE;
+      isActive.value = true;
+      scaleBack();
+    }
+
+    // TODO: Warn user if item list is empty or not given
+  };
+
+  const scaleHold = () => {
+    'worklet';
+    itemScale.value = withTiming(
+      HOLD_ITEM_SCALE_DOWN_VALUE,
+      { duration: HOLD_ITEM_SCALE_DOWN_DURATION },
+      onCompletion
+    );
+  };
+
+  const scaleTap = () => {
+    'worklet';
+    itemScale.value = withSequence(
+      withTiming(HOLD_ITEM_SCALE_DOWN_VALUE, {
+        duration: HOLD_ITEM_SCALE_DOWN_DURATION,
+      }),
+      withTiming(
+        1,
+        {
+          duration: HOLD_ITEM_TRANSFORM_DURATION / 2,
+        },
+        onCompletion
+      )
+    );
+  };
+
+  const gestureEvent = useAnimatedGestureHandler<
+    LongPressGestureHandlerGestureEvent | TapGestureHandlerGestureEvent,
     Context
   >({
     onActive: (_, context) => {
@@ -160,25 +203,18 @@ const HoldItemComponent = ({
       }
 
       if (!isActive.value) {
-        itemScale.value = withTiming(
-          HOLD_ITEM_SCALE_DOWN_VALUE,
-          { duration: HOLD_ITEM_SCALE_DOWN_DURATION },
-          isFinised => {
-            const isListValid = items && items.length > 0;
-            if (isFinised && isListValid) {
-              state.value = CONTEXT_MENU_STATE.ACTIVE;
-              isActive.value = true;
-              scaleBack();
-            }
-
-            // TODO: Warn user if item list is empty or not given
-          }
-        );
+        if (isHold) {
+          scaleHold();
+        } else {
+          scaleTap();
+        }
       }
     },
     onFinish: (_, context) => {
       context.didMeasureLayout = false;
-      scaleBack();
+      if (isHold) {
+        scaleBack();
+      }
     },
   });
 
@@ -252,16 +288,46 @@ const HoldItemComponent = ({
     }
   );
 
+  const GestureHandler = useMemo(() => {
+    switch (activateOn) {
+      case `double-tap`:
+        return ({ children }: GestureHandlerProps) => (
+          <TapGestureHandler
+            numberOfTaps={2}
+            onHandlerStateChange={gestureEvent}
+          >
+            {children}
+          </TapGestureHandler>
+        );
+      case `tap`:
+        return ({ children }: GestureHandlerProps) => (
+          <TapGestureHandler
+            numberOfTaps={1}
+            onHandlerStateChange={gestureEvent}
+          >
+            {children}
+          </TapGestureHandler>
+        );
+      // default is hold
+      default:
+        return ({ children }: GestureHandlerProps) => (
+          <LongPressGestureHandler
+            minDurationMs={150}
+            onHandlerStateChange={gestureEvent}
+          >
+            {children}
+          </LongPressGestureHandler>
+        );
+    }
+  }, [activateOn]);
+
   return (
     <>
-      <LongPressGestureHandler
-        minDurationMs={150}
-        onHandlerStateChange={longPressGestureEvent}
-      >
+      <GestureHandler>
         <Animated.View ref={containerRef} style={containerStyle}>
           {children}
         </Animated.View>
-      </LongPressGestureHandler>
+      </GestureHandler>
 
       <Portal key={key} name={key}>
         <Animated.View
