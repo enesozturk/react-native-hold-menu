@@ -69,7 +69,7 @@ const Playground = ({}: PlaygroundProps) => {
           <Icon
             name="trash"
             size={18}
-            color={theme == 'dark' ? 'rgb(255, 59,48)' : 'rgb(255, 69,58)'}
+            color={theme === 'dark' ? 'rgb(255, 59,48)' : 'rgb(255, 69,58)'}
           />
         ),
         withSeperator: true,
