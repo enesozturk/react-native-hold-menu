@@ -32,6 +32,14 @@ const MessageItemComp = ({
     };
   }, [theme]);
 
+  const methodProps = useMemo(() => {
+    return {
+      Reply: [message.id],
+      Copy: [message.text],
+      Edit: [message.id, message.text],
+    };
+  }, [message]);
+
   return (
     <View
       style={[
@@ -41,6 +49,7 @@ const MessageItemComp = ({
       ]}
     >
       <HoldItem
+        methodParams={methodProps}
         items={message.fromMe ? senderMenu : receiverMenu}
         // eslint-disable-next-line react-native/no-inline-styles
         containerStyles={{

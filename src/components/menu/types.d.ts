@@ -3,7 +3,7 @@ import { TransformOriginAnchorPosition } from '../../utils/calculations';
 export type MenuItemProps = {
   text: string;
   icon?: () => React.ReactNode;
-  onPress: () => void;
+  onPress?: (arg?: string | number) => void;
   isTitle?: boolean;
   isDestructive?: boolean;
   withSeperator?: boolean;
@@ -22,4 +22,7 @@ export type MenuInternalProps = {
   anchorPosition: TransformOriginAnchorPosition;
   menuHeight: number;
   transformValue: number;
+  methodParams: {
+    [name: string]: (string | number)[];
+  };
 };

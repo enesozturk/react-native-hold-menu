@@ -1,5 +1,5 @@
 import React, { memo, useMemo, useCallback } from 'react';
-import { StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 
 import StyleGuide from '../../utilities/styleGuide';
 
@@ -14,6 +14,18 @@ const ChatPage = () => {
   const { theme } = useAppContext();
   const data = useMemo(() => mockWhatsAppData(1000), []);
 
+  const replyMessage = useCallback((messageId: string) => {
+    Alert.alert(`[ACTION]: REPLY' ${messageId}`);
+  }, []);
+
+  const copyMessage = useCallback((messageText: string) => {
+    Alert.alert(`[ACTION]: REPLY' ${messageText}`);
+  }, []);
+
+  const editMessage = useCallback((messageId: string, messageText: string) => {
+    Alert.alert(`[ACTION]: REPLY' ${messageId} - ${messageText}`);
+  }, []);
+
   const myMenu = useMemo(
     () => [
       {
@@ -25,9 +37,7 @@ const ChatPage = () => {
             color={theme === 'light' ? 'black' : 'white'}
           />
         ),
-        onPress: () => {
-          console.log('[ACTION]: Reply');
-        },
+        onPress: replyMessage,
       },
       {
         text: 'Copy',
@@ -38,9 +48,7 @@ const ChatPage = () => {
             color={theme === 'light' ? 'black' : 'white'}
           />
         ),
-        onPress: () => {
-          console.log('[ACTION]: Copy');
-        },
+        onPress: copyMessage,
       },
       {
         text: 'Edit',
@@ -51,7 +59,7 @@ const ChatPage = () => {
             color={theme === 'light' ? 'black' : 'white'}
           />
         ),
-        onPress: () => {},
+        onPress: editMessage,
       },
       {
         text: 'Pin',
@@ -87,7 +95,7 @@ const ChatPage = () => {
         onPress: () => {},
       },
     ],
-    [theme]
+    [theme, replyMessage, copyMessage, editMessage]
   );
 
   const otherMenu = useMemo(
@@ -101,9 +109,7 @@ const ChatPage = () => {
             color={theme === 'light' ? 'black' : 'white'}
           />
         ),
-        onPress: () => {
-          console.log('[ACTION]: Reply');
-        },
+        onPress: replyMessage,
       },
       {
         text: 'Copy',
@@ -114,9 +120,7 @@ const ChatPage = () => {
             color={theme === 'light' ? 'black' : 'white'}
           />
         ),
-        onPress: () => {
-          console.log('[ACTION]: Copy');
-        },
+        onPress: copyMessage,
       },
       {
         text: 'Pin',
@@ -152,7 +156,7 @@ const ChatPage = () => {
         onPress: () => {},
       },
     ],
-    [theme]
+    [theme, replyMessage, copyMessage]
   );
 
   const renderMessage = useCallback(

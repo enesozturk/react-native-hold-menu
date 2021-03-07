@@ -55,6 +55,7 @@ const HoldItemComponent = ({
   disableMove,
   menuAnchorPosition,
   activateOn,
+  methodParams,
   children,
 }: HoldItemProps) => {
   const { state, menuProps } = useInternal();
@@ -143,6 +144,7 @@ const HoldItemComponent = ({
       menuHeight: menuHeight,
       items,
       transformValue: transformValue.value,
+      methodParams: methodParams || {},
     };
   };
 

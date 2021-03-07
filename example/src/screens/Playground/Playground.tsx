@@ -19,7 +19,6 @@ const Playground = ({}: PlaygroundProps) => {
       {
         isTitle: true,
         text: 'Actions',
-        onPress: () => {},
       },
       {
         text: 'Home',
