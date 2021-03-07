@@ -59,6 +59,7 @@ const HoldItemComponent = ({
 }: HoldItemProps) => {
   const { state, menuProps } = useInternal();
   const isActive = useSharedValue(false);
+  const isAnimationStarted = useSharedValue(false);
   const containerRef = useAnimatedRef<Animated.View>();
 
   const itemRectY = useSharedValue<number>(0);
@@ -161,6 +162,8 @@ const HoldItemComponent = ({
       scaleBack();
     }
 
+    isAnimationStarted.value = false;
+
     // TODO: Warn user if item list is empty or not given
   };
 
@@ -175,6 +178,8 @@ const HoldItemComponent = ({
 
   const scaleTap = () => {
     'worklet';
+    isAnimationStarted.value = true;
+
     itemScale.value = withSequence(
       withTiming(HOLD_ITEM_SCALE_DOWN_VALUE, {
         duration: HOLD_ITEM_SCALE_DOWN_DURATION,
@@ -189,23 +194,40 @@ const HoldItemComponent = ({
     );
   };
 
+  /**
+   * When use tap activation ("tap") and trying to tap multiple times,
+   * scale animation is called again despite it is started. This causes a bug.
+   * To prevent this, it is better to check is animation already started.
+   */
+  const canCallActivateFunctions = () => {
+    'worklet';
+    const willActivateWithTap =
+      activateOn === 'double-tap' || activateOn === 'tap';
+
+    return (
+      (willActivateWithTap && !isAnimationStarted.value) || !willActivateWithTap
+    );
+  };
+
   const gestureEvent = useAnimatedGestureHandler<
     LongPressGestureHandlerGestureEvent | TapGestureHandlerGestureEvent,
     Context
   >({
     onActive: (_, context) => {
-      if (!context.didMeasureLayout) {
-        activateAnimation(context);
-        transformValue.value = calculateTransformValue();
-        setMenuProps();
-        context.didMeasureLayout = true;
-      }
+      if (canCallActivateFunctions()) {
+        if (!context.didMeasureLayout) {
+          activateAnimation(context);
+          transformValue.value = calculateTransformValue();
+          setMenuProps();
+          context.didMeasureLayout = true;
+        }
 
-      if (!isActive.value) {
-        if (isHold) {
-          scaleHold();
-        } else {
-          scaleTap();
+        if (!isActive.value) {
+          if (isHold) {
+            scaleHold();
+          } else {
+            scaleTap();
+          }
         }
       }
     },
@@ -290,35 +312,35 @@ const HoldItemComponent = ({
   const GestureHandler = useMemo(() => {
     switch (activateOn) {
       case `double-tap`:
-        return ({ children }: GestureHandlerProps) => (
+        return ({ children: handlerChildren }: GestureHandlerProps) => (
           <TapGestureHandler
             numberOfTaps={2}
             onHandlerStateChange={gestureEvent}
           >
-            {children}
+            {handlerChildren}
           </TapGestureHandler>
         );
       case `tap`:
-        return ({ children }: GestureHandlerProps) => (
+        return ({ children: handlerChildren }: GestureHandlerProps) => (
           <TapGestureHandler
             numberOfTaps={1}
             onHandlerStateChange={gestureEvent}
           >
-            {children}
+            {handlerChildren}
           </TapGestureHandler>
         );
       // default is hold
       default:
-        return ({ children }: GestureHandlerProps) => (
+        return ({ children: handlerChildren }: GestureHandlerProps) => (
           <LongPressGestureHandler
             minDurationMs={150}
             onHandlerStateChange={gestureEvent}
           >
-            {children}
+            {handlerChildren}
           </LongPressGestureHandler>
         );
     }
-  }, [activateOn]);
+  }, [activateOn, gestureEvent]);
 
   return (
     <>
