@@ -95,7 +95,7 @@ export type HoldItemProps = {
    * @type string
    * @default 'Medium'
    * @examples
-   * hapticFeedback="none"
+   * hapticFeedback="None"
    */
   hapticFeedback?:
     | 'None'
