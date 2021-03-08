@@ -59,7 +59,7 @@ const HoldItemComponent = ({
   menuAnchorPosition,
   activateOn,
   hapticFeedback,
-  methodParams,
+  actionParams,
   children,
 }: HoldItemProps) => {
   const { state, menuProps } = useInternal();
@@ -148,7 +148,7 @@ const HoldItemComponent = ({
       menuHeight: menuHeight,
       items,
       transformValue: transformValue.value,
-      methodParams: methodParams || {},
+      actionParams: actionParams || {},
     };
   };
 

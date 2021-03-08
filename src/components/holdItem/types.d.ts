@@ -16,21 +16,21 @@ export type HoldItemProps = {
    * @examples
    * ```js
    * const items = [
-   *  {text: 'Reply', onPress=(messageId)=>{}},
-   *  {text: 'Copy', onPress=(messageText)=>{}},
+   *  {text: 'Reply', onPress: (messageId) => {}},
+   *  {text: 'Copy', onPress: (messageText) => {}},
    * ]
    * ...
    * <HoldItem
    *    items={items}
-   *    methodParams={{
+   *    actionParams={{
    *      Reply: ['dd443224-7f43'],
    *      Copy: ['Hello World!']
    *    }}
    * ><View/></HoldItem>
    * ```
    */
-  methodParams: {
-    [name: string]: (string | number)[];
+  actionParams?: {
+    [name: string]: any[];
   };
 
   children: React.ReactElement | React.ReactElement[];
