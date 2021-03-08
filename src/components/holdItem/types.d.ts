@@ -30,7 +30,7 @@ export type HoldItemProps = {
    * ```
    */
   actionParams?: {
-    [name: string]: (string | number)[];
+    [name: string]: any[];
   };
 
   children: React.ReactElement | React.ReactElement[];
