@@ -36,7 +36,7 @@ Check out the other examples [here](examples).
 
 Object of keys that same name with items to match parameters to onPress actions. If you want to pass different parameters for hold item to menu item `onPress` handlers ([check WhatsApp example](https://github.com/enesozturk/react-native-hold-menu/blob/main/example/src/screens/Whatsapp/MessageItem.tsx)), you need to use this prop to set params per HoldItem.
 
-The reason provide action params with another prop is make it able to
+> The reason provide action params with another prop is make it able to pass with shared value without performance issues.
 
 | type                      | required |
 | ------------------------- | -------- |
@@ -59,15 +59,43 @@ const items = [
 ><View/></HoldItem>
 ```
 
+### `activateOn`
+
+Type of behavior to activate menu action.
+
+| type                            | default | required |
+| ------------------------------- | ------- | -------- |
+| tap <br/> double-tap <br/> hold | hold    | NO       |
+
+#### Example
+
+```tsx
+<HoldItem activateOn="double-tap" />
+```
+
+### `hapticFeedback`
+
+Type of haptic feedback behavior.
+
+| type                                                                                              | default | required |
+| ------------------------------------------------------------------------------------------------- | ------- | -------- |
+| None <br/> Selection <br/> Light <br/> Medium <br/> Heavy <br/> Success <br/> Warning <br/> Error | Medium  | NO       |
+
+#### Example
+
+```tsx
+<HoldItem hapticFeedback="Heavy" />
+```
+
 ### `menuAnchorPosition`
 
 Menu anchor position is calculated automaticly. But you can override the calculation by passing an anchor position.
-Auto calculation will be "top-left", "top-center" or "top-right". If you want to open menu from bottom, you need to use
-"bottom-left", "bottom-center" or "bottom-right". Or if you want to use auto calculation for bottom, see [`bottom`](#bottom) prop.
+Auto calculation will be `top-left`, `top-center` or `top-right`. If you want to open menu from bottom, you need to use
+`bottom-left`, `bottom-center` or `bottom-right`. Or if you want to use auto calculation for bottom, see [`bottom`](#bottom) prop.
 
-| type                                                                                           | required |
-| ---------------------------------------------------------------------------------------------- | -------- |
-| "top-center" \| "top-left" \| "top-right"\| "bottom-center" \| "bottom-left" \| "bottom-right" | NO       |
+| type                                                                                               | required |
+| -------------------------------------------------------------------------------------------------- | -------- |
+| top-center <br/> top-left <br/> top-right <br/> bottom-center <br/> bottom-left <br/> bottom-right | NO       |
 
 #### Example
 
