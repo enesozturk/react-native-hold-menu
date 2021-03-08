@@ -16,8 +16,8 @@ export type HoldItemProps = {
    * @examples
    * ```js
    * const items = [
-   *  {text: 'Reply', onPress=(messageId)=>{}},
-   *  {text: 'Copy', onPress=(messageText)=>{}},
+   *  {text: 'Reply', onPress: (messageId) => {}},
+   *  {text: 'Copy', onPress: (messageText) => {}},
    * ]
    * ...
    * <HoldItem
@@ -29,7 +29,7 @@ export type HoldItemProps = {
    * ><View/></HoldItem>
    * ```
    */
-  methodParams: {
+  methodParams?: {
     [name: string]: (string | number)[];
   };
 
