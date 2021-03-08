@@ -10,6 +10,29 @@ export type HoldItemProps = {
    */
   items: MenuItemProps[];
 
+  /**
+   * Object of keys that same name with items to match parameters to onPress actions.
+   * @type { [name: string]: (string | number)[] }
+   * @examples
+   * ```js
+   * const items = [
+   *  {text: 'Reply', onPress=(messageId)=>{}},
+   *  {text: 'Copy', onPress=(messageText)=>{}},
+   * ]
+   * ...
+   * <HoldItem
+   *    items={items}
+   *    methodParams={{
+   *      Reply: ['dd443224-7f43'],
+   *      Copy: ['Hello World!']
+   *    }}
+   * ><View/></HoldItem>
+   * ```
+   */
+  methodParams: {
+    [name: string]: (string | number)[];
+  };
+
   children: React.ReactElement | React.ReactElement[];
 
   /**
@@ -66,6 +89,23 @@ export type HoldItemProps = {
    * activateOn="hold"
    */
   activateOn?: 'tap' | 'double-tap' | 'hold';
+
+  /**
+   * Set if you'd like to enable haptic feedback on activation
+   * @type string
+   * @default 'Medium'
+   * @examples
+   * hapticFeedback="None"
+   */
+  hapticFeedback?:
+    | 'None'
+    | 'Selection'
+    | 'Light'
+    | 'Medium'
+    | 'Heavy'
+    | 'Success'
+    | 'Warning'
+    | 'Error';
 };
 
 export type GestureHandlerProps = {

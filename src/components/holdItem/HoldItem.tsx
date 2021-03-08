@@ -10,6 +10,7 @@ import {
 } from 'react-native-gesture-handler';
 import Animated, {
   measure,
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedProps,
   useAnimatedRef,
@@ -21,6 +22,8 @@ import Animated, {
   withSpring,
   useAnimatedReaction,
 } from 'react-native-reanimated';
+
+import * as Haptics from 'expo-haptics';
 
 // Utils
 import {
@@ -55,6 +58,8 @@ const HoldItemComponent = ({
   disableMove,
   menuAnchorPosition,
   activateOn,
+  hapticFeedback,
+  methodParams,
   children,
 }: HoldItemProps) => {
   const { state, menuProps } = useInternal();
@@ -143,6 +148,7 @@ const HoldItemComponent = ({
       menuHeight: menuHeight,
       items,
       transformValue: transformValue.value,
+      methodParams: methodParams || {},
     };
   };
 
@@ -153,6 +159,26 @@ const HoldItemComponent = ({
     });
   };
 
+  const hapticResponse = () => {
+    const style = !hapticFeedback ? 'Medium' : hapticFeedback;
+    switch (style) {
+      case `Selection`:
+        Haptics.selectionAsync();
+        break;
+      case `Light`:
+      case `Medium`:
+      case `Heavy`:
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle[style]);
+        break;
+      case `Success`:
+      case `Warning`:
+      case `Error`:
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType[style]);
+        break;
+      default:
+    }
+  };
+
   const onCompletion = (isFinised: boolean) => {
     'worklet';
     const isListValid = items && items.length > 0;
@@ -160,6 +186,9 @@ const HoldItemComponent = ({
       state.value = CONTEXT_MENU_STATE.ACTIVE;
       isActive.value = true;
       scaleBack();
+      if (hapticFeedback !== 'None') {
+        runOnJS(hapticResponse)();
+      }
     }
 
     isAnimationStarted.value = false;

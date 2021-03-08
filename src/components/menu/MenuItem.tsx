@@ -30,7 +30,7 @@ type MenuItemComponentProps = {
 };
 
 const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
-  const { state } = useInternal();
+  const { state, menuProps } = useInternal();
 
   const borderStyles = useAnimatedStyle(() => {
     const borderBottomColor =
@@ -58,9 +58,11 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
 
   const handleOnPress = useCallback(() => {
     if (!item.isTitle) {
-      if (item.onPress) item.onPress();
+      const params = menuProps.value.methodParams[item.text] || [];
+      if (item.onPress) item.onPress(...params);
       state.value = CONTEXT_MENU_STATE.END;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, item]);
 
   return (
