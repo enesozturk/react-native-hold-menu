@@ -93,20 +93,19 @@ export type HoldItemProps = {
   /**
    * Set if you'd like to enable haptic feedback on activation
    * @type string
-   * @default 'impactMedium'
+   * @default 'Medium'
    * @examples
    * hapticFeedback="none"
    */
   hapticFeedback?:
-    | 'enabled'
-    | 'none'
-    | 'selection'
-    | 'impactLight'
-    | 'impactMedium'
-    | 'impactHeavy'
-    | 'notificationSuccess'
-    | 'notificationWarning'
-    | 'notificationError';
+    | 'None'
+    | 'Selection'
+    | 'Light'
+    | 'Medium'
+    | 'Heavy'
+    | 'Success'
+    | 'Warning'
+    | 'Error';
 };
 
 export type GestureHandlerProps = {

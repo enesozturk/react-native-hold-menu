@@ -23,11 +23,7 @@ import Animated, {
   useAnimatedReaction,
 } from 'react-native-reanimated';
 
-// Optional Haptic Feedback
-let ReactNativeHaptic: any;
-try {
-  ReactNativeHaptic = require('react-native-haptic-feedback').default;
-} catch (error) {}
+import * as Haptics from 'expo-haptics';
 
 // Utils
 import {
@@ -164,13 +160,23 @@ const HoldItemComponent = ({
   };
 
   const hapticResponse = () => {
-    const haptic =
-      !hapticFeedback || hapticFeedback === 'enabled'
-        ? 'impactMedium'
-        : hapticFeedback;
-    ReactNativeHaptic.trigger(haptic, {
-      enableVibrateFallback: true,
-    });
+    const style = !hapticFeedback ? 'Medium' : hapticFeedback;
+    switch (style) {
+      case `Selection`:
+        Haptics.selectionAsync();
+        break;
+      case `Light`:
+      case `Medium`:
+      case `Heavy`:
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle[style]);
+        break;
+      case `Success`:
+      case `Warning`:
+      case `Error`:
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType[style]);
+        break;
+      default:
+    }
   };
 
   const onCompletion = (isFinised: boolean) => {
@@ -180,10 +186,8 @@ const HoldItemComponent = ({
       state.value = CONTEXT_MENU_STATE.ACTIVE;
       isActive.value = true;
       scaleBack();
-      if (hapticFeedback !== 'none') {
-        if (ReactNativeHaptic) {
-          runOnJS(hapticResponse)();
-        }
+      if (hapticFeedback !== 'None') {
+        runOnJS(hapticResponse)();
       }
     }
 
