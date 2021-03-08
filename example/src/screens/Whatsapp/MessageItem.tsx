@@ -49,7 +49,7 @@ const MessageItemComp = ({
       ]}
     >
       <HoldItem
-        methodParams={methodProps}
+        actionParams={methodProps}
         items={message.fromMe ? senderMenu : receiverMenu}
         // eslint-disable-next-line react-native/no-inline-styles
         containerStyles={{

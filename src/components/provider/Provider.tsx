@@ -34,7 +34,7 @@ const ProviderComponent = ({
     anchorPosition: 'top-center',
     menuHeight: 0,
     transformValue: 0,
-    methodParams: {},
+    actionParams: {},
   });
 
   useEffect(() => {

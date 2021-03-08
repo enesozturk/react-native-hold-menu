@@ -22,7 +22,7 @@ export type MenuInternalProps = {
   anchorPosition: TransformOriginAnchorPosition;
   menuHeight: number;
   transformValue: number;
-  methodParams: {
+  actionParams: {
     [name: string]: (string | number)[];
   };
 };

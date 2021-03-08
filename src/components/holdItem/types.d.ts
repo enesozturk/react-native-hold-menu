@@ -22,14 +22,14 @@ export type HoldItemProps = {
    * ...
    * <HoldItem
    *    items={items}
-   *    methodParams={{
+   *    actionParams={{
    *      Reply: ['dd443224-7f43'],
    *      Copy: ['Hello World!']
    *    }}
    * ><View/></HoldItem>
    * ```
    */
-  methodParams?: {
+  actionParams?: {
     [name: string]: (string | number)[];
   };
 
