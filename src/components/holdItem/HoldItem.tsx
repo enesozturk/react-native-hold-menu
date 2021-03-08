@@ -10,6 +10,7 @@ import {
 } from 'react-native-gesture-handler';
 import Animated, {
   measure,
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedProps,
   useAnimatedRef,
@@ -21,6 +22,12 @@ import Animated, {
   withSpring,
   useAnimatedReaction,
 } from 'react-native-reanimated';
+
+// Optional Haptic Feedback
+let ReactNativeHaptic: any;
+try {
+  ReactNativeHaptic = require('react-native-haptic-feedback').default;
+} catch (error) {}
 
 // Utils
 import {
@@ -55,6 +62,7 @@ const HoldItemComponent = ({
   disableMove,
   menuAnchorPosition,
   activateOn,
+  hapticFeedback,
   methodParams,
   children,
 }: HoldItemProps) => {
@@ -155,6 +163,16 @@ const HoldItemComponent = ({
     });
   };
 
+  const hapticResponse = () => {
+    const haptic =
+      !hapticFeedback || hapticFeedback === 'enabled'
+        ? 'impactMedium'
+        : hapticFeedback;
+    ReactNativeHaptic.trigger(haptic, {
+      enableVibrateFallback: true,
+    });
+  };
+
   const onCompletion = (isFinised: boolean) => {
     'worklet';
     const isListValid = items && items.length > 0;
@@ -162,6 +180,11 @@ const HoldItemComponent = ({
       state.value = CONTEXT_MENU_STATE.ACTIVE;
       isActive.value = true;
       scaleBack();
+      if (hapticFeedback !== 'none') {
+        if (ReactNativeHaptic) {
+          runOnJS(hapticResponse)();
+        }
+      }
     }
 
     isAnimationStarted.value = false;

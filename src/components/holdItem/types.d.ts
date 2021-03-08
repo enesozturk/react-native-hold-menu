@@ -89,6 +89,24 @@ export type HoldItemProps = {
    * activateOn="hold"
    */
   activateOn?: 'tap' | 'double-tap' | 'hold';
+
+  /**
+   * Set if you'd like to enable haptic feedback on activation
+   * @type string
+   * @default 'impactMedium'
+   * @examples
+   * hapticFeedback="none"
+   */
+  hapticFeedback?:
+    | 'enabled'
+    | 'none'
+    | 'selection'
+    | 'impactLight'
+    | 'impactMedium'
+    | 'impactHeavy'
+    | 'notificationSuccess'
+    | 'notificationWarning'
+    | 'notificationError';
 };
 
 export type GestureHandlerProps = {
