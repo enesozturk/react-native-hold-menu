@@ -108,7 +108,7 @@ export type HoldItemProps = {
     | 'Error';
 
   /**
-   * Set true if you want to close menu while tap to HoldItem
+   * Set true if you want to close menu when tap to HoldItem
    * @type boolean
    * @default false
    * @examples
