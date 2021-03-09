@@ -30,6 +30,7 @@ If applicable, add screenshots to help explain your problem.
  - React:
  - React Native:
  - React Native Reanimated:
+ - React Native Hold Menu:
  - Expo: 
 
 **Additional context**
