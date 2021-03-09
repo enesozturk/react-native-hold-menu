@@ -54,7 +54,7 @@ export type HoldItemProps = {
   disableMove?: boolean;
 
   /**
-   * Hold item wrapper component styles.
+   * HoldItem wrapper component styles.
    * You may need for some examples like dynamic width or hight like message boxes.
    * See Whatsapp example.
    * @type ViewStyles
@@ -106,6 +106,15 @@ export type HoldItemProps = {
     | 'Success'
     | 'Warning'
     | 'Error';
+
+  /**
+   * Set true if you want to close menu while tap to HoldItem
+   * @type boolean
+   * @default false
+   * @examples
+   * closeOnTap={true}
+   */
+  closeOnTap?: boolean;
 };
 
 export type GestureHandlerProps = {

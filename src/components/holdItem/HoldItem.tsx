@@ -60,6 +60,7 @@ const HoldItemComponent = ({
   activateOn,
   hapticFeedback,
   actionParams,
+  closeOnTap,
   children,
 }: HoldItemProps) => {
   const { state, menuProps } = useInternal();
@@ -371,6 +372,26 @@ const HoldItemComponent = ({
     }
   }, [activateOn, gestureEvent]);
 
+  const overlayGestureEvent = useAnimatedGestureHandler<
+    TapGestureHandlerGestureEvent,
+    Context
+  >({
+    onActive: _ => {
+      if (closeOnTap) state.value = CONTEXT_MENU_STATE.END;
+    },
+  });
+
+  const PortalOverlay = useMemo(() => {
+    return () => (
+      <TapGestureHandler
+        numberOfTaps={1}
+        onHandlerStateChange={overlayGestureEvent}
+      >
+        <Animated.View style={styles.portalOverlay} />
+      </TapGestureHandler>
+    );
+  }, [overlayGestureEvent]);
+
   return (
     <>
       <GestureHandler>
@@ -385,6 +406,7 @@ const HoldItemComponent = ({
           style={portalContainerStyle}
           animatedProps={animatedPortalProps}
         >
+          <PortalOverlay />
           {children}
         </Animated.View>
       </Portal>
