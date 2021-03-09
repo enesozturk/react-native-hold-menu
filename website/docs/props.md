@@ -34,7 +34,7 @@ Check out the other examples [here](examples).
 
 ### `actionParams`
 
-Object of keys that same name with items to match parameters to onPress actions. If you want to pass different parameters for hold item to menu item `onPress` handlers ([check WhatsApp example](https://github.com/enesozturk/react-native-hold-menu/blob/main/example/src/screens/Whatsapp/MessageItem.tsx)), you need to use this prop to set params per HoldItem.
+Object of keys that same name with items to match parameters to onPress actions. If you want to pass different parameters for HoldItem to menu item `onPress` handlers ([check WhatsApp example](https://github.com/enesozturk/react-native-hold-menu/blob/main/example/src/screens/Whatsapp/MessageItem.tsx)), you need to use this prop to set params per HoldItem.
 
 > The reason provide action params with another prop is make it able to pass with shared value without performance issues.
 
@@ -123,11 +123,11 @@ You may need disable move of holded item for your example. Set it true.
 
 ### `styles`
 
-Hold item container styles. You may need **dynamic width or hight** for some examples like message boxes. See Whatsapp example.
+`HoldItem` container styles. You may need **dynamic width or hight** for some examples like message boxes. See Whatsapp example.
 
-| type                      | default | required |
-| ------------------------- | ------- | -------- |
-| ViewStyle \| ViewStyle[]; | {}      | NO       |
+| type                     | default | required |
+| ------------------------ | ------- | -------- |
+| ViewStyle \| ViewStyle[] | {}      | NO       |
 
 #### Example
 
@@ -139,4 +139,18 @@ Hold item container styles. You may need **dynamic width or hight** for some exa
     maxWidth: '80%',
   }}
 />
+```
+
+### `closeOnTap`
+
+Set true if you want to close menu when tap to HoldItem
+
+| type    | default | required |
+| ------- | ------- | -------- |
+| boolean | false   | NO       |
+
+#### Example
+
+```tsx
+<HoldItem closeOnTap />
 ```
