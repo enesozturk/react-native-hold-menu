@@ -3,7 +3,7 @@ import { TransformOriginAnchorPosition } from '../../utils/calculations';
 export type MenuItemProps = {
   text: string;
   icon?: () => React.ReactNode;
-  onPress: () => void;
+  onPress?: () => void;
   isTitle?: boolean;
   isDestructive?: boolean;
   withSeperator?: boolean;
