@@ -42,26 +42,26 @@ const MenuListComponent = () => {
   const [itemList, setItemList] = React.useState<MenuItemProps[]>([]);
 
   const menuHeight = useDerivedValue(() => {
-    const itemsWithSeperator = menuProps.value.items.filter(
-      item => item.withSeperator
+    const itemsWithSeparator = menuProps.value.items.filter(
+      item => item.withSeperator || item.withSeparator
     );
     return calculateMenuHeight(
       menuProps.value.items.length,
-      itemsWithSeperator.length
+      itemsWithSeparator.length
     );
   }, [menuProps]);
   const prevList = useSharedValue<MenuItemProps[]>([]);
 
   const messageStyles = useAnimatedStyle(() => {
-    const itemsWithSeperator = menuProps.value.items.filter(
-      item => item.withSeperator
+    const itemsWithSeparator = menuProps.value.items.filter(
+      item => item.withSeperator || item.withSeparator
     );
 
     const translate = menuAnimationAnchor(
       menuProps.value.anchorPosition,
       menuProps.value.itemWidth,
       menuProps.value.items.length,
-      itemsWithSeperator.length
+      itemsWithSeparator.length
     );
 
     const _leftOrRight = leftOrRight(menuProps);
@@ -83,8 +83,8 @@ const MenuListComponent = () => {
       height: menuHeight.value,
       opacity: opacityAnimation(),
       transform: [
-        { translateX: translate.begginingTransformations.translateX },
-        { translateY: translate.begginingTransformations.translateY },
+        { translateX: translate.beginningTransformations.translateX },
+        { translateY: translate.beginningTransformations.translateY },
         {
           scale: menuScaleAnimation(),
         },

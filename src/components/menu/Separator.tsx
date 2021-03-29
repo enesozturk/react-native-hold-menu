@@ -4,11 +4,11 @@ import { View } from 'react-native';
 
 import { BORDER_LIGHT_COLOR, BORDER_DARK_COLOR } from './constants';
 
-type SeperatorProps = {
+type SeparatorProps = {
   theme: 'light' | 'dark';
 };
 
-const Seperator = ({ theme }: SeperatorProps) => {
+const Separator = ({ theme }: SeparatorProps) => {
   const styles = useMemo(() => {
     return {
       width: '100%',
@@ -21,4 +21,4 @@ const Seperator = ({ theme }: SeperatorProps) => {
   return <View style={styles} />;
 };
 
-export default memo(Seperator, isEqual);
+export default memo(Separator, isEqual);
