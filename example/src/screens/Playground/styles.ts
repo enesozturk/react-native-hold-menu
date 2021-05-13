@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   item: {
     width: WINDOW_WIDTH / 5,
-    height: 70,
+    height: WINDOW_WIDTH / 5,
     paddingVertical: StyleGuide.spacing,
     borderRadius: StyleGuide.spacing * 1.5,
     display: 'flex',
