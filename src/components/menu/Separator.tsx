@@ -1,24 +1,28 @@
-import isEqual from 'lodash.isequal';
-import React, { memo, useMemo } from 'react';
-import { View } from 'react-native';
+import React, { memo } from 'react';
+import { StyleSheet } from 'react-native';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import { useInternal } from '../../hooks';
 
 import { BORDER_LIGHT_COLOR, BORDER_DARK_COLOR } from './constants';
 
-type SeparatorProps = {
-  theme: 'light' | 'dark';
-};
+const Seperator = () => {
+  const { theme } = useInternal();
 
-const Separator = ({ theme }: SeparatorProps) => {
-  const styles = useMemo(() => {
+  const seperatorStyles = useAnimatedStyle(() => {
     return {
-      width: '100%',
-      height: 8,
       backgroundColor:
-        theme === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR,
+        theme.value === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR,
     };
   }, [theme]);
 
-  return <View style={styles} />;
+  return <Animated.View style={[styles.seperator, { ...seperatorStyles }]} />;
 };
 
-export default memo(Separator, isEqual);
+export default memo(Seperator);
+
+const styles = StyleSheet.create({
+  seperator: {
+    width: '100%',
+    height: 8,
+  },
+});

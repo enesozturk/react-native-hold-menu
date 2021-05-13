@@ -5,13 +5,7 @@ import MenuItem from './MenuItem';
 import isEqual from 'lodash.isequal';
 import { MenuItemProps } from './types';
 
-const MenuItemsComponent = ({
-  items,
-  theme,
-}: {
-  items: MenuItemProps[];
-  theme: 'light' | 'dark';
-}) => {
+const MenuItemsComponent = ({ items }: { items: MenuItemProps[] }) => {
   return (
     <>
       {items.map((item: MenuItemProps, index: number) => {
@@ -20,7 +14,6 @@ const MenuItemsComponent = ({
             key={index}
             item={item}
             isLast={items.length === index + 1}
-            theme={theme}
           />
         );
       })}
