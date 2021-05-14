@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useMemo } from 'react';
 import { PortalProvider } from '@gorhom/portal';
-import { useSharedValue } from 'react-native-reanimated';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 import { InternalContext } from '../../context/internal';
 
 // Components
@@ -17,10 +17,15 @@ export interface Store {
   dispatch?: React.Dispatch<Action>;
 }
 
+export let AnimatedIcon: any;
+
 const ProviderComponent = ({
   children,
   theme: selectedTheme,
+  iconComponent,
 }: HoldMenuProviderProps) => {
+  AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
+
   const state = useSharedValue<CONTEXT_MENU_STATE>(
     CONTEXT_MENU_STATE.UNDETERMINED
   );
