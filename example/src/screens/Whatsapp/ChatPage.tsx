@@ -8,8 +8,6 @@ import { mockWhatsAppData } from '../../utilities/data';
 import { useAppContext } from '../../hooks/useAppContext';
 import { HoldMenuFlatList } from 'react-native-hold-menu';
 
-import Icon from 'react-native-vector-icons/Feather';
-
 const ChatPage = () => {
   const { theme } = useAppContext();
   const data = useMemo(() => mockWhatsAppData(1000), []);
@@ -26,138 +24,66 @@ const ChatPage = () => {
     Alert.alert(`[ACTION]: REPLY' ${messageId} - ${messageText}`);
   }, []);
 
-  const myMenu = useMemo(
-    () => [
-      {
-        text: 'Reply',
-        icon: () => (
-          <Icon
-            name="corner-down-left"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: replyMessage,
-      },
-      {
-        text: 'Copy',
-        icon: () => (
-          <Icon
-            name="copy"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: copyMessage,
-      },
-      {
-        text: 'Edit',
-        icon: () => (
-          <Icon
-            name="edit"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: editMessage,
-      },
-      {
-        text: 'Pin',
-        icon: () => (
-          <Icon
-            name="map-pin"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: () => {},
-      },
-      {
-        text: 'Forward',
-        icon: () => (
-          <Icon
-            name="corner-up-right"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: () => {},
-      },
-      {
-        text: 'Delete',
-        icon: () => (
-          <Icon
-            name="trash-2"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: () => {},
-      },
-    ],
-    [theme, replyMessage, copyMessage, editMessage]
-  );
+  const myMenu = [
+    {
+      text: 'Reply1',
+      icon: 'corner-down-left',
+      onPresss: replyMessage,
+    },
+    {
+      text: 'Copy1',
+      icon: 'copy',
+      onPress: copyMessage,
+    },
+    {
+      text: 'Edit1',
+      icon: 'home',
+      onPress: editMessage,
+    },
+    {
+      text: 'Pin1',
+      icon: 'map-pin',
+      onPress: () => {},
+    },
+    {
+      text: 'Forward1',
+      icon: 'corner-up-right',
+      onPress: () => {},
+    },
+    {
+      text: 'Delete1',
+      icon: 'trash-2',
+      onPress: () => {},
+    },
+  ];
 
-  const otherMenu = useMemo(
-    () => [
-      {
-        text: 'Reply',
-        icon: () => (
-          <Icon
-            name="corner-down-left"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: replyMessage,
-      },
-      {
-        text: 'Copy',
-        icon: () => (
-          <Icon
-            name="copy"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: copyMessage,
-      },
-      {
-        text: 'Pin',
-        icon: () => (
-          <Icon
-            name="map-pin"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: () => {},
-      },
-      {
-        text: 'Forward',
-        icon: () => (
-          <Icon
-            name="corner-up-right"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: () => {},
-      },
-      {
-        text: 'Delete',
-        icon: () => (
-          <Icon
-            name="trash-2"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: () => {},
-      },
-    ],
-    [theme, replyMessage, copyMessage]
-  );
+  const otherMenu = [
+    {
+      text: 'Reply',
+      icon: 'corner-down-left',
+      onPress: () => {},
+    },
+    {
+      text: 'Copy',
+      icon: 'copy',
+      onPress: copyMessage,
+    },
+    {
+      text: 'Pin',
+      icon: 'map-pin',
+      onPress: () => {},
+    },
+    {
+      text: 'Forward',
+      icon: 'corner-up-right',
+      onPress: () => {},
+    },
+    {
+      text: 'Delete',
+      icon: 'trash-2',
+      onPress: () => {},
+    },
+  ];
 
   const renderMessage = useCallback(
     ({ item }) => (

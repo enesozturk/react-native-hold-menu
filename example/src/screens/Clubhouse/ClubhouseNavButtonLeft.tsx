@@ -1,13 +1,13 @@
 import React, { memo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Pressable } from 'react-native';
 
 import Icons from 'react-native-vector-icons/Feather';
 
 import { HoldItem } from 'react-native-hold-menu';
 
-const ClubhouseNavButtonLeft = () => {
+const ClubhouseNavButtonLeft = ({ goBack }: { goBack: () => void }) => {
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={goBack}>
       <HoldItem
         items={[
           { text: '@enesozt', onPress: () => {} },
@@ -16,7 +16,7 @@ const ClubhouseNavButtonLeft = () => {
       >
         <Icons name="chevron-left" size={32} style={styles.icon} />
       </HoldItem>
-    </View>
+    </Pressable>
   );
 };
 

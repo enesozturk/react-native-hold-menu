@@ -1,22 +1,13 @@
 import React, { memo, useMemo } from 'react';
 import { View } from 'react-native';
 
-import { HoldItem, HoldMenuIcon } from 'react-native-hold-menu';
+import { HoldItem } from 'react-native-hold-menu';
 
 import styles from './styles';
 import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 
 interface PlaygroundProps {}
-
-type IconProps = {
-  name: string;
-};
-
-const Icon = ({ name }: IconProps) => {
-  return <HoldMenuIcon name={name} iconComponent={FeatherIcon} />;
-};
 
 const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
@@ -28,14 +19,14 @@ const Playground = ({}: PlaygroundProps) => {
     },
     {
       text: 'Home',
-      icon: () => <Icon name="home" />,
+      icon: 'home',
       onPress: () => {
         console.log('[ACTION]: Home');
       },
     },
     {
       text: 'Edit',
-      icon: () => <Icon name="edit" />,
+      icon: 'edit',
       onPress: () => {
         console.log('[ACTION]: Edit');
       },
@@ -45,14 +36,14 @@ const Playground = ({}: PlaygroundProps) => {
       onPress: () => {
         console.log('[ACTION]: Download');
       },
-      icon: () => <Icon name="download" />,
+      icon: 'download',
     },
     {
       text: 'Delete',
       onPress: () => {
         console.log('[ACTION]: Delete');
       },
-      icon: () => <Icon name="trash" />,
+      icon: 'trash',
       withSeperator: true,
       isDestructive: true,
     },
@@ -61,14 +52,14 @@ const Playground = ({}: PlaygroundProps) => {
       onPress: () => {
         console.log('[ACTION]: Share');
       },
-      icon: () => <Icon name="share" />,
+      icon: 'share',
     },
     {
       text: 'More',
       onPress: () => {
         console.log('[ACTION]: More');
       },
-      icon: () => <Icon name="more-horizontal" />,
+      icon: 'more-horizontal',
     },
   ];
 
