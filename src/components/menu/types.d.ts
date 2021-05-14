@@ -6,10 +6,6 @@ export type MenuItemProps = {
   onPress: () => void;
   isTitle?: boolean;
   isDestructive?: boolean;
-  /**
-   * @deprecated typo here for compatibility
-   */
-  withSeperator?: boolean;
   withSeparator?: boolean;
 };
 

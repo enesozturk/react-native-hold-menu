@@ -72,9 +72,7 @@ const HoldItemComponent = ({
   const key = useMemo(() => `hold-item-${nanoid()}`, []);
 
   const menuHeight = useMemo(() => {
-    const itemsWithSeparator = items.filter(
-      item => item.withSeparator || item.withSeperator
-    );
+    const itemsWithSeparator = items.filter(item => item.withSeparator);
     return calculateMenuHeight(items.length, itemsWithSeparator.length);
   }, [items]);
 

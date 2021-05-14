@@ -80,9 +80,7 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
         </Text>
         {!item.isTitle && item.icon && item.icon()}
       </AnimatedTouchable>
-      {(item.withSeparator || item.withSeperator) && (
-        <Separator theme={theme} />
-      )}
+      {item.withSeparator && <Separator theme={theme} />}
     </>
   );
 };

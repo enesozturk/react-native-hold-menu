@@ -43,7 +43,7 @@ const MenuListComponent = () => {
 
   const menuHeight = useDerivedValue(() => {
     const itemsWithSeparator = menuProps.value.items.filter(
-      item => item.withSeperator || item.withSeparator
+      item => item.withSeparator
     );
     return calculateMenuHeight(
       menuProps.value.items.length,
@@ -54,7 +54,7 @@ const MenuListComponent = () => {
 
   const messageStyles = useAnimatedStyle(() => {
     const itemsWithSeparator = menuProps.value.items.filter(
-      item => item.withSeperator || item.withSeparator
+      item => item.withSeparator
     );
 
     const translate = menuAnimationAnchor(
