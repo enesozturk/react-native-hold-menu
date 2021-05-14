@@ -19,6 +19,7 @@ import {
   MENU_TEXT_LIGHT_COLOR,
 } from './constants';
 import isEqual from 'lodash.isequal';
+import { AnimatedIcon } from '../provider/Provider';
 
 const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity;
 const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent);
@@ -64,6 +65,10 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, item]);
 
+  const iconStyle = useAnimatedStyle(() => {
+    return { color: theme.value === 'light' ? 'black' : 'white' };
+  }, [theme]);
+
   return (
     <>
       <AnimatedTouchable
@@ -79,7 +84,9 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
         >
           {item.text}
         </Animated.Text>
-        {!item.isTitle && item.icon && item.icon()}
+        {!item.isTitle && item.icon && (
+          <AnimatedIcon name={item.icon} size={18} style={iconStyle} />
+        )}
       </AnimatedTouchable>
       {item.withSeperator && <Seperator />}
     </>
