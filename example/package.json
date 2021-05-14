@@ -22,10 +22,10 @@
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-gesture-handler": "1.8.0",
-    "react-native-reanimated": "2.0.0-rc.0",
+    "react-native-reanimated": "2.1.0",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.17.1",
-    "react-native-unimodules": "^0.12.0",
+    "react-native-unimodules": "^0.13.3",
     "react-native-vector-icons": "^8.0.0"
   },
   "devDependencies": {
