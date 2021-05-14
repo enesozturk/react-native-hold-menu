@@ -6,8 +6,6 @@ import { ContactsScreen, ChatScreen, SettingsScreen } from './Pages';
 import StyleGuide from '../../utilities/styleGuide';
 import { useAppContext } from '../../hooks/useAppContext';
 
-import Icon from 'react-native-vector-icons/Feather';
-
 const Tab = createBottomTabNavigator();
 
 interface TelegramProps {}
@@ -19,51 +17,33 @@ const Telegram = ({}: TelegramProps) => {
     () => [
       {
         text: 'Add Account',
-        icon: () => (
-          <Icon
-            name="plus"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
+        icon: 'plus',
         onPress: () => {
           console.log('[ACTION]: Add Account');
         },
       },
       {
         text: 'Enes Ozturk',
-        icon: () => (
-          <Icon
-            name="user"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
+        icon: 'user',
         onPress: () => {
           console.log('[ACTION]: Profile');
         },
       },
     ],
-    [theme]
+    []
   );
 
   const chatMenu = useMemo(
     () => [
       {
         text: 'Add Folder',
-        icon: () => (
-          <Icon
-            name="plus"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
+        icon: 'plus',
         onPress: () => {
           console.log('[ACTION]: Add Folder');
         },
       },
     ],
-    [theme]
+    []
   );
 
   const themeStyles = useMemo(() => {
