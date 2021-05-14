@@ -69,7 +69,7 @@
     "react-native": "~0.63.4",
     "react-native-builder-bob": "^0.17.1",
     "react-native-gesture-handler": "1.8.0",
-    "react-native-reanimated": "^2.0.0-rc.3",
+    "react-native-reanimated": "2.1.0",
     "react-test-renderer": "~16.13.1",
     "release-it": "^14.4.1",
     "typescript": "~4.0.0"
@@ -78,7 +78,7 @@
     "react": "*",
     "react-native": "*",
     "react-native-gesture-handler": ">=1.8.0",
-    "react-native-reanimated": ">=2.0.0-rc.1"
+    "react-native-reanimated": ">=2.1.0"
   },
   "@react-native-community/bob": {
     "source": "src",
