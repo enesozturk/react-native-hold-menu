@@ -1,9 +1,9 @@
-import React, { useMemo, useCallback } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import React, { useCallback } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
-import Seperator from './Seperator';
+import Separator from './Separator';
 import styles from './styles';
 
 import { MenuItemProps } from './types';
@@ -19,6 +19,7 @@ import {
   MENU_TEXT_LIGHT_COLOR,
 } from './constants';
 import isEqual from 'lodash.isequal';
+import { AnimatedIcon } from '../provider/Provider';
 
 const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity;
 const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent);
@@ -26,15 +27,14 @@ const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent);
 type MenuItemComponentProps = {
   item: MenuItemProps;
   isLast?: boolean;
-  theme: 'light' | 'dark';
 };
 
-const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
-  const { state } = useInternal();
+const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
+  const { state, theme, menuProps } = useInternal();
 
   const borderStyles = useAnimatedStyle(() => {
     const borderBottomColor =
-      theme === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR;
+      theme.value === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR;
 
     return {
       borderBottomColor,
@@ -42,15 +42,15 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
     };
   }, [theme, isLast]);
 
-  const textColor = useMemo(() => {
+  const textColor = useAnimatedStyle(() => {
     return {
       color: item.isTitle
         ? MENU_TITLE_COLOR
         : item.isDestructive
-        ? theme === 'dark'
+        ? theme.value === 'dark'
           ? MENU_TEXT_DESTRUCTIVE_COLOR_DARK
           : MENU_TEXT_DESTRUCTIVE_COLOR_LIGHT
-        : theme === 'dark'
+        : theme.value === 'dark'
         ? MENU_TEXT_DARK_COLOR
         : MENU_TEXT_LIGHT_COLOR,
     };
@@ -58,10 +58,16 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
 
   const handleOnPress = useCallback(() => {
     if (!item.isTitle) {
-      if (item.onPress) item.onPress();
+      const params = menuProps.value.actionParams[item.text] || [];
+      if (item.onPress) item.onPress(...params);
       state.value = CONTEXT_MENU_STATE.END;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, item]);
+
+  const iconStyle = useAnimatedStyle(() => {
+    return { color: theme.value === 'light' ? 'black' : 'white' };
+  }, [theme]);
 
   return (
     <>
@@ -70,17 +76,19 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
         activeOpacity={!item.isTitle ? 0.4 : 1}
         style={[styles.menuItem, borderStyles]}
       >
-        <Text
+        <Animated.Text
           style={[
             item.isTitle ? styles.menuItemTitleText : styles.menuItemText,
             textColor,
           ]}
         >
           {item.text}
-        </Text>
-        {!item.isTitle && item.icon && item.icon()}
+        </Animated.Text>
+        {!item.isTitle && item.icon && (
+          <AnimatedIcon name={item.icon} size={18} style={iconStyle} />
+        )}
       </AnimatedTouchable>
-      {item.withSeperator && <Seperator theme={theme} />}
+      {item.withSeparator && <Separator />}
     </>
   );
 };

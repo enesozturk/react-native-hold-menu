@@ -1,6 +1,6 @@
 {
   "name": "react-native-hold-menu",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "A performant, easy to use hold to open context menu for React Native powered by Reanimated.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -42,6 +42,7 @@
   "dependencies": {
     "@gorhom/portal": "^1.0.3",
     "expo-blur": "^9.0.0",
+    "expo-haptics": "^9.0.0",
     "lodash.isequal": "^4.5.0",
     "nanoid": "^3.1.20"
   },
@@ -68,7 +69,7 @@
     "react-native": "~0.63.4",
     "react-native-builder-bob": "^0.17.1",
     "react-native-gesture-handler": "1.8.0",
-    "react-native-reanimated": "^2.0.0-rc.3",
+    "react-native-reanimated": "2.1.0",
     "react-test-renderer": "~16.13.1",
     "release-it": "^14.4.1",
     "typescript": "~4.0.0"
@@ -77,7 +78,7 @@
     "react": "*",
     "react-native": "*",
     "react-native-gesture-handler": ">=1.8.0",
-    "react-native-reanimated": ">=2.0.0-rc.1"
+    "react-native-reanimated": ">=2.1.0"
   },
   "@react-native-community/bob": {
     "source": "src",

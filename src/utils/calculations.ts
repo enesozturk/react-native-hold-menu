@@ -15,13 +15,13 @@ export const MenuItemHeight = () => {
 
 export const calculateMenuHeight = (
   itemLength: number,
-  seperatorCount: number
+  separatorCount: number
 ) => {
   'worklet';
   return (
     MenuItemHeight() * itemLength +
     (itemLength - 1) +
-    seperatorCount * styleGuide.spacing
+    separatorCount * styleGuide.spacing
   );
 };
 
@@ -37,10 +37,10 @@ export const menuAnimationAnchor = (
   anchorPoint: TransformOriginAnchorPosition,
   itemWidth: number,
   itemLength: number,
-  itemsWithSeperatorLength: number
+  itemsWithSeparatorLength: number
 ) => {
   'worklet';
-  const MenuHeight = calculateMenuHeight(itemLength, itemsWithSeperatorLength);
+  const MenuHeight = calculateMenuHeight(itemLength, itemsWithSeparatorLength);
   const splittetAnchorName: string[] = anchorPoint.split('-');
 
   const Center1 = itemWidth;
@@ -53,7 +53,7 @@ export const menuAnimationAnchor = (
   const TxLeft2 = (MENU_WIDTH / 2) * 1;
 
   return {
-    begginingTransformations: {
+    beginningTransformations: {
       translateX:
         splittetAnchorName[1] === 'right'
           ? -TxLeft1

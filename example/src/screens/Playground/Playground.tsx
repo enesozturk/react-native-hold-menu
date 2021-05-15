@@ -6,104 +6,62 @@ import { HoldItem } from 'react-native-hold-menu';
 import styles from './styles';
 import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
-import Icon from 'react-native-vector-icons/Feather';
 
 interface PlaygroundProps {}
 
 const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
 
-  // [TODO]: MenuItem does not render icon
-  const items = useMemo(
-    () => [
-      {
-        isTitle: true,
-        text: 'Actions',
-        onPress: () => {},
+  const items = [
+    {
+      isTitle: true,
+      text: 'Actions',
+    },
+    {
+      text: 'Home',
+      icon: 'home',
+      onPress: () => {
+        console.log('[ACTION]: Home');
       },
-      {
-        text: 'Home',
-        icon: () => (
-          <Icon
-            name="home"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: () => {
-          console.log('[ACTION]: Home');
-        },
+    },
+    {
+      text: 'Edit',
+      icon: 'edit',
+      onPress: () => {
+        console.log('[ACTION]: Edit');
       },
-      {
-        text: 'Edit',
-        icon: () => (
-          <Icon
-            name="edit"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-        onPress: () => {
-          console.log('[ACTION]: Edit');
-        },
+    },
+    {
+      text: 'Download',
+      onPress: () => {
+        console.log('[ACTION]: Download');
       },
-      {
-        text: 'Download',
-        onPress: () => {
-          console.log('[ACTION]: Download');
-        },
-        icon: () => (
-          <Icon
-            name="download"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
+      icon: 'download',
+    },
+    {
+      text: 'Delete',
+      onPress: () => {
+        console.log('[ACTION]: Delete');
       },
-      {
-        text: 'Delete',
-        onPress: () => {
-          console.log('[ACTION]: Delete');
-        },
-        icon: () => (
-          <Icon
-            name="trash"
-            size={18}
-            color={theme == 'dark' ? 'rgb(255, 59,48)' : 'rgb(255, 69,58)'}
-          />
-        ),
-        withSeperator: true,
-        isDestructive: true,
+      icon: 'trash',
+      withSeparator: true,
+      isDestructive: true,
+    },
+    {
+      text: 'Share',
+      onPress: () => {
+        console.log('[ACTION]: Share');
       },
-      {
-        text: 'Share',
-        onPress: () => {
-          console.log('[ACTION]: Share');
-        },
-        icon: () => (
-          <Icon
-            name="share"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
+      icon: 'share',
+    },
+    {
+      text: 'More',
+      onPress: () => {
+        console.log('[ACTION]: More');
       },
-      {
-        text: 'More',
-        onPress: () => {
-          console.log('[ACTION]: More');
-        },
-        icon: () => (
-          <Icon
-            name="more-horizontal"
-            size={18}
-            color={theme === 'light' ? 'black' : 'white'}
-          />
-        ),
-      },
-    ],
-    [theme]
-  );
+      icon: 'more-horizontal',
+    },
+  ];
 
   const themeStyles = useMemo(() => {
     return {
