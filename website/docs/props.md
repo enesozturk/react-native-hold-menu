@@ -17,7 +17,7 @@ Array of menu items.
 | onPress       | function | YES      |
 | isTitle       | boolean  | NO       |
 | isDestructive | boolean  | NO       |
-| withSeperator | boolean  | NO       |
+| withSeparator | boolean  | NO       |
 
 #### Example
 

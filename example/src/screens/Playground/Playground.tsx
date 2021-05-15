@@ -44,7 +44,7 @@ const Playground = ({}: PlaygroundProps) => {
         console.log('[ACTION]: Delete');
       },
       icon: 'trash',
-      withSeperator: true,
+      withSeparator: true,
       isDestructive: true,
     },
     {

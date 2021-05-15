@@ -59,7 +59,7 @@ import styles from './styles';
 const MenuItems = [
   { text: 'Actions', icon: 'home', isTitle: true, onPress: () => {} },
   { text: 'Action 1', icon: 'edit', onPress: () => {} },
-  { text: 'Action 2', icon: 'map-pin', withSeperator: true, onPress: () => {} },
+  { text: 'Action 2', icon: 'map-pin', withSeparator: true, onPress: () => {} },
   { text: 'Action 3', icon: 'trash', isDestructive: true, onPress: () => {} },
 ];
 

@@ -47,7 +47,7 @@ If you want to see full examples in your phone or simulator, you can clone [this
 
 ![list-with-title](/img/examples/list-with-title.png)
 
-### List with seperator
+### List with separator
 
 **Code**
 
@@ -65,7 +65,7 @@ If you want to see full examples in your phone or simulator, you can clone [this
 
 **Result**
 
-![list-with-seperator](/img/examples/list-with-seperator.png)
+![list-with-separator](/img/examples/list-with-separator.png)
 
 ### List with destructive button
 
