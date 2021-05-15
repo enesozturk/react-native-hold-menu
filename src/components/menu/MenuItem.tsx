@@ -88,7 +88,7 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
           <AnimatedIcon name={item.icon} size={18} style={iconStyle} />
         )}
       </AnimatedTouchable>
-      {item.withSeperator && <Seperator />}
+      {item.withSeparator && <Separator />}
     </>
   );
 };
