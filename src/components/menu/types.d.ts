@@ -6,7 +6,7 @@ export type MenuItemProps = {
   onPress?: (arg?: string | number) => void;
   isTitle?: boolean;
   isDestructive?: boolean;
-  withSeperator?: boolean;
+  withSeparator?: boolean;
 };
 
 export type MenuListProps = {

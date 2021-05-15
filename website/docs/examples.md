@@ -57,7 +57,7 @@ If you want to see full examples in your phone or simulator, you can clone [this
     { text: 'Actions', isTitle: true, onPress: () => {} },
     { text: 'Reply', onPress: () => {} },
     { text: 'Edit', onPress: () => {} },
-    { text: 'Delete', withSeperator: true, onPress: () => {} },
+    { text: 'Delete', withSeparator: true, onPress: () => {} },
     { text: 'Share', onPress: () => {} },
   ]}
 />
@@ -79,7 +79,7 @@ If you want to see full examples in your phone or simulator, you can clone [this
     { text: 'Edit', onPress: () => {} },
     {
       text: 'Delete',
-      withSeperator: true,
+      withSeparator: true,
       isDestructive: true,
       onPress: () => {},
     },
@@ -113,7 +113,7 @@ If you want to see full examples in your phone or simulator, you can clone [this
     {
       text: 'Delete',
       icon: () => <Icon name="delete" size={18} />,
-      withSeperator: true,
+      withSeparator: true,
       isDestructive: true,
       onPress: () => {},
     },
@@ -147,7 +147,7 @@ If you want to see full examples in your phone or simulator, you can clone [this
   items={[
     { text: 'Action', isTitle: true, onPress: () => {} },
     { text: 'Action 1', onPress: () => {} },
-    { text: 'Action 2', withSeperator: true, onPress: () => {} },
+    { text: 'Action 2', withSeparator: true, onPress: () => {} },
     { text: 'Action 3', isDestructive: true, onPress: () => {} },
   ]}
 />

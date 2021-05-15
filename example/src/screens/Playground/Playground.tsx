@@ -71,7 +71,7 @@ const Playground = ({}: PlaygroundProps) => {
             color={theme === 'dark' ? 'rgb(255, 59,48)' : 'rgb(255, 69,58)'}
           />
         ),
-        withSeperator: true,
+        withSeparator: true,
         isDestructive: true,
       },
       {

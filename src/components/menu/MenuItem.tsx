@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
-import Seperator from './Seperator';
+import Separator from './Separator';
 import styles from './styles';
 
 import { MenuItemProps } from './types';
@@ -82,7 +82,7 @@ const MenuItemComponent = ({ item, isLast, theme }: MenuItemComponentProps) => {
         </Text>
         {!item.isTitle && item.icon && item.icon()}
       </AnimatedTouchable>
-      {item.withSeperator && <Seperator theme={theme} />}
+      {item.withSeparator && <Separator theme={theme} />}
     </>
   );
 };

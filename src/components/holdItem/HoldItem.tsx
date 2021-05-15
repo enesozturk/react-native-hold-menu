@@ -81,8 +81,8 @@ const HoldItemComponent = ({
   const deviceOrientation = useDeviceOrientation();
   const key = useMemo(() => `hold-item-${nanoid()}`, []);
   const menuHeight = useMemo(() => {
-    const itemsWithSeperator = items.filter(item => item.withSeperator);
-    return calculateMenuHeight(items.length, itemsWithSeperator.length);
+    const itemsWithSeparator = items.filter(item => item.withSeparator);
+    return calculateMenuHeight(items.length, itemsWithSeparator.length);
   }, [items]);
 
   const isHold = !activateOn || activateOn === 'hold';

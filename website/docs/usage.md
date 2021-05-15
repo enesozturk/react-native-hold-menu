@@ -39,7 +39,7 @@ import styles from './styles';
 const MenuItems = [
   { text: 'Actions', isTitle: true, onPress: () => {} },
   { text: 'Action 1', onPress: () => {} },
-  { text: 'Action 2', withSeperator: true, onPress: () => {} },
+  { text: 'Action 2', withSeparator: true, onPress: () => {} },
   { text: 'Action 3', isDestructive: true, onPress: () => {} },
 ];
 
