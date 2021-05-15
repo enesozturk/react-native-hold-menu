@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react';
+import { ViewProps } from 'react-native';
 
-import { Portal } from '@gorhom/portal';
-import { nanoid } from 'nanoid/non-secure';
+//#region reanimated & gesture handler
 import {
   TapGestureHandler,
   LongPressGestureHandler,
@@ -22,10 +22,15 @@ import Animated, {
   withSpring,
   useAnimatedReaction,
 } from 'react-native-reanimated';
+//#endregion
 
+//#region dependencies
+import { Portal } from '@gorhom/portal';
+import { nanoid } from 'nanoid/non-secure';
 import * as Haptics from 'expo-haptics';
+//#endregion
 
-// Utils
+//#region utils & types
 import {
   TransformOriginAnchorPosition,
   getTransformOrigin,
@@ -40,14 +45,13 @@ import {
   WINDOW_WIDTH,
   CONTEXT_MENU_STATE,
 } from '../../constants';
-import { ViewProps } from 'react-native';
-import styles from './styles';
 import { useDeviceOrientation } from '../../hooks';
+import styles from './styles';
 
-// Types
 import type { HoldItemProps, GestureHandlerProps } from './types';
 import styleGuide from '../../styleGuide';
 import { useInternal } from '../../hooks';
+//#endregion
 
 type Context = { didMeasureLayout: boolean };
 
@@ -60,12 +64,17 @@ const HoldItemComponent = ({
   activateOn,
   hapticFeedback,
   actionParams,
+  closeOnTap,
   children,
 }: HoldItemProps) => {
+  //#region hooks
   const { state, menuProps } = useInternal();
+  const deviceOrientation = useDeviceOrientation();
+  //#endregion
+
+  //#region variables
   const isActive = useSharedValue(false);
   const isAnimationStarted = useSharedValue(false);
-  const containerRef = useAnimatedRef<Animated.View>();
 
   const itemRectY = useSharedValue<number>(0);
   const itemRectX = useSharedValue<number>(0);
@@ -78,7 +87,6 @@ const HoldItemComponent = ({
     menuAnchorPosition || 'top-right'
   );
 
-  const deviceOrientation = useDeviceOrientation();
   const key = useMemo(() => `hold-item-${nanoid()}`, []);
   const menuHeight = useMemo(() => {
     const itemsWithSeparator = items.filter(item => item.withSeparator);
@@ -86,7 +94,35 @@ const HoldItemComponent = ({
   }, [items]);
 
   const isHold = !activateOn || activateOn === 'hold';
+  //#endregion
 
+  //#region refs
+  const containerRef = useAnimatedRef<Animated.View>();
+  //#endregion
+
+  //#region functions
+  const hapticResponse = () => {
+    const style = !hapticFeedback ? 'Medium' : hapticFeedback;
+    switch (style) {
+      case `Selection`:
+        Haptics.selectionAsync();
+        break;
+      case `Light`:
+      case `Medium`:
+      case `Heavy`:
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle[style]);
+        break;
+      case `Success`:
+      case `Warning`:
+      case `Error`:
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType[style]);
+        break;
+      default:
+    }
+  };
+  //#endregion
+
+  //#region worklet functions
   const activateAnimation = (ctx: any) => {
     'worklet';
     if (!ctx.didMeasureLayout) {
@@ -159,26 +195,6 @@ const HoldItemComponent = ({
     });
   };
 
-  const hapticResponse = () => {
-    const style = !hapticFeedback ? 'Medium' : hapticFeedback;
-    switch (style) {
-      case `Selection`:
-        Haptics.selectionAsync();
-        break;
-      case `Light`:
-      case `Medium`:
-      case `Heavy`:
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle[style]);
-        break;
-      case `Success`:
-      case `Warning`:
-      case `Error`:
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType[style]);
-        break;
-      default:
-    }
-  };
-
   const onCompletion = (isFinised: boolean) => {
     'worklet';
     const isListValid = items && items.length > 0;
@@ -237,7 +253,9 @@ const HoldItemComponent = ({
       (willActivateWithTap && !isAnimationStarted.value) || !willActivateWithTap
     );
   };
+  //#endregion
 
+  //#region gesture events
   const gestureEvent = useAnimatedGestureHandler<
     LongPressGestureHandlerGestureEvent | TapGestureHandlerGestureEvent,
     Context
@@ -268,6 +286,17 @@ const HoldItemComponent = ({
     },
   });
 
+  const overlayGestureEvent = useAnimatedGestureHandler<
+    TapGestureHandlerGestureEvent,
+    Context
+  >({
+    onActive: _ => {
+      if (closeOnTap) state.value = CONTEXT_MENU_STATE.END;
+    },
+  });
+  //#endregion
+
+  //#region animated styles & props
   const animatedContainerStyle = useAnimatedStyle(() => {
     const animateOpacity = () =>
       withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(1, { duration: 0 }));
@@ -328,7 +357,9 @@ const HoldItemComponent = ({
   const animatedPortalProps = useAnimatedProps<ViewProps>(() => ({
     pointerEvents: isActive.value ? 'auto' : 'none',
   }));
+  //#endregion
 
+  //#region animated effects
   useAnimatedReaction(
     () => state.value,
     _state => {
@@ -337,7 +368,9 @@ const HoldItemComponent = ({
       }
     }
   );
+  //#endregion
 
+  //#region components
   const GestureHandler = useMemo(() => {
     switch (activateOn) {
       case `double-tap`:
@@ -371,6 +404,19 @@ const HoldItemComponent = ({
     }
   }, [activateOn, gestureEvent]);
 
+  const PortalOverlay = useMemo(() => {
+    return () => (
+      <TapGestureHandler
+        numberOfTaps={1}
+        onHandlerStateChange={overlayGestureEvent}
+      >
+        <Animated.View style={styles.portalOverlay} />
+      </TapGestureHandler>
+    );
+  }, [overlayGestureEvent]);
+  //#endregion
+
+  //#region render
   return (
     <>
       <GestureHandler>
@@ -385,11 +431,13 @@ const HoldItemComponent = ({
           style={portalContainerStyle}
           animatedProps={animatedPortalProps}
         >
+          <PortalOverlay />
           {children}
         </Animated.View>
       </Portal>
     </>
   );
+  //#endregion
 };
 
 const HoldItem = memo(HoldItemComponent);

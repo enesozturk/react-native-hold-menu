@@ -56,6 +56,7 @@ const MessageItemComp = ({
           position: 'relative',
           maxWidth: '80%',
         }}
+        closeOnTap
       >
         <View
           style={[
