@@ -10,22 +10,23 @@ slug: /props
 
 Array of menu items.
 
-| name          | type                          | required |
-| ------------- | ----------------------------- | -------- |
-| text          | string                        | YES      |
-| icon          | () => React.ReactNode \| null | NO       |
-| onPress       | function                      | YES      |
-| isTitle       | boolean                       | NO       |
-| isDestructive | boolean                       | NO       |
-| withSeparator | boolean                       | NO       |
+| name          | type     | required |
+| ------------- | -------- | -------- |
+| text          | string   | YES      |
+| icon          | string   | NO       |
+| onPress       | function | YES      |
+| isTitle       | boolean  | NO       |
+| isDestructive | boolean  | NO       |
+| withSeperator | boolean  | NO       |
 
 #### Example
 
 ```tsx
 <HoldItem
   items={[
-    { text: 'Action 1', icon: null, onPress: () => {} },
-    { text: 'Action 2', icon: null, onPress: () => {} },
+    { text: 'Actions', isTitle },
+    { text: 'Action 1', onPress: () => {} },
+    { text: 'Action 2', isDestructive, icon: 'trash', onPress: () => {} },
   ]}
 />
 ```
@@ -77,9 +78,9 @@ Type of behavior to activate menu action.
 
 Type of haptic feedback behavior.
 
-| type                                                                                              | default | required |
-| ------------------------------------------------------------------------------------------------- | ------- | -------- |
-| None <br/> Selection <br/> Light <br/> Medium <br/> Heavy <br/> Success <br/> Warning <br/> Error | Medium  | NO       |
+| value                                                                                                             | default  | required |
+| ----------------------------------------------------------------------------------------------------------------- | -------- | -------- |
+| "None" <br/> "Selection" <br/> "Light" <br/> "Medium" <br/> "Heavy" <br/> "Success" <br/> "Warning" <br/> "Error" | "Medium" | NO       |
 
 #### Example
 
@@ -93,9 +94,9 @@ Menu anchor position is calculated automaticly. But you can override the calcula
 Auto calculation will be `top-left`, `top-center` or `top-right`. If you want to open menu from bottom, you need to use
 `bottom-left`, `bottom-center` or `bottom-right`. Or if you want to use auto calculation for bottom, see [`bottom`](#bottom) prop.
 
-| type                                                                                               | required |
-| -------------------------------------------------------------------------------------------------- | -------- |
-| top-center <br/> top-left <br/> top-right <br/> bottom-center <br/> bottom-left <br/> bottom-right | NO       |
+| value                                                                                                          | required |
+| -------------------------------------------------------------------------------------------------------------- | -------- |
+| "top-center" <br/> "top-left" <br/> "top-right" <br/> "bottom-center" <br/> "bottom-left" <br/> "bottom-right" | NO       |
 
 #### Example
 
@@ -113,6 +114,12 @@ you should set `bottom` as true.
 | ------- | ------- | -------- |
 | boolean | false   | NO       |
 
+#### Example
+
+```tsx
+<HoldItem menuAnchorPosition="top-center" bottom />
+```
+
 ### `disableMove`
 
 You may need disable move of holded item for your example. Set it true.
@@ -120,6 +127,12 @@ You may need disable move of holded item for your example. Set it true.
 | type    | default | required |
 | ------- | ------- | -------- |
 | boolean | false   | NO       |
+
+#### Example
+
+```tsx
+<HoldItem menuAnchorPosition="top-center" disableMove />
+```
 
 ### `styles`
 
