@@ -88,7 +88,7 @@
   border: none;
   background: var(--ifm-color-emphasis-200);
   border-radius: 5px;
-  white-space: nowrap;
+  word-break: break-word;
   font-family: var(--mono-font-stack);
   font-size: 1rem;
   margin-left: 1em;

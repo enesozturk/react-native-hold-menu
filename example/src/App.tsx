@@ -26,8 +26,9 @@ import Clubhouse, {
   ClubhouseNavButtonRight,
 } from './screens/Clubhouse';
 
-// Hold Menu
+// Components
 import { HoldMenuProvider } from 'react-native-hold-menu';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 // Utils
 import { AppContext, IAppContext } from './context/internal';
@@ -69,7 +70,7 @@ const App = () => {
         <StatusBar
           barStyle={state.theme === 'light' ? 'dark-content' : 'light-content'}
         />
-        <HoldMenuProvider theme={state.theme}>
+        <HoldMenuProvider iconComponent={FeatherIcon} theme={state.theme}>
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="Home"
@@ -103,16 +104,16 @@ const App = () => {
               />
               <Stack.Screen
                 name="Clubhouse"
-                options={{
+                options={({ navigation: { goBack } }) => ({
                   headerStyle: {
                     backgroundColor: StyleGuide.palette.clubhouse.background,
                     shadowColor: StyleGuide.palette.clubhouse.background,
                     height: StyleGuide.spacing * 12,
                   },
                   headerTintColor: StyleGuide.palette.light.color,
-                  headerLeft: () => <ClubhouseNavButtonLeft />,
+                  headerLeft: () => <ClubhouseNavButtonLeft goBack={goBack} />,
                   headerRight: () => <ClubhouseNavButtonRight />,
-                }}
+                })}
                 component={Clubhouse}
               />
             </Stack.Navigator>

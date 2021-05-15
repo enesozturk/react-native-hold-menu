@@ -34,7 +34,9 @@ import { deepEqual } from '../../utils/validations';
 import { leftOrRight } from './calculations';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;
-const AnimatedView = Animated.createAnimatedComponent(MenuContainerComponent);
+const AnimatedView = Animated.createAnimatedComponent<{
+  animatedProps: Partial<{ blurType: string }>;
+}>(MenuContainerComponent);
 
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal();
@@ -140,7 +142,7 @@ const MenuListComponent = () => {
           animatedInnerContainerStyle,
         ]}
       >
-        <MenuItems items={itemList} theme={theme.value} />
+        <MenuItems items={itemList} />
       </Animated.View>
     </AnimatedView>
   );
