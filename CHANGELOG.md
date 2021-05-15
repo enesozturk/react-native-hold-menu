@@ -1,6 +1,20 @@
 # Changelog
 
-## [v0.0.8](https://github.com/enesozturk/react-native-hold-menu-dev/compare/v0.0.7...v0.0.8)
+## [v0.1.0](https://github.com/enesozturk/react-native-hold-menu-dev/compare/v0.0.8...v0.1.0)
+
+#### Features
+
+- feat: Add Tap and Double Tap Support ([fd1ad65](https://github.com/enesozturk/react-native-hold-menu-dev/commit/fd1ad653cad4f1f3a212eedda5a4d87f54077510)).
+
+#### Improvements
+
+- chore: replace react-native-haptic-feedback with expo-haptics ([5fcc0b2](https://github.com/enesozturk/react-native-hold-menu-dev/commit/5fcc0b2b144b9ea93debafe05f80a244b91d1c99)).
+
+#### Fixes
+
+- fix: disable calling animations again when they are already active ([e1848dc](https://github.com/enesozturk/react-native-hold-menu-dev/commit/e1848dca63f46c5ed50685a78471e043c9aba2c3)).
+
+## [v0.0.8](https://github.com/enesozturk/react-native-hold-menu-dev/compare/v0.0.7...v0.0.8) - 2021-03-05
 
 #### Improvements
 
