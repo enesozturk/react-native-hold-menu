@@ -11,17 +11,15 @@ export const leftOrRight = (
   const anchorPositionHorizontal = menuProps.value.anchorPosition.split('-')[1];
   const itemWidth = menuProps.value.itemWidth;
 
-  let style = {};
+  let leftPosition = 0;
   anchorPositionHorizontal === 'right'
-    ? (style = { left: -MENU_WIDTH + itemWidth })
+    ? (leftPosition = -MENU_WIDTH + itemWidth )
     : anchorPositionHorizontal === 'left'
-    ? (style = { left: 0 })
-    : (style = {
-        left:
-          -menuProps.value.itemWidth -
+    ? (leftPosition = 0 )
+    : (leftPosition = -menuProps.value.itemWidth -
           MENU_WIDTH / 2 +
-          menuProps.value.itemWidth / 2,
-      });
+          menuProps.value.itemWidth / 2
+      );
 
-  return style;
+  return leftPosition;
 };
