@@ -31,7 +31,7 @@ import styles from './styles';
 import { MenuItemProps } from './types';
 import { useInternal } from '../../hooks';
 import { deepEqual } from '../../utils/validations';
-import { leftOrRight } from './calculations';
+import { leftPosition } from './calculations';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;
 const AnimatedView = Animated.createAnimatedComponent<{
@@ -66,7 +66,7 @@ const MenuListComponent = () => {
       itemsWithSeparator.length
     );
 
-    const _leftOrRight = leftOrRight(menuProps);
+    const _leftPosition = leftPosition(menuProps);
 
     const menuScaleAnimation = () =>
       state.value === CONTEXT_MENU_STATE.ACTIVE
@@ -81,7 +81,7 @@ const MenuListComponent = () => {
       });
 
     return {
-      ..._leftOrRight,
+      left: _leftPosition,
       height: menuHeight.value,
       opacity: opacityAnimation(),
       transform: [
