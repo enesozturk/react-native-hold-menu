@@ -65,10 +65,6 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, item]);
 
-  const iconStyle = useAnimatedStyle(() => {
-    return { color: theme.value === 'light' ? 'black' : 'white' };
-  }, [theme]);
-
   return (
     <>
       <AnimatedTouchable
@@ -85,7 +81,7 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
           {item.text}
         </Animated.Text>
         {!item.isTitle && item.icon && (
-          <AnimatedIcon name={item.icon} size={18} style={iconStyle} />
+          <AnimatedIcon name={item.icon} size={18} style={textColor} />
         )}
       </AnimatedTouchable>
       {item.withSeparator && <Separator />}
