@@ -40,13 +40,15 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
   menuItemText: {
-    ...styleGuide.typography.callout,
+    fontSize: styleGuide.typography.callout.fontSize,
+    lineHeight: styleGuide.typography.callout.lineHeight,
     textAlign: 'left',
     width: '100%',
     flex: 1,
   },
   menuItemTitleText: {
-    ...styleGuide.typography.callout2,
+    fontSize: styleGuide.typography.callout2.fontSize,
+    lineHeight: styleGuide.typography.callout2.lineHeight,
     textAlign: 'center',
     width: '100%',
     flex: 1,
