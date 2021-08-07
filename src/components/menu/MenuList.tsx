@@ -66,7 +66,7 @@ const MenuListComponent = () => {
       itemsWithSeparator.length
     );
 
-    const _leftOrRight = leftOrRight(menuProps);
+    const _leftPosition = leftOrRight(menuProps);
 
     const menuScaleAnimation = () =>
       state.value === CONTEXT_MENU_STATE.ACTIVE
@@ -81,7 +81,7 @@ const MenuListComponent = () => {
       });
 
     return {
-      ..._leftOrRight,
+      left: _leftPosition,
       height: menuHeight.value,
       opacity: opacityAnimation(),
       transform: [

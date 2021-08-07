@@ -7,6 +7,6 @@ export interface HoldMenuProviderProps {
    * theme="light"
    */
   theme?: 'dark' | 'light';
-  iconComponent: any;
+  iconComponent?: any;
   children: React.ReactElement | React.ReactElement[];
 }
