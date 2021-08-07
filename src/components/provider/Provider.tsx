@@ -24,7 +24,8 @@ const ProviderComponent = ({
   theme: selectedTheme,
   iconComponent,
 }: HoldMenuProviderProps) => {
-  AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
+  if (iconComponent)
+    AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
 
   const state = useSharedValue<CONTEXT_MENU_STATE>(
     CONTEXT_MENU_STATE.UNDETERMINED
