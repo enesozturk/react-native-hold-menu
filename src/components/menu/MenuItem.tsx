@@ -9,16 +9,9 @@ import styles from './styles';
 import { MenuItemProps } from './types';
 import { useInternal } from '../../hooks';
 import { CONTEXT_MENU_STATE, IS_IOS } from '../../constants';
-import {
-  BORDER_LIGHT_COLOR,
-  BORDER_DARK_COLOR,
-  MENU_TITLE_COLOR,
-  MENU_TEXT_DESTRUCTIVE_COLOR_LIGHT,
-  MENU_TEXT_DESTRUCTIVE_COLOR_DARK,
-  MENU_TEXT_DARK_COLOR,
-  MENU_TEXT_LIGHT_COLOR,
-} from './constants';
+import { BORDER_LIGHT_COLOR, BORDER_DARK_COLOR } from './constants';
 import isEqual from 'lodash.isequal';
+import { getColor } from './calculations';
 import { AnimatedIcon } from '../provider/Provider';
 
 const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity;
@@ -40,21 +33,11 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
       borderBottomColor,
       borderBottomWidth: isLast ? 0 : 1,
     };
-  }, [theme, isLast]);
+  }, [theme, isLast, item]);
 
   const textColor = useAnimatedStyle(() => {
-    return {
-      color: item.isTitle
-        ? MENU_TITLE_COLOR
-        : item.isDestructive
-        ? theme.value === 'dark'
-          ? MENU_TEXT_DESTRUCTIVE_COLOR_DARK
-          : MENU_TEXT_DESTRUCTIVE_COLOR_LIGHT
-        : theme.value === 'dark'
-        ? MENU_TEXT_DARK_COLOR
-        : MENU_TEXT_LIGHT_COLOR,
-    };
-  }, [item, theme]);
+    return { color: getColor(item.isTitle, item.isDestructive, theme.value) };
+  }, [theme, item]);
 
   const handleOnPress = useCallback(() => {
     if (!item.isTitle) {
