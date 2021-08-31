@@ -30,7 +30,6 @@ import {
 import styles from './styles';
 import { MenuItemProps } from './types';
 import { useInternal } from '../../hooks';
-import { deepEqual } from '../../utils/validations';
 import { leftOrRight } from './calculations';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;
@@ -121,9 +120,7 @@ const MenuListComponent = () => {
   useAnimatedReaction(
     () => menuProps.value.items,
     _items => {
-      if (!deepEqual(_items, prevList.value)) {
-        runOnJS(setter)(_items);
-      }
+      runOnJS(setter)(_items);
     },
     [menuProps]
   );
