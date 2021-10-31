@@ -17,13 +17,18 @@ export interface Store {
   dispatch?: React.Dispatch<Action>;
 }
 
+import type { HoldItemProps } from '../holdItem/types';
+
 export let AnimatedIcon: any;
 
 const ProviderComponent = ({
   children,
   theme: selectedTheme,
   iconComponent,
-}: HoldMenuProviderProps) => {
+}: HoldMenuProviderProps, 
+{
+  disableBackdrop
+}: HoldItemProps) => {
   if (iconComponent)
     AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
 
@@ -61,7 +66,7 @@ const ProviderComponent = ({
     <InternalContext.Provider value={internalContextVariables}>
       <PortalProvider>
         {children}
-        <Backdrop />
+        {disableBackdrop ? <Backdrop /> : null}
         <Menu />
       </PortalProvider>
     </InternalContext.Provider>

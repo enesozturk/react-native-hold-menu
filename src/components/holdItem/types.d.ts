@@ -115,6 +115,15 @@ export type HoldItemProps = {
    * closeOnTap={true}
    */
   closeOnTap?: boolean;
+
+  /**
+   * Set true if you want to disable the blured backdrop 
+   * @type boolean
+   * @default false
+   * @examples
+   * disableBackdrop={true}
+   */
+  disableBackdrop?: boolean;
 };
 
 export type GestureHandlerProps = {
