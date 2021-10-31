@@ -9,4 +9,13 @@ export interface HoldMenuProviderProps {
   theme?: 'dark' | 'light';
   iconComponent?: any;
   children: React.ReactElement | React.ReactElement[];
+
+    /**
+   * Set true if you want to disable the blured backdrop 
+   * @type boolean
+   * @default false
+   * @examples
+   * disableBackdrop={false}
+   */
+  disableBackdrop?: boolean;
 }
