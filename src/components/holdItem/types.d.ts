@@ -115,6 +115,15 @@ export type HoldItemProps = {
    * closeOnTap={true}
    */
   closeOnTap?: boolean;
+  
+  /**
+   * Set if you'd like to have a margin from the bottom
+   * @type number
+   * @default 0
+   * @examples
+   * paddingBottom={34}
+   */
+  paddingBottom?: number;
 };
 
 export type GestureHandlerProps = {
