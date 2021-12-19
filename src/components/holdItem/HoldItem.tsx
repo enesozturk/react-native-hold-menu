@@ -66,6 +66,7 @@ const HoldItemComponent = ({
   actionParams,
   closeOnTap,
   children,
+  paddingBottom = 0,
 }: HoldItemProps) => {
   //#region hooks
   const { state, menuProps } = useInternal();
@@ -160,7 +161,8 @@ const HoldItemComponent = ({
           itemRectY.value +
           itemRectHeight.value +
           menuHeight +
-          styleGuide.spacing * 2;
+          styleGuide.spacing * 2 +
+          paddingBottom;
 
         tY = topTransform > height ? height - topTransform : 0;
       } else {
