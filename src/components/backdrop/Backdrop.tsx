@@ -106,7 +106,11 @@ const BackdropComponent = () => {
         // @ts-ignore
         intensity={100}
         tint="default"
-        style={[styles.container, animatedContainerStyle, { width:"100%", height:"100%" }]}
+        style={[
+          styles.container,
+          animatedContainerStyle,
+          { width: '100%', height: '100%' },
+        ]}
       >
         <Animated.View
           style={[

@@ -1,7 +1,10 @@
 import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 import Separator from './Separator';
 import styles from './styles';
@@ -24,6 +27,7 @@ type MenuItemComponentProps = {
 
 const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
   const { state, theme, menuProps } = useInternal();
+  const opacity = useSharedValue(1);
 
   const borderStyles = useAnimatedStyle(() => {
     const borderBottomColor =
@@ -48,12 +52,20 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, item]);
 
+  const pressInStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+    };
+  });
+
   return (
     <>
       <AnimatedTouchable
+        onPressIn={() => (opacity.value = 0.4)}
+        onPressOut={() => (opacity.value = 1)}
         onPress={handleOnPress}
         activeOpacity={!item.isTitle ? 0.4 : 1}
-        style={[styles.menuItem, borderStyles]}
+        style={[styles.menuItem, borderStyles, pressInStyle]}
       >
         <Animated.Text
           style={[
