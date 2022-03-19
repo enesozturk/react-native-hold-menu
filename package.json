@@ -37,7 +37,8 @@
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" lib/typescript",
     "release": "release-it",
     "example": "yarn --cwd example",
-    "bootstrap": "yarn install && yarn example"
+    "bootstrap": "yarn install && yarn example",
+    "version": "auto-changelog -p && git add ."
   },
   "dependencies": {
     "@gorhom/portal": "^1.0.3",
