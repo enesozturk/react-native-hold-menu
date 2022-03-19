@@ -15,6 +15,7 @@ import { getColor } from './calculations';
 import { AnimatedIcon } from '../provider/Provider';
 
 const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity;
+// @ts-ignore
 const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent);
 
 type MenuItemComponentProps = {

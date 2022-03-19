@@ -21,6 +21,7 @@ import Animated, {
   withSequence,
   withSpring,
   useAnimatedReaction,
+  AnimationCallback,
 } from 'react-native-reanimated';
 //#endregion
 
@@ -195,7 +196,7 @@ const HoldItemComponent = ({
     });
   };
 
-  const onCompletion = (isFinised: boolean) => {
+  const onCompletion: AnimationCallback = (isFinised?: boolean) => {
     'worklet';
     const isListValid = items && items.length > 0;
     if (isFinised && isListValid) {
