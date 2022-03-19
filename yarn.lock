@@ -4152,16 +4152,6 @@ expect@^25.5.0:
     jest-message-util "^25.5.0"
     jest-regex-util "^25.2.6"
 
-expo-blur@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-9.0.0.tgz#6447a65dba3f14532406d9c5227622b3e7d1abf7"
-  integrity sha512-zqZENclTYBtVAZOsnDROT5PQ9MbMxa5A36J+aU2NiV6MqLYlUh/b/FnR0JPAuY4F6jS6U7sYiAlStzIXpLd7XQ==
-
-expo-haptics@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/expo-haptics/-/expo-haptics-9.0.0.tgz#a01605634ff9b8a4dc8023f5430278be874f525b"
-  integrity sha512-jBYgclyBVuGiqFPxdYSpIE5OEpWodu1B8fsqDLVIOWjdACnKVGsaBpSF6W4Xq0wVRvoak7C4Oz7ISV08rtPMOw==
-
 extend-shallow@^1.1.2:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/extend-shallow/-/extend-shallow-1.1.4.tgz#19d6bf94dfc09d76ba711f39b872d21ff4dd9071"
