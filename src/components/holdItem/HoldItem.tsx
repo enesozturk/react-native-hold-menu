@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
 
 //#region reanimated & gesture handler
 import {
@@ -66,6 +66,7 @@ const HoldItemComponent = ({
   actionParams,
   closeOnTap,
   children,
+  attachedView,
 }: HoldItemProps) => {
   //#region hooks
   const { state, menuProps } = useInternal();
@@ -432,6 +433,15 @@ const HoldItemComponent = ({
           animatedProps={animatedPortalProps}
         >
           <PortalOverlay />
+          <View
+            style={{
+              position: 'absolute',
+              overflow: 'hidden',
+              top: -20,
+            }}
+          >
+            {attachedView}
+          </View>
           {children}
         </Animated.View>
       </Portal>

@@ -35,7 +35,7 @@ import { leftOrRight } from './calculations';
 
 const MenuContainerComponent = IS_IOS ? BlurView : View;
 const AnimatedView = Animated.createAnimatedComponent<{
-  animatedProps: Partial<{ blurType: string }>;
+  animatedProps: Partial<{ blurType: string }>; // @ts-ignore
 }>(MenuContainerComponent);
 
 const MenuListComponent = () => {

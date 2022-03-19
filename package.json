@@ -41,6 +41,8 @@
   },
   "dependencies": {
     "@gorhom/portal": "^1.0.3",
+    "expo-blur": "^11.0.0",
+    "expo-haptics": "^11.1.1",
     "lodash.isequal": "^4.5.0",
     "nanoid": "^3.1.20"
   },
