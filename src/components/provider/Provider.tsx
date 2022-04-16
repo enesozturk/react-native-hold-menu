@@ -23,6 +23,7 @@ const ProviderComponent = ({
   children,
   theme: selectedTheme,
   iconComponent,
+  paddingBottom,
 }: HoldMenuProviderProps) => {
   if (iconComponent)
     AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
@@ -53,8 +54,9 @@ const ProviderComponent = ({
       state,
       theme,
       menuProps,
+      paddingBottom: paddingBottom || 0,
     }),
-    [state, theme, menuProps]
+    [state, theme, menuProps, paddingBottom]
   );
 
   return (
