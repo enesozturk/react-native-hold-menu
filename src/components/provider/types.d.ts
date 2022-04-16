@@ -9,4 +9,13 @@ export interface HoldMenuProviderProps {
   theme?: 'dark' | 'light';
   iconComponent?: any;
   children: React.ReactElement | React.ReactElement[];
+
+  /**
+   * Set if you'd like to apply padding to bottom (safe area bottom inset in most case)
+   * @type number
+   * @default 0
+   * @examples
+   * paddingBottom={34}
+   */
+  paddingBottom?: number;
 }
