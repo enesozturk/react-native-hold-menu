@@ -10,15 +10,15 @@ function getWindowOrientation(): Orientation {
 
 function useDeviceOrientation() {
   const [deviceOrientation, setDeviceOrientation] = useState<Orientation>(
-    getWindowOrientation
+    getWindowOrientation()
   );
 
   useEffect(() => {
     function updateState() {
       setDeviceOrientation(getWindowOrientation());
     }
-    Dimensions.addEventListener('change', updateState);
-    return () => Dimensions.removeEventListener('change', updateState);
+    const changeEvent = Dimensions.addEventListener('change', updateState);
+    return () => changeEvent.remove();
   }, []);
 
   return deviceOrientation;
