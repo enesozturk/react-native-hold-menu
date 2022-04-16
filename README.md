@@ -4,6 +4,8 @@
 
 A performant, easy to use hold to open context menu for React Native powered by Reanimated. 🔥
 
+> This package is experimental and still in progress. Using it in production is not preffered yet.
+
 ---
 
 ![hold-menu-preview](./preview.gif)
