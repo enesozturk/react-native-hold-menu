@@ -4,7 +4,51 @@ title: Props
 slug: /props
 ---
 
-## Configuration
+## HoldMenuProvider
+
+### `iconComponent`
+
+If you want to use icon in your menu items, you need to set you Icon component to HoldMenuProvider to be able to use it. And than you can set just name of the icon in menu item list with `icon` prop like below.
+
+:::note
+Icon can be used with just **react-native-vector-icons** for now.
+:::
+
+```tsx
+import FeatherIcon from 'react-native-vector-icons/Feather';
+
+/* ... */
+<HoldMenuProvider iconComponent={FeatherIcon}>
+
+```
+
+### `theme`
+
+If you want to set spesific theme or change depends on your theme, use `theme` prop like below.
+
+Values:
+
+| value | default |
+| ----- | ------- |
+| light | true    |
+| dark  | false   |
+
+```tsx
+<HoldMenuProvider theme={"dark"}>
+```
+
+### `paddingBottom`
+
+Set if you'd like to apply padding to bottom. In most cases, you may want to set this for safe area provider values.
+
+#### Example
+
+```tsx
+const { bottom } = useSafeAreaProvider();
+<HoldMenuProvider paddingBottom={bottom} />;
+```
+
+## HoldItem
 
 ### `items`
 

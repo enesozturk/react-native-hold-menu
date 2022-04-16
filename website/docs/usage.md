@@ -8,9 +8,11 @@ hide_title: true
 
 ## Usage
 
-### Provider
+### HoldMenuProvider
 
 Before using Hold Menu in your application, you need to wrap your app with `HoldMenuProvider` first.
+
+See all the [HoldMenuProvider props](/react-native-hold-menu/docs/props#holdmenuprovider).
 
 ```tsx
 import React from 'react';
@@ -28,25 +30,11 @@ const App = () => {
 export default App;
 ```
 
-### Icons
-
-If you want to use icon in your menu items, you need to set you Icon component to HoldMenuProvider to be able to use it. And than you can set just name of the icon in menu item list with `icon` prop like below.
-
-:::note
-Icon can be used with just **react-native-vector-icons** for now.
-:::
-
-```tsx
-import FeatherIcon from 'react-native-vector-icons/Feather';
-
-/* ... */
-<HoldMenuProvider iconComponent={FeatherIcon} theme="light">
-
-```
-
-### Wrapper
+### HoldItem
 
 Now you can wrap your components with `HoldItem`. You need to set [items](/react-native-hold-menu/docs/props#items) prop and also see other optional props for your menu.
+
+See all the [HoldItem props](/react-native-hold-menu/docs/props#holditem).
 
 ```tsx
 import React from 'react';
