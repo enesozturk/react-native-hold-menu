@@ -69,7 +69,7 @@ const HoldItemComponent = ({
   children,
 }: HoldItemProps) => {
   //#region hooks
-  const { state, menuProps } = useInternal();
+  const { state, menuProps, paddingBottom } = useInternal();
   const deviceOrientation = useDeviceOrientation();
   //#endregion
 
@@ -161,7 +161,8 @@ const HoldItemComponent = ({
           itemRectY.value +
           itemRectHeight.value +
           menuHeight +
-          styleGuide.spacing * 2;
+          styleGuide.spacing +
+          paddingBottom;
 
         tY = topTransform > height ? height - topTransform : 0;
       } else {

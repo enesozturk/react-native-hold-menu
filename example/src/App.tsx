@@ -15,6 +15,7 @@ import { StatusBar } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Screens
 import Home, { ToggleThemeButton } from './screens/Home';
@@ -37,6 +38,7 @@ import StyleGuide from './utilities/styleGuide';
 const Stack = createStackNavigator();
 
 const App = () => {
+  const { bottom } = useSafeAreaInsets();
   const [state, setState] = useState<IAppContext>({
     theme: 'light',
     toggleTheme: () => {},
@@ -70,7 +72,11 @@ const App = () => {
         <StatusBar
           barStyle={state.theme === 'light' ? 'dark-content' : 'light-content'}
         />
-        <HoldMenuProvider iconComponent={FeatherIcon} theme={state.theme}>
+        <HoldMenuProvider
+          iconComponent={FeatherIcon}
+          theme={state.theme}
+          paddingBottom={bottom}
+        >
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="Home"
