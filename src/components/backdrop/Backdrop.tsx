@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedGestureHandler,
+  useAnimatedProps,
   useAnimatedStyle,
   withDelay,
   withTiming,
@@ -77,14 +78,19 @@ const BackdropComponent = () => {
             })
           );
 
-    const opacityValueAnimation = () =>
-      withTiming(state.value === CONTEXT_MENU_STATE.ACTIVE ? 1 : 0, {
-        duration: HOLD_ITEM_TRANSFORM_DURATION,
-      });
-
     return {
       top: topValueAnimation(),
-      opacity: opacityValueAnimation(),
+    };
+  });
+
+  const animatedContainerProps = useAnimatedProps(() => {
+    return {
+      intensity: withTiming(
+        state.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0,
+        {
+          duration: HOLD_ITEM_TRANSFORM_DURATION,
+        }
+      ),
     };
   });
 
@@ -104,7 +110,7 @@ const BackdropComponent = () => {
     >
       <AnimatedBlurView
         // @ts-ignore
-        intensity={100}
+        animatedProps={animatedContainerProps}
         tint="default"
         style={[styles.container, animatedContainerStyle]}
       >

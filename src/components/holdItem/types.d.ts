@@ -115,6 +115,17 @@ export type HoldItemProps = {
    * closeOnTap={true}
    */
   closeOnTap?: boolean;
+
+  /**
+   * Set a component with `previewEnabled` true for Provider if you want to render a preview of the menu item
+   * @type React.ReactNode
+   * @default undefined
+   * @examples
+   * ```js
+   * previewComponent={<View/>}
+   * ```
+   */
+  previewComponent?: React.ReactNode;
 };
 
 export type GestureHandlerProps = {

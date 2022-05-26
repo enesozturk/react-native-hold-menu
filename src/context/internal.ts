@@ -8,6 +8,8 @@ export type InternalContextType = {
   theme: Animated.SharedValue<'light' | 'dark'>;
   menuProps: Animated.SharedValue<MenuInternalProps>;
   paddingBottom: number;
+  previewEnabled?: boolean;
+  handleCloseMenu: () => void;
 };
 
 // @ts-ignore

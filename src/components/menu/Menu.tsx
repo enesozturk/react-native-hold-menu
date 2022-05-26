@@ -14,17 +14,30 @@ import {
   HOLD_ITEM_TRANSFORM_DURATION,
   CONTEXT_MENU_STATE,
   SPRING_CONFIGURATION,
+  WINDOW_HEIGHT,
 } from '../../constants';
 
+const itemHeight = WINDOW_HEIGHT - 256;
+const itemTopValue = itemHeight + 64;
+
 const MenuComponent = () => {
-  const { state, menuProps } = useInternal();
+  const { state, menuProps, previewEnabled } = useInternal();
+
+  const getTopValue = () => {
+    'worklet';
+
+    if (previewEnabled) {
+      return itemTopValue + 8;
+    }
+    return menuProps.value.itemHeight + menuProps.value.itemY + 8;
+  };
 
   const wrapperStyles = useAnimatedStyle(() => {
     const anchorPositionVertical = menuProps.value.anchorPosition.split('-')[0];
 
     const top =
       anchorPositionVertical === 'top'
-        ? menuProps.value.itemHeight + menuProps.value.itemY + 8
+        ? getTopValue()
         : menuProps.value.itemY - 8;
     const left = menuProps.value.itemX;
     const width = menuProps.value.itemWidth;

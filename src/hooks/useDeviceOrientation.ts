@@ -18,7 +18,7 @@ function useDeviceOrientation() {
       setDeviceOrientation(getWindowOrientation());
     }
     const changeEvent = Dimensions.addEventListener('change', updateState);
-    return () => changeEvent.remove();
+    return () => changeEvent?.remove();
   }, []);
 
   return deviceOrientation;

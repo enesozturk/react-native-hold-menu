@@ -24,6 +24,7 @@ const ProviderComponent = ({
   theme: selectedTheme,
   iconComponent,
   paddingBottom,
+  previewEnabled,
 }: HoldMenuProviderProps) => {
   if (iconComponent)
     AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
@@ -44,6 +45,11 @@ const ProviderComponent = ({
     actionParams: {},
   });
 
+  const handleCloseMenu = () => {
+    'worklet';
+    state.value = CONTEXT_MENU_STATE.END;
+  };
+
   useEffect(() => {
     theme.value = selectedTheme || 'light';
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,9 +58,11 @@ const ProviderComponent = ({
   const internalContextVariables = useMemo(
     () => ({
       state,
+      handleCloseMenu,
       theme,
       menuProps,
       paddingBottom: paddingBottom || 0,
+      previewEnabled,
     }),
     [state, theme, menuProps, paddingBottom]
   );

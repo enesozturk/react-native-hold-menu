@@ -67,9 +67,10 @@ const HoldItemComponent = ({
   actionParams,
   closeOnTap,
   children,
+  previewComponent,
 }: HoldItemProps) => {
   //#region hooks
-  const { state, menuProps, paddingBottom } = useInternal();
+  const { state, menuProps, paddingBottom, previewEnabled } = useInternal();
   const deviceOrientation = useDeviceOrientation();
   //#endregion
 
@@ -172,6 +173,19 @@ const HoldItemComponent = ({
       }
     }
     return tY;
+  };
+  const getAnimatedValues = (currentValue: number, newValue: number) => {
+    'worklet';
+
+    if (previewEnabled) {
+      return disableMove
+        ? 0
+        : isActive.value
+        ? withSpring(newValue, SPRING_CONFIGURATION)
+        : withTiming(currentValue, { duration: HOLD_ITEM_TRANSFORM_DURATION });
+    }
+
+    return currentValue;
   };
 
   const setMenuProps = () => {
@@ -331,20 +345,36 @@ const HoldItemComponent = ({
         ? withSpring(tY, SPRING_CONFIGURATION)
         : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION });
 
+    const borderRadiusAnimation = getAnimatedValues(0, 16);
+    const topAnimation = getAnimatedValues(itemRectY.value, 64);
+    const leftAnimation = getAnimatedValues(itemRectX.value, 32);
+    const widthAnimation = getAnimatedValues(
+      itemRectWidth.value,
+      WINDOW_WIDTH - 64
+    );
+    const heightAnimation = getAnimatedValues(
+      itemRectWidth.value,
+      WINDOW_HEIGHT - 256
+    );
+
     return {
       zIndex: 10,
       position: 'absolute',
-      top: itemRectY.value,
-      left: itemRectX.value,
-      width: itemRectWidth.value,
-      height: itemRectHeight.value,
+      overflow: 'hidden',
+      top: topAnimation,
+      left: leftAnimation,
+      width: widthAnimation,
+      height: heightAnimation,
       opacity: isActive.value ? 1 : animateOpacity(),
+      borderRadius: borderRadiusAnimation,
       transform: [
         {
           translateY: transformAnimation(),
         },
         {
-          scale: isActive.value
+          scale: previewEnabled
+            ? 1
+            : isActive.value
             ? withTiming(1, { duration: HOLD_ITEM_TRANSFORM_DURATION })
             : itemScale.value,
         },
@@ -434,7 +464,7 @@ const HoldItemComponent = ({
           animatedProps={animatedPortalProps}
         >
           <PortalOverlay />
-          {children}
+          {previewEnabled ? previewComponent : children}
         </Animated.View>
       </Portal>
     </>

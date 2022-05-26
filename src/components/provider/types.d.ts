@@ -18,4 +18,13 @@ export interface HoldMenuProviderProps {
    * paddingBottom={34}
    */
   paddingBottom?: number;
+
+  /**
+   * Set if you'd like to render another component as preview when the menu opened.
+   * @type boolean
+   * @default false
+   * @examples
+   * previewEnabled={true}
+   */
+  previewEnabled?: boolean;
 }
