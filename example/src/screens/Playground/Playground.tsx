@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
-import { HoldItem } from '../../../../src/index';
+import { HoldItem } from 'react-native-hold-menu';
 
 import styles from './styles';
 import { useAppContext } from '../../hooks/useAppContext';

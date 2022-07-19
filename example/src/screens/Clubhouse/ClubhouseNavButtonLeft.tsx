@@ -3,7 +3,7 @@ import { StyleSheet, Pressable } from 'react-native';
 
 import { Feather as Icons } from '@expo/vector-icons';
 
-import { HoldItem } from '../../../../src/index';
+import { HoldItem } from 'react-native-hold-menu';
 
 const ClubhouseNavButtonLeft = ({ goBack }: { goBack: () => void }) => {
   return (

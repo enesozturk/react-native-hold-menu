@@ -7,7 +7,7 @@ import { MessageStyles } from './variables';
 import { useAppContext } from '../../hooks/useAppContext';
 
 // React Native Hold Menu Components
-import { HoldItem } from '../../../../src/index';
+import { HoldItem } from 'react-native-hold-menu';
 import { IS_IOS } from '../../constants';
 
 const MessageItemComp = ({

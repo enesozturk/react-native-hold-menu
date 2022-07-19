@@ -5,7 +5,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
 import { Feather as Icons } from '@expo/vector-icons';
 import StyleGuide from '../../utilities/styleGuide';
-import { HoldItem } from '../../../../src/index';
+import { HoldItem } from 'react-native-hold-menu';
 import { useAppContext } from '../../hooks/useAppContext';
 
 interface INavButton extends BottomTabBarProps {

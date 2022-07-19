@@ -16,7 +16,7 @@ import Clubhouse, {
 } from './screens/Clubhouse';
 
 // Components
-import { HoldMenuProvider } from '../../src/index';
+import { HoldMenuProvider } from 'react-native-hold-menu';
 import FeatherIcon from '@expo/vector-icons/Feather';
 
 // Utils
