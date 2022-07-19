@@ -78,7 +78,7 @@ buck-out/
 /ios/Pods/
 
 # Expo
-.expo/*
+**/.expo/*
 web-build/
 
 # @end expo-cli
