@@ -91,3 +91,7 @@ lib/
 
 # Build
 *.tgz
+
+# Example App
+example/node_modules/
+example/.expo/
