@@ -74,8 +74,8 @@
     "typescript": "~4.0.0"
   },
   "peerDependencies": {
-    "expo-blur": ">=9.0.0",
-    "expo-haptics": ">=9.0.0",
+    "expo-blur": "^11.1.0",
+    "expo-haptics": "^11.2.0",
     "react": "*",
     "react-native": "*",
     "react-native-gesture-handler": ">=1.8.0",
