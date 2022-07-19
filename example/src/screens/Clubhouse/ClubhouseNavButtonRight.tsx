@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import Icons from 'react-native-vector-icons/Feather';
+import { Feather as Icons } from '@expo/vector-icons';
 
 const ClubhouseNavButtonRight = () => {
   return (

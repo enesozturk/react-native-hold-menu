@@ -3,7 +3,7 @@ import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native';
 
 import { ListItemProps } from './types';
 import StyleGuide from '../../utilities/styleGuide';
-import Icons from 'react-native-vector-icons/Feather';
+import { Feather as Icons } from '@expo/vector-icons';
 import { useAppContext } from '../../hooks/useAppContext';
 
 interface ListItemCompProps {

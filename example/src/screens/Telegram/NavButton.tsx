@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View, Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-import Icons from 'react-native-vector-icons/Feather';
+import { Feather as Icons } from '@expo/vector-icons';
 import StyleGuide from '../../utilities/styleGuide';
 import { HoldItem } from 'react-native-hold-menu';
 import { useAppContext } from '../../hooks/useAppContext';

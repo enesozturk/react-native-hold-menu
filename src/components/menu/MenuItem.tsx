@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import Separator from './Separator';
@@ -8,15 +7,14 @@ import styles from './styles';
 
 import { MenuItemProps } from './types';
 import { useInternal } from '../../hooks';
-import { CONTEXT_MENU_STATE, IS_IOS } from '../../constants';
+import { CONTEXT_MENU_STATE } from '../../constants';
 import { BORDER_LIGHT_COLOR, BORDER_DARK_COLOR } from './constants';
 import isEqual from 'lodash.isequal';
 import { getColor } from './calculations';
 import { AnimatedIcon } from '../provider/Provider';
 
-const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity;
 // @ts-ignore
-const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent);
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 type MenuItemComponentProps = {
   item: MenuItemProps;
@@ -64,9 +62,14 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
         >
           {item.text}
         </Animated.Text>
-        {!item.isTitle && item.icon && (
-          <AnimatedIcon name={item.icon} size={18} style={textColor} />
-        )}
+        {!item.isTitle &&
+          item.icon &&
+          AnimatedIcon &&
+          (typeof item.icon === 'string' ? (
+            <AnimatedIcon name={item.icon} size={18} style={textColor} />
+          ) : (
+            item.icon()
+          ))}
       </AnimatedTouchable>
       {item.withSeparator && <Separator />}
     </>

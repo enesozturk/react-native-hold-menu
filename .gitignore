@@ -1,4 +1,4 @@
-node_modules/**/*
+node_modules/
 .expo/*
 npm-debug.*
 *.jks
@@ -78,7 +78,7 @@ buck-out/
 /ios/Pods/
 
 # Expo
-.expo/*
+**/.expo/*
 web-build/
 
 # @end expo-cli
@@ -91,3 +91,7 @@ lib/
 
 # Build
 *.tgz
+
+# Example App
+example/node_modules/
+example/.expo/

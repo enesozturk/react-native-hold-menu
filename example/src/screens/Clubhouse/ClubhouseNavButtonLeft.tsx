@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 
-import Icons from 'react-native-vector-icons/Feather';
+import { Feather as Icons } from '@expo/vector-icons';
 
 import { HoldItem } from 'react-native-hold-menu';
 

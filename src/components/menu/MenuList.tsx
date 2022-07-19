@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import Animated, {
   runOnJS,
@@ -33,10 +33,7 @@ import { useInternal } from '../../hooks';
 import { deepEqual } from '../../utils/validations';
 import { leftOrRight } from './calculations';
 
-const MenuContainerComponent = IS_IOS ? BlurView : View;
-const AnimatedView = Animated.createAnimatedComponent<{
-  animatedProps: Partial<{ blurType: string }>;
-}>(MenuContainerComponent);
+const AnimatedView = Animated.createAnimatedComponent(BlurView);
 
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal();
@@ -110,7 +107,7 @@ const MenuListComponent = () => {
   }, [theme]);
 
   const animatedProps = useAnimatedProps(() => {
-    return { blurType: theme.value };
+    return { tint: theme.value };
   }, [theme]);
 
   const setter = (items: MenuItemProps[]) => {
@@ -130,7 +127,6 @@ const MenuListComponent = () => {
 
   return (
     <AnimatedView
-      // @ts-ignore
       intensity={100}
       animatedProps={animatedProps}
       style={[styles.menuContainer, messageStyles]}

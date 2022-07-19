@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Pressable } from 'react-native';
 
-import Icons from 'react-native-vector-icons/Feather';
+import { Feather as Icons } from '@expo/vector-icons';
 import StyleGuide from '../../utilities/styleGuide';
 import { useAppContext } from '../../hooks/useAppContext';
 

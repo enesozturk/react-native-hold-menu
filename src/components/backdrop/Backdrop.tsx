@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedGestureHandler,
+  useAnimatedProps,
   useAnimatedStyle,
   withDelay,
   withTiming,
@@ -19,6 +20,7 @@ import { styles } from './styles';
 import {
   CONTEXT_MENU_STATE,
   HOLD_ITEM_TRANSFORM_DURATION,
+  IS_IOS,
   WINDOW_HEIGHT,
 } from '../../constants';
 import {
@@ -27,7 +29,9 @@ import {
 } from './constants';
 import { useInternal } from '../../hooks';
 
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const AnimatedBlurView = IS_IOS
+  ? Animated.createAnimatedComponent(BlurView)
+  : Animated.View;
 
 type Context = {
   startPosition: {
@@ -88,6 +92,17 @@ const BackdropComponent = () => {
     };
   });
 
+  const animatedContainerProps = useAnimatedProps(() => {
+    return {
+      intensity: withTiming(
+        state.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0,
+        {
+          duration: HOLD_ITEM_TRANSFORM_DURATION,
+        }
+      ),
+    };
+  });
+
   const animatedInnerContainerStyle = useAnimatedStyle(() => {
     const backgroundColor =
       theme.value === 'light'
@@ -98,14 +113,11 @@ const BackdropComponent = () => {
   }, [theme]);
 
   return (
-    <TapGestureHandler
-      onGestureEvent={tapGestureEvent}
-      onHandlerStateChange={tapGestureEvent}
-    >
+    <TapGestureHandler onHandlerStateChange={tapGestureEvent}>
       <AnimatedBlurView
         // @ts-ignore
-        intensity={100}
         tint="default"
+        animatedProps={animatedContainerProps}
         style={[styles.container, animatedContainerStyle]}
       >
         <Animated.View
