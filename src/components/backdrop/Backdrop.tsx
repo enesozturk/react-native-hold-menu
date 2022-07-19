@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { memo, useMemo } from 'react';
 import Animated, {
   useAnimatedGestureHandler,
+  useAnimatedProps,
   useAnimatedStyle,
   withDelay,
   withTiming,
@@ -19,6 +19,7 @@ import { styles } from './styles';
 import {
   CONTEXT_MENU_STATE,
   HOLD_ITEM_TRANSFORM_DURATION,
+  IS_IOS,
   WINDOW_HEIGHT,
 } from '../../constants';
 import {
@@ -26,8 +27,14 @@ import {
   BACKDROP_DARK_BACKGROUND_COLOR,
 } from './constants';
 import { useInternal } from '../../hooks';
+import { Pressable, StyleSheet } from 'react-native';
+import { GestureHandlerProps } from '../holdItem/types';
 
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+const AnimatedBlurView = IS_IOS
+  ? Animated.createAnimatedComponent(BlurView)
+  : Animated.View;
 
 type Context = {
   startPosition: {
@@ -88,6 +95,17 @@ const BackdropComponent = () => {
     };
   });
 
+  const animatedContainerProps = useAnimatedProps(() => {
+    return {
+      intensity: withTiming(
+        state.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0,
+        {
+          duration: HOLD_ITEM_TRANSFORM_DURATION,
+        }
+      ),
+    };
+  });
+
   const animatedInnerContainerStyle = useAnimatedStyle(() => {
     const backgroundColor =
       theme.value === 'light'
@@ -97,15 +115,35 @@ const BackdropComponent = () => {
     return { backgroundColor };
   }, [theme]);
 
+  // TODO: TapGestureHandler is now working on Android. Check later.
+  const GestureHandler = useMemo(() => {
+    if (IS_IOS) {
+      return ({ children }: GestureHandlerProps) => (
+        <TapGestureHandler onHandlerStateChange={tapGestureEvent}>
+          {children}
+        </TapGestureHandler>
+      );
+    } else {
+      return ({ children }: GestureHandlerProps) => (
+        <AnimatedPressable
+          style={[styles.container, animatedContainerStyle]}
+          onPress={() => {
+            'worklet';
+            state.value = CONTEXT_MENU_STATE.END;
+          }}
+        >
+          {children}
+        </AnimatedPressable>
+      );
+    }
+  }, []);
+
   return (
-    <TapGestureHandler
-      onGestureEvent={tapGestureEvent}
-      onHandlerStateChange={tapGestureEvent}
-    >
+    <GestureHandler>
       <AnimatedBlurView
         // @ts-ignore
-        intensity={100}
         tint="default"
+        animatedProps={animatedContainerProps}
         style={[styles.container, animatedContainerStyle]}
       >
         <Animated.View
@@ -115,7 +153,7 @@ const BackdropComponent = () => {
           ]}
         />
       </AnimatedBlurView>
-    </TapGestureHandler>
+    </GestureHandler>
   );
 };
 
