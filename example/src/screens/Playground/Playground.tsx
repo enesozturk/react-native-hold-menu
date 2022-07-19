@@ -89,14 +89,9 @@ const Playground = ({}: PlaygroundProps) => {
       <View style={[styles.column, styles.content]}>
         <View style={[styles.row]}>
           <HoldItem items={items} menuAnchorPosition="bottom-left">
-            <Pressable
-              onPress={() => {
-                Alert.alert('press');
-              }}
-              style={themeStyles.item}
-            >
+            <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.bottomLeft]} />
-            </Pressable>
+            </View>
           </HoldItem>
           <HoldItem items={items}>
             <View style={themeStyles.item}>
