@@ -25,7 +25,7 @@ const ProviderComponent = ({
   children,
   theme: selectedTheme,
   iconComponent,
-  paddingBottom,
+  safeAreaInsets,
 }: HoldMenuProviderProps) => {
   if (iconComponent)
     AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
@@ -44,6 +44,7 @@ const ProviderComponent = ({
     menuHeight: 0,
     transformValue: 0,
     actionParams: {},
+    previewEnabled: false,
   });
 
   useEffect(() => {
@@ -56,9 +57,14 @@ const ProviderComponent = ({
       state,
       theme,
       menuProps,
-      paddingBottom: paddingBottom || 0,
+      safeAreaInsets: safeAreaInsets || {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+      },
     }),
-    [state, theme, menuProps, paddingBottom]
+    [state, theme, menuProps, safeAreaInsets]
   );
 
   return (

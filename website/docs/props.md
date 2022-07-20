@@ -37,15 +37,15 @@ Values:
 <HoldMenuProvider theme={"dark"}>
 ```
 
-### `paddingBottom`
+### `safeAreaInsets`
 
-Set if you'd like to apply padding to bottom. In most cases, you may want to set this for safe area provider values.
+Set object of safe area inset values to prevent the menu to be opened under the unsafe area
 
 #### Example
 
 ```tsx
-const { bottom } = useSafeAreaProvider();
-<HoldMenuProvider paddingBottom={bottom} />;
+const safeAreaInsets = useSafeAreaProvider();
+<HoldMenuProvider safeAreaInsets={safeAreaInsets} />;
 ```
 
 ## HoldItem

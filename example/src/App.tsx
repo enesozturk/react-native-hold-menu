@@ -26,7 +26,7 @@ import StyleGuide from './utilities/styleGuide';
 const Stack = createStackNavigator();
 
 const App = () => {
-  const { bottom } = useSafeAreaInsets();
+  const safeAreaInsets = useSafeAreaInsets();
   const [state, setState] = useState<IAppContext>({
     theme: 'light',
     toggleTheme: () => {},
@@ -63,7 +63,7 @@ const App = () => {
         <HoldMenuProvider
           iconComponent={FeatherIcon}
           theme={state.theme}
-          paddingBottom={bottom}
+          safeAreaInsets={safeAreaInsets}
         >
           <NavigationContainer>
             <Stack.Navigator
