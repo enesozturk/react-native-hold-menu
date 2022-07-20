@@ -25,4 +25,5 @@ export type MenuInternalProps = {
   actionParams: {
     [name: string]: (string | number)[];
   };
+  previewEnabled: boolean;
 };

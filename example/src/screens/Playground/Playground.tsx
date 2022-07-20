@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { View } from 'react-native';
+import { Alert, Pressable, Text, View } from 'react-native';
 
 import { HoldItem } from 'react-native-hold-menu';
 
@@ -8,6 +8,24 @@ import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
 
 interface PlaygroundProps {}
+
+const PreviewComp = () => (
+  <Pressable
+    onPress={() => {
+      Alert.alert('sss');
+    }}
+    style={{
+      width: '100%',
+      height: '100%',
+      minWidth: 200,
+      minHeight: 200,
+      backgroundColor: 'green',
+      borderRadius: 16,
+    }}
+  >
+    <Text>Presss</Text>
+  </Pressable>
+);
 
 const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
@@ -93,7 +111,7 @@ const Playground = ({}: PlaygroundProps) => {
               <View style={[themeStyles.dot, styles.bottomLeft]} />
             </View>
           </HoldItem>
-          <HoldItem items={items}>
+          <HoldItem items={items} previewComponent={PreviewComp}>
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.topCenter]} />
             </View>
@@ -123,7 +141,11 @@ const Playground = ({}: PlaygroundProps) => {
         </View>
       </View>
       <View style={[themeStyles.footer, styles.row]}>
-        <HoldItem menuAnchorPosition="bottom-left" items={items}>
+        <HoldItem
+          menuAnchorPosition="bottom-left"
+          items={items}
+          previewComponent={PreviewComp}
+        >
           <View style={themeStyles.item}>
             <View style={[themeStyles.dot, styles.bottomLeft]} />
           </View>

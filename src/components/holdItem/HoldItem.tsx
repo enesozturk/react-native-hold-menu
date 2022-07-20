@@ -44,6 +44,7 @@ import {
   WINDOW_HEIGHT,
   WINDOW_WIDTH,
   CONTEXT_MENU_STATE,
+  PREVIEW_CONTAINER_WIDTH,
 } from '../../constants';
 import { useDeviceOrientation } from '../../hooks';
 import styles from './styles';
@@ -66,6 +67,7 @@ const HoldItemComponent = ({
   actionParams,
   closeOnTap,
   children,
+  previewComponent,
 }: HoldItemProps) => {
   //#region hooks
   const { state, menuProps, safeAreaInsets } = useInternal();
@@ -174,6 +176,20 @@ const HoldItemComponent = ({
     return tY;
   };
 
+  const getAnimatedValues = (currentValue: number, newValue: number) => {
+    'worklet';
+
+    if (previewComponent) {
+      return disableMove
+        ? 0
+        : isActive.value
+        ? withTiming(newValue, { duration: HOLD_ITEM_TRANSFORM_DURATION })
+        : withTiming(currentValue, { duration: HOLD_ITEM_TRANSFORM_DURATION });
+    }
+
+    return currentValue;
+  };
+
   const setMenuProps = () => {
     'worklet';
 
@@ -187,6 +203,7 @@ const HoldItemComponent = ({
       items,
       transformValue: transformValue.value,
       actionParams: actionParams || {},
+      previewEnabled: previewComponent ? true : false,
     };
   };
 
@@ -320,8 +337,16 @@ const HoldItemComponent = ({
   );
 
   const animatedPortalStyle = useAnimatedStyle(() => {
-    const animateOpacity = () =>
-      withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(0, { duration: 0 }));
+    const previewEnabled = menuProps.value.previewEnabled;
+
+    const animateOpacity = () => {
+      if (previewEnabled)
+        return withTiming(0, { duration: HOLD_ITEM_TRANSFORM_DURATION });
+      return withDelay(
+        HOLD_ITEM_TRANSFORM_DURATION,
+        withTiming(0, { duration: 0 })
+      );
+    };
 
     let tY = calculateTransformValue();
     const transformAnimation = () =>
@@ -331,20 +356,38 @@ const HoldItemComponent = ({
         ? withSpring(tY, SPRING_CONFIGURATION)
         : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION });
 
+    const borderRadiusAnimation = getAnimatedValues(0, 16);
+    const topAnimation = getAnimatedValues(itemRectY.value, 64);
+    const leftAnimation = getAnimatedValues(itemRectX.value, 32);
+    const widthAnimation = getAnimatedValues(
+      itemRectWidth.value,
+      PREVIEW_CONTAINER_WIDTH
+    );
+    const prevHeight =
+      WINDOW_HEIGHT -
+      menuHeight -
+      (safeAreaInsets?.top || 0) -
+      (safeAreaInsets?.bottom || 0);
+    const heightAnimation = getAnimatedValues(itemRectHeight.value, prevHeight);
+
     return {
       zIndex: 10,
       position: 'absolute',
-      top: itemRectY.value,
-      left: itemRectX.value,
-      width: itemRectWidth.value,
-      height: itemRectHeight.value,
+      overflow: previewEnabled ? 'hidden' : 'visible',
+      top: topAnimation,
+      left: leftAnimation,
+      width: widthAnimation,
+      height: heightAnimation,
       opacity: isActive.value ? 1 : animateOpacity(),
+      borderRadius: borderRadiusAnimation,
       transform: [
         {
           translateY: transformAnimation(),
         },
         {
-          scale: isActive.value
+          scale: previewComponent
+            ? 1
+            : isActive.value
             ? withTiming(1, { duration: HOLD_ITEM_TRANSFORM_DURATION })
             : itemScale.value,
         },
@@ -434,7 +477,7 @@ const HoldItemComponent = ({
           animatedProps={animatedPortalProps}
         >
           <PortalOverlay />
-          {children}
+          {previewComponent ? previewComponent() : children}
         </Animated.View>
       </Portal>
     </>
