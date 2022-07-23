@@ -64,8 +64,7 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
         </Animated.Text>
         {!item.isTitle &&
           item.icon &&
-          AnimatedIcon &&
-          (typeof item.icon === 'string' ? (
+          (AnimatedIcon && typeof item.icon === 'string' ? (
             <AnimatedIcon name={item.icon} size={18} style={textColor} />
           ) : typeof item.icon === 'function' ? (
             item.icon()
