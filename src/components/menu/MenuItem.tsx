@@ -67,9 +67,9 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
           AnimatedIcon &&
           (typeof item.icon === 'string' ? (
             <AnimatedIcon name={item.icon} size={18} style={textColor} />
-          ) : (
+          ) : typeof item.icon === 'function' ? (
             item.icon()
-          ))}
+          ) : null)}
       </AnimatedTouchable>
       {item.withSeparator && <Separator />}
     </>
