@@ -44,7 +44,6 @@ const ProviderComponent = ({
     menuHeight: 0,
     transformValue: 0,
     actionParams: {},
-    previewEnabled: false,
   });
 
   useEffect(() => {
