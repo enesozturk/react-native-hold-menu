@@ -34,6 +34,7 @@ const MenuComponent = () => {
       top,
       left,
       width,
+      zIndex: state.value === CONTEXT_MENU_STATE.ACTIVE ? 999 : -1,
       transform: [
         {
           translateY:
