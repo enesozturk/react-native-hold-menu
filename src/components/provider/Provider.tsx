@@ -26,6 +26,7 @@ const ProviderComponent = ({
   theme: selectedTheme,
   iconComponent,
   safeAreaInsets,
+  ...backdropProps
 }: HoldMenuProviderProps) => {
   if (iconComponent)
     AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
@@ -71,7 +72,7 @@ const ProviderComponent = ({
       <InternalContext.Provider value={internalContextVariables}>
         <PortalProvider>
           {children}
-          <Backdrop />
+          <Backdrop {...backdropProps} />
           <Menu />
         </PortalProvider>
       </InternalContext.Provider>

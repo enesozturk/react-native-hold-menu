@@ -1,5 +1,3 @@
-import { BlurViewProps } from 'expo-blur';
-
 export interface HoldMenuProviderProps {
   /**
    * Theme of hold menu. Effects to backdrop and context menu styles. Optional.
@@ -11,7 +9,7 @@ export interface HoldMenuProviderProps {
   theme?: 'dark' | 'light';
   iconComponent?: any;
   children: React.ReactElement | React.ReactElement[];
-  blurViewProps: BlurViewProps;
+  backdropProps?: BackdropProps;
 
   /**
    * Set this to prevent the menu to be opened under the unsafe area.
@@ -31,3 +29,9 @@ export interface HoldMenuProviderProps {
     left: number;
   };
 }
+
+export type BackdropProps = {
+    blurViewIntensity?: number;
+    backdropDarkBackgroundColor?: string;
+    backdropLightBackgroundColor?: string;
+  }

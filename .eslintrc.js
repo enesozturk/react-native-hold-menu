@@ -4,7 +4,7 @@ module.exports = {
   rules: {
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'prettier/prettier': [
-      'off',
+      'warn',
       {
         printWidth: 80,
         arrowParens: 'avoid',

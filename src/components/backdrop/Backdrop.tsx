@@ -20,7 +20,6 @@ import { styles } from './styles';
 import {
   CONTEXT_MENU_STATE,
   HOLD_ITEM_TRANSFORM_DURATION,
-  IS_IOS,
   WINDOW_HEIGHT,
 } from '../../constants';
 import {
@@ -28,10 +27,9 @@ import {
   BACKDROP_DARK_BACKGROUND_COLOR,
 } from './constants';
 import { useInternal } from '../../hooks';
+import { BackdropProps } from '../provider/types';
 
-const AnimatedBlurView = IS_IOS
-  ? Animated.createAnimatedComponent(BlurView)
-  : Animated.View;
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 type Context = {
   startPosition: {
@@ -40,7 +38,11 @@ type Context = {
   };
 };
 
-const BackdropComponent = () => {
+const BackdropComponent = ({
+  blurViewIntensity = 100,
+  backdropDarkBackgroundColor = BACKDROP_DARK_BACKGROUND_COLOR,
+  backdropLightBackgroundColor = BACKDROP_LIGHT_BACKGROUND_COLOR,
+}: BackdropProps) => {
   const { state, theme } = useInternal();
 
   const tapGestureEvent = useAnimatedGestureHandler<
@@ -95,7 +97,7 @@ const BackdropComponent = () => {
   const animatedContainerProps = useAnimatedProps(() => {
     return {
       intensity: withTiming(
-        state.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0,
+        state.value === CONTEXT_MENU_STATE.ACTIVE ? blurViewIntensity : 0,
         {
           duration: HOLD_ITEM_TRANSFORM_DURATION,
         }
@@ -106,8 +108,8 @@ const BackdropComponent = () => {
   const animatedInnerContainerStyle = useAnimatedStyle(() => {
     const backgroundColor =
       theme.value === 'light'
-        ? BACKDROP_LIGHT_BACKGROUND_COLOR
-        : BACKDROP_DARK_BACKGROUND_COLOR;
+        ? backdropLightBackgroundColor
+        : backdropDarkBackgroundColor;
 
     return { backgroundColor };
   }, [theme]);
