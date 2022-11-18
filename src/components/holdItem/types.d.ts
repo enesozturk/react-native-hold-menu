@@ -115,6 +115,15 @@ export type HoldItemProps = {
    * closeOnTap={true}
    */
   closeOnTap?: boolean;
+
+  /**
+   * Set delay before long tap will activate gesture. May be useful to increase this value in lists
+   * @type number
+   * @default 150
+   * @examples
+   * longPressMinDurationMs={250}
+   */
+  longPressMinDurationMs?: number;
 };
 
 export type GestureHandlerProps = {

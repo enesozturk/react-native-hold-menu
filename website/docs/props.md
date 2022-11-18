@@ -211,3 +211,17 @@ Set true if you want to close menu when tap to HoldItem
 ```tsx
 <HoldItem closeOnTap />
 ```
+
+### `longPressMinDurationMs`
+
+Set delay before long tap will activate gesture. May be useful to increase this value in lists
+
+| type    | default | required |
+| ------- | ------- | -------- |
+| number  | 150     | NO       |
+
+#### Example
+
+```tsx
+<HoldItem longPressMinDurationMs={250} />
+```
