@@ -7,7 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Backdrop } from '../backdrop';
 
 // Utils
-import { InternalContext } from '../../context/internal';
+import { InternalContext } from '../../context';
 import { HoldMenuProviderProps } from './types';
 import { StateProps, Action } from './reducer';
 import { CONTEXT_MENU_STATE } from '../../constants';
@@ -26,6 +26,7 @@ const ProviderComponent = ({
   theme: selectedTheme,
   iconComponent,
   safeAreaInsets,
+  disableBlur: isBlurDisabled = false,
 }: HoldMenuProviderProps) => {
   if (iconComponent)
     AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
@@ -34,6 +35,7 @@ const ProviderComponent = ({
     CONTEXT_MENU_STATE.UNDETERMINED
   );
   const theme = useSharedValue<'light' | 'dark'>(selectedTheme || 'light');
+  const disableBlur = useSharedValue(isBlurDisabled);
   const menuProps = useSharedValue<MenuInternalProps>({
     itemHeight: 0,
     itemWidth: 0,
@@ -62,8 +64,9 @@ const ProviderComponent = ({
         left: 0,
         right: 0,
       },
+      disableBlur,
     }),
-    [state, theme, menuProps, safeAreaInsets]
+    [state, theme, menuProps, safeAreaInsets, disableBlur]
   );
 
   return (

@@ -13,6 +13,7 @@ export type InternalContextType = {
     bottom: number;
     left: number;
   };
+  disableBlur?: Animated.SharedValue<boolean>;
 };
 
 // @ts-ignore

@@ -115,6 +115,15 @@ export type HoldItemProps = {
    * closeOnTap={true}
    */
   closeOnTap?: boolean;
+
+  /**
+   * Set true if you want to remove the ios Blur view or Android background
+   * @type boolean
+   * @default false
+   * @examples
+   * disableBlur={true}
+   */
+  disableBlur?: boolean;
 };
 
 export type GestureHandlerProps = {

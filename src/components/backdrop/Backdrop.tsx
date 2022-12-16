@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedGestureHandler,
@@ -26,12 +26,10 @@ import {
 import {
   BACKDROP_LIGHT_BACKGROUND_COLOR,
   BACKDROP_DARK_BACKGROUND_COLOR,
+  BACKDROP_NO_BLUR_LIGHT_BACKGROUND_COLOR,
+  BACKDROP_NO_BLUR_DARK_BACKGROUND_COLOR,
 } from './constants';
 import { useInternal } from '../../hooks';
-
-const AnimatedBlurView = IS_IOS
-  ? Animated.createAnimatedComponent(BlurView)
-  : Animated.View;
 
 type Context = {
   startPosition: {
@@ -41,7 +39,15 @@ type Context = {
 };
 
 const BackdropComponent = () => {
-  const { state, theme } = useInternal();
+  const { state, theme, disableBlur } = useInternal();
+
+  const AnimatedBlurView = useMemo(
+    () =>
+      disableBlur?.value === false && IS_IOS
+        ? Animated.createAnimatedComponent(BlurView)
+        : Animated.View,
+    [disableBlur]
+  );
 
   const tapGestureEvent = useAnimatedGestureHandler<
     TapGestureHandlerGestureEvent,
@@ -104,9 +110,14 @@ const BackdropComponent = () => {
   });
 
   const animatedInnerContainerStyle = useAnimatedStyle(() => {
+    // if blur is disabled, change the android black background to the same as Ios
     const backgroundColor =
       theme.value === 'light'
-        ? BACKDROP_LIGHT_BACKGROUND_COLOR
+        ? disableBlur
+          ? BACKDROP_NO_BLUR_LIGHT_BACKGROUND_COLOR
+          : BACKDROP_LIGHT_BACKGROUND_COLOR
+        : disableBlur
+        ? BACKDROP_NO_BLUR_DARK_BACKGROUND_COLOR
         : BACKDROP_DARK_BACKGROUND_COLOR;
 
     return { backgroundColor };

@@ -9,6 +9,7 @@ export interface HoldMenuProviderProps {
   theme?: 'dark' | 'light';
   iconComponent?: any;
   children: React.ReactElement | React.ReactElement[];
+  disableBlur?: boolean;
 
   /**
    * Set this to prevent the menu to be opened under the unsafe area.

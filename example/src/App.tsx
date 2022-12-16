@@ -64,12 +64,13 @@ const App = () => {
           iconComponent={FeatherIcon}
           theme={state.theme}
           safeAreaInsets={safeAreaInsets}
+          disableBlur={true}
         >
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="Home"
-              headerMode="screen"
               screenOptions={{
+                headerMode: 'screen',
                 headerRight: () => <ToggleThemeButton theme={state.theme} />,
               }}
             >
