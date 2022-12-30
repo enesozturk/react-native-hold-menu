@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.ts"],"names":["default"],"mappings":"AAAA,SAASA,OAAT,QAAwB,YAAxB","sourcesContent":["export { default } from './HoldItem';\nexport type { HoldItemProps } from './types';\n"]}
