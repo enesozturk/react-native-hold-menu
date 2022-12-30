@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 
 import Animated, {
@@ -33,10 +33,18 @@ import { useInternal } from '../../hooks';
 import { deepEqual } from '../../utils/validations';
 import { leftOrRight } from './calculations';
 
-const AnimatedView = Animated.createAnimatedComponent(BlurView);
+// const AnimatedView = Animated.createAnimatedComponent(View);
 
 const MenuListComponent = () => {
-  const { state, theme, menuProps } = useInternal();
+  const { state, theme, menuProps, disableBlur } = useInternal();
+
+  const AnimatedView = useMemo(
+    () =>
+      disableBlur?.value === false
+        ? Animated.createAnimatedComponent(BlurView)
+        : Animated.View,
+    [disableBlur]
+  );
 
   const [itemList, setItemList] = React.useState<MenuItemProps[]>([]);
 
@@ -97,9 +105,13 @@ const MenuListComponent = () => {
     return {
       backgroundColor:
         theme.value === 'light'
-          ? IS_IOS
+          ? disableBlur
+            ? 'rgba(255, 255, 255, 1)'
+            : IS_IOS
             ? 'rgba(255, 255, 255, .75)'
             : 'rgba(255, 255, 255, .95)'
+          : disableBlur
+          ? 'rgba(255, 255, 255, 1)'
           : IS_IOS
           ? 'rgba(0,0,0,0.5)'
           : 'rgba(39, 39, 39, .8)',
