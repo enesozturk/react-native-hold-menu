@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: styleGuide.spacing * 2,
-    paddingVertical: styleGuide.spacing * 1.25,
+    flex: 1,
   },
   border: {
     borderBottomWidth: 1,
