@@ -1,6 +1,6 @@
 {
-  "name": "react-native-hold-menu",
-  "version": "0.1.5",
+  "name": "react-native-hold-menu-upd",
+  "version": "0.1.6",
   "description": "A performant, easy to use hold to open context menu for React Native powered by Reanimated.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -23,13 +23,13 @@
     "reanimated",
     "menu"
   ],
-  "repository": "https://github.com/enesozturk/react-native-hold-menu",
+  "repository": "https://github.com/assada/react-native-hold-menu",
   "author": "Enes Ozturk (https://ozturkenes.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/enesozturk/react-native-hold-menu/issues"
+    "url": "https://github.com/assada/react-native-hold-menu/issues"
   },
-  "homepage": "https://enesozturk.github.io/react-native-hold-menu",
+  "homepage": "https://github.com/assada/react-native-hold-menu",
   "scripts": {
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -42,8 +42,8 @@
   },
   "dependencies": {
     "@gorhom/portal": "^1.0.3",
-    "expo-blur": "^11.1.0",
-    "expo-haptics": "^11.2.0",
+    "expo-blur": "^12.2.2",
+    "expo-haptics": "^12.2.1",
     "lodash.isequal": "^4.5.0",
     "nanoid": "^3.1.20"
   },
