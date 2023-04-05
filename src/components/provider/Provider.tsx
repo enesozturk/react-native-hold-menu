@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useMemo } from 'react';
 import { PortalProvider } from '@gorhom/portal';
-import Animated, { useSharedValue } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedReaction, runOnJS } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Components
@@ -26,6 +26,8 @@ const ProviderComponent = ({
   theme: selectedTheme,
   iconComponent,
   safeAreaInsets,
+  onOpen,
+  onClose,
 }: HoldMenuProviderProps) => {
   if (iconComponent)
     AnimatedIcon = Animated.createAnimatedComponent(iconComponent);
@@ -50,6 +52,25 @@ const ProviderComponent = ({
     theme.value = selectedTheme || 'light';
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTheme]);
+
+  useAnimatedReaction(
+    () => state.value,
+    state => {
+      switch (state) {
+        case CONTEXT_MENU_STATE.ACTIVE: {
+          if (onOpen)
+            runOnJS(onOpen)();
+          break
+        }
+        case CONTEXT_MENU_STATE.END: {
+          if (onClose)
+            runOnJS(onClose)();
+          break
+        }
+      }
+    },
+    [state]
+  );
 
   const internalContextVariables = useMemo(
     () => ({
