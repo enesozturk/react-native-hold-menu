@@ -78,8 +78,8 @@ const App = () => {
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="Home"
-              headerMode="screen"
               screenOptions={{
+                headerMode: "screen",
                 headerRight: () => <ToggleThemeButton theme={state.theme} />,
               }}
             >
