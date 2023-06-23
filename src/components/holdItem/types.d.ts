@@ -1,6 +1,12 @@
 import { ViewStyle } from 'react-native';
 import { MenuItemProps } from '../menu/types';
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
+import React from 'react';
+
+export type PreviewComponentProps = {
+  children: React.ReactNode;
+  close: () => void;
+};
 
 export type HoldItemProps = {
   /**
@@ -124,6 +130,12 @@ export type HoldItemProps = {
    * longPressMinDurationMs={250}
    */
   longPressMinDurationMs?: number;
+
+  previewComponent?:
+    | React.ComponentType<PreviewComponentProps>
+    | React.ComponentType<{}>;
+
+  anchorEdge?: 'top' | 'bottom';
 };
 
 export type GestureHandlerProps = {

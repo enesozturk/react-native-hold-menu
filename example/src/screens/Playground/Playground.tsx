@@ -1,13 +1,34 @@
 import React, { memo, useMemo } from 'react';
-import { View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 
 import { HoldItem } from 'react-native-hold-menu';
 
 import styles from './styles';
 import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
+import { Pressable } from 'react-native';
 
 interface PlaygroundProps {}
+
+const PreviewComp = () => {
+  return (
+    <Pressable
+      onPress={() => {
+        Alert.alert('sss');
+      }}
+      style={{
+        width: '100%',
+        height: '100%',
+        minWidth: 200,
+        minHeight: 200,
+        backgroundColor: 'green',
+        borderRadius: 16,
+      }}
+    >
+      <Text>Presss</Text>
+    </Pressable>
+  );
+};
 
 const Playground = ({}: PlaygroundProps) => {
   const { theme } = useAppContext();
@@ -88,12 +109,12 @@ const Playground = ({}: PlaygroundProps) => {
     <View style={themeStyles.containerStyles}>
       <View style={[styles.column, styles.content]}>
         <View style={[styles.row]}>
-          <HoldItem items={items} menuAnchorPosition="bottom-left">
+          <HoldItem items={items} previewComponent={PreviewComp} bottom={true}>
             <View style={themeStyles.item}>
-              <View style={[themeStyles.dot, styles.bottomLeft]} />
+              <View style={[themeStyles.dot, styles.topLeft]} />
             </View>
           </HoldItem>
-          <HoldItem items={items}>
+          <HoldItem items={items} bottom={true}>
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.topCenter]} />
             </View>
@@ -105,7 +126,7 @@ const Playground = ({}: PlaygroundProps) => {
           </HoldItem>
         </View>
         <View style={[styles.row]}>
-          <HoldItem items={items}>
+          <HoldItem items={items} previewComponent={PreviewComp}>
             <View style={themeStyles.item}>
               <View style={[themeStyles.dot, styles.topLeft]} />
             </View>
@@ -123,7 +144,11 @@ const Playground = ({}: PlaygroundProps) => {
         </View>
       </View>
       <View style={[themeStyles.footer, styles.row]}>
-        <HoldItem menuAnchorPosition="bottom-left" items={items}>
+        <HoldItem
+          menuAnchorPosition="bottom-left"
+          items={items}
+          previewComponent={PreviewComp}
+        >
           <View style={themeStyles.item}>
             <View style={[themeStyles.dot, styles.bottomLeft]} />
           </View>
