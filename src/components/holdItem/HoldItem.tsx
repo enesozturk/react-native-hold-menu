@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { ViewProps } from 'react-native';
+import { TouchableWithoutFeedback, View, ViewProps } from 'react-native';
 
 //#region reanimated & gesture handler
 import {
@@ -44,16 +44,35 @@ import {
   WINDOW_HEIGHT,
   WINDOW_WIDTH,
   CONTEXT_MENU_STATE,
+  HOLD_ITEM_HIDE_DURATION,
 } from '../../constants';
 import { useDeviceOrientation } from '../../hooks';
 import styles from './styles';
 
-import type { HoldItemProps, GestureHandlerProps } from './types';
+import type {
+  HoldItemProps,
+  GestureHandlerProps,
+  PreviewComponentProps,
+} from './types';
 import styleGuide from '../../styleGuide';
 import { useInternal } from '../../hooks';
 //#endregion
 
 type Context = { didMeasureLayout: boolean };
+
+type Dimensions = {
+  width: number;
+  height: number;
+};
+
+type Rect = {
+  x: number;
+  y: number;
+} & Dimensions;
+
+const DefaultPreview = ({ children }: PreviewComponentProps) => (
+  <View>{children}</View>
+);
 
 const HoldItemComponent = ({
   items,
@@ -67,6 +86,8 @@ const HoldItemComponent = ({
   closeOnTap,
   longPressMinDurationMs = 150,
   children,
+  previewComponent: Preview = DefaultPreview,
+  anchorEdge = 'top',
 }: HoldItemProps) => {
   //#region hooks
   const { state, menuProps, safeAreaInsets } = useInternal();
@@ -77,12 +98,19 @@ const HoldItemComponent = ({
   const isActive = useSharedValue(false);
   const isAnimationStarted = useSharedValue(false);
 
-  const itemRectY = useSharedValue<number>(0);
-  const itemRectX = useSharedValue<number>(0);
-  const itemRectWidth = useSharedValue<number>(0);
-  const itemRectHeight = useSharedValue<number>(0);
+  const itemDimensions = useSharedValue<Dimensions>({
+    width: 0,
+    height: 0,
+  });
+
+  const previewRect = useSharedValue<Rect>({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  });
+
   const itemScale = useSharedValue<number>(1);
-  const transformValue = useSharedValue<number>(0);
 
   const transformOrigin = useSharedValue<TransformOriginAnchorPosition>(
     menuAnchorPosition || 'top-right'
@@ -99,6 +127,7 @@ const HoldItemComponent = ({
 
   //#region refs
   const containerRef = useAnimatedRef<Animated.View>();
+  const previewRef = useAnimatedRef<Animated.View>();
   //#endregion
 
   //#region functions
@@ -124,25 +153,27 @@ const HoldItemComponent = ({
   //#endregion
 
   //#region worklet functions
-  const activateAnimation = (ctx: any) => {
+  const activateAnimation = () => {
     'worklet';
-    if (!ctx.didMeasureLayout) {
-      const measured = measure(containerRef);
 
-      itemRectY.value = measured.pageY;
-      itemRectX.value = measured.pageX;
-      itemRectHeight.value = measured.height;
-      itemRectWidth.value = measured.width;
+    const containerMeasures = measure(containerRef);
+    const previewMeasures = measure(previewRef);
 
-      if (!menuAnchorPosition) {
-        const position = getTransformOrigin(
-          measured.pageX,
-          itemRectWidth.value,
-          deviceOrientation === 'portrait' ? WINDOW_WIDTH : WINDOW_HEIGHT,
-          bottom
-        );
-        transformOrigin.value = position;
-      }
+    previewRect.value = {
+      x: containerMeasures.pageX,
+      y: containerMeasures.pageY,
+      width: previewMeasures.width,
+      height: previewMeasures.height,
+    };
+
+    if (!menuAnchorPosition) {
+      const position = getTransformOrigin(
+        previewRect.value.x,
+        previewRect.value.width,
+        deviceOrientation === 'portrait' ? WINDOW_WIDTH : WINDOW_HEIGHT,
+        bottom
+      );
+      transformOrigin.value = position;
     }
   };
 
@@ -155,38 +186,69 @@ const HoldItemComponent = ({
     const isAnchorPointTop = transformOrigin.value.includes('top');
 
     let tY = 0;
+    let y = 0;
+
     if (!disableMove) {
+      switch (anchorEdge) {
+        case 'top':
+          y = previewRect.value.y;
+          break;
+        case 'bottom':
+          let moveUp = previewRect.value.height - itemDimensions.value.height;
+          y = previewRect.value.y - moveUp;
+          // tY = tY + moveUp;
+          break;
+      }
+
       if (isAnchorPointTop) {
-        const topTransform =
-          itemRectY.value +
-          itemRectHeight.value +
+        const topEdge = y - (safeAreaInsets?.top || 0);
+
+        if (topEdge < 0) {
+          tY = -topEdge + styleGuide.spacing * 2;
+        }
+
+        const bottomEdge =
+          y +
+          previewRect.value.height +
           menuHeight +
-          styleGuide.spacing +
           (safeAreaInsets?.bottom || 0);
 
-        tY = topTransform > height ? height - topTransform : 0;
+        if (bottomEdge > height) {
+          tY = height - bottomEdge;
+        }
       } else {
-        const bottomTransform =
-          itemRectY.value - menuHeight - (safeAreaInsets?.top || 0);
-        tY =
-          bottomTransform < 0 ? -bottomTransform + styleGuide.spacing * 2 : 0;
+        const topEdge = y - menuHeight - (safeAreaInsets?.top || 0);
+
+        if (topEdge < 0) {
+          tY = -topEdge + styleGuide.spacing * 2;
+        }
+
+        const bottomEdge =
+          y + previewRect.value.height + (safeAreaInsets?.bottom || 0);
+
+        if (bottomEdge > height) {
+          tY = height - bottomEdge;
+        }
       }
     }
-    return tY;
+
+    return { tY, y };
   };
 
   const setMenuProps = () => {
     'worklet';
 
+    const { tY, y } = calculateTransformValue();
+
     menuProps.value = {
-      itemHeight: itemRectHeight.value,
-      itemWidth: itemRectWidth.value,
-      itemY: itemRectY.value,
-      itemX: itemRectX.value,
+      itemHeight: previewRect.value.height,
+      itemWidth: previewRect.value.width,
+      itemY: y,
+      itemX: previewRect.value.x,
       anchorPosition: transformOrigin.value,
       menuHeight: menuHeight,
       items,
-      transformValue: transformValue.value,
+      transformValue: tY,
       actionParams: actionParams || {},
     };
   };
@@ -242,6 +304,20 @@ const HoldItemComponent = ({
     );
   };
 
+  const previewTap = () => {
+    'worklet';
+
+    if (closeOnTap) {
+      close();
+    }
+  };
+
+  const close = () => {
+    'worklet';
+
+    state.value = CONTEXT_MENU_STATE.END;
+  };
+
   /**
    * When use tap activation ("tap") and trying to tap multiple times,
    * scale animation is called again despite it is started. This causes a bug.
@@ -266,8 +342,7 @@ const HoldItemComponent = ({
     onActive: (_, context) => {
       if (canCallActivateFunctions()) {
         if (!context.didMeasureLayout) {
-          activateAnimation(context);
-          transformValue.value = calculateTransformValue();
+          activateAnimation();
           setMenuProps();
           context.didMeasureLayout = true;
         }
@@ -286,15 +361,6 @@ const HoldItemComponent = ({
       if (isHold) {
         scaleBack();
       }
-    },
-  });
-
-  const overlayGestureEvent = useAnimatedGestureHandler<
-    TapGestureHandlerGestureEvent,
-    Context
-  >({
-    onActive: _ => {
-      if (closeOnTap) state.value = CONTEXT_MENU_STATE.END;
     },
   });
   //#endregion
@@ -322,9 +388,13 @@ const HoldItemComponent = ({
 
   const animatedPortalStyle = useAnimatedStyle(() => {
     const animateOpacity = () =>
-      withDelay(HOLD_ITEM_TRANSFORM_DURATION, withTiming(0, { duration: 0 }));
+      withDelay(
+        HOLD_ITEM_TRANSFORM_DURATION,
+        withTiming(0, { duration: HOLD_ITEM_HIDE_DURATION })
+      );
 
-    let tY = calculateTransformValue();
+    const { y, tY } = calculateTransformValue();
+
     const transformAnimation = () =>
       disableMove
         ? 0
@@ -333,12 +403,8 @@ const HoldItemComponent = ({
         : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION });
 
     return {
-      zIndex: 10,
-      position: 'absolute',
-      top: itemRectY.value,
-      left: itemRectX.value,
-      width: itemRectWidth.value,
-      height: itemRectHeight.value,
+      top: y,
+      left: previewRect.value.x,
       opacity: isActive.value ? 1 : animateOpacity(),
       transform: [
         {
@@ -360,6 +426,13 @@ const HoldItemComponent = ({
   const animatedPortalProps = useAnimatedProps<ViewProps>(() => ({
     pointerEvents: isActive.value ? 'auto' : 'none',
   }));
+
+  const previewAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      width: itemDimensions.value.width,
+      height: itemDimensions.value.height,
+    };
+  });
   //#endregion
 
   //#region animated effects
@@ -405,37 +478,41 @@ const HoldItemComponent = ({
           </LongPressGestureHandler>
         );
     }
-  }, [activateOn, gestureEvent]);
-
-  const PortalOverlay = useMemo(() => {
-    return () => (
-      <TapGestureHandler
-        numberOfTaps={1}
-        onHandlerStateChange={overlayGestureEvent}
-      >
-        <Animated.View style={styles.portalOverlay} />
-      </TapGestureHandler>
-    );
-  }, [overlayGestureEvent]);
+  }, [activateOn, gestureEvent, longPressMinDurationMs]);
   //#endregion
 
   //#region render
   return (
     <>
       <GestureHandler>
-        <Animated.View ref={containerRef} style={containerStyle}>
+        <Animated.View
+          ref={containerRef}
+          style={containerStyle}
+          onLayout={event => {
+            itemDimensions.value = {
+              width: event.nativeEvent.layout.width,
+              height: event.nativeEvent.layout.height,
+            };
+          }}
+        >
           {children}
         </Animated.View>
       </GestureHandler>
 
       <Portal key={key} name={key}>
         <Animated.View
+          ref={previewRef}
           key={key}
           style={portalContainerStyle}
           animatedProps={animatedPortalProps}
         >
-          <PortalOverlay />
-          {children}
+          <TouchableWithoutFeedback onPress={previewTap}>
+            <Preview close={close}>
+              <Animated.View style={previewAnimatedStyle}>
+                {children}
+              </Animated.View>
+            </Preview>
+          </TouchableWithoutFeedback>
         </Animated.View>
       </Portal>
     </>

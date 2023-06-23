@@ -26,12 +26,16 @@ const StyleGuide = {
         messageBackgroundSender: 'rgb(218, 248, 201)',
         messageBackgroundReceiver: '#FFF',
         messageText: '#474747',
+        reactionContainerBackground: '#FFF',
+        reactionBackground: '#474747',
       },
       dark: {
         chatBackground: '#131415',
         messageBackgroundSender: '#075E54',
         messageBackgroundReceiver: '#2b2d2e',
         messageText: '#FFF',
+        reactionContainerBackground: '#2b2d2e',
+        reactionBackground: '#FFF',
       },
     },
     telegram: {

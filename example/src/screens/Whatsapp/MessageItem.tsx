@@ -1,14 +1,56 @@
 import React, { memo, useMemo } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 
 import StyleGuide from '../../utilities/styleGuide';
 
-import { MessageStyles } from './variables';
+import {
+  MessageStyles,
+  ReactionContainerStyles,
+  ReactionStyles,
+} from './variables';
 import { useAppContext } from '../../hooks/useAppContext';
 
 // React Native Hold Menu Components
-import { HoldItem } from 'react-native-hold-menu';
+import { HoldItem, PreviewComponentProps } from 'react-native-hold-menu';
 import { IS_IOS } from '../../constants';
+
+const MessagePreview = ({ children, close }: PreviewComponentProps) => {
+  const { theme } = useAppContext();
+
+  const triggerReaction = () => {
+    Alert.alert('Reaction pressed');
+    close();
+  };
+
+  return (
+    <>
+      <View style={ReactionContainerStyles(theme)}>
+        <TouchableOpacity
+          style={ReactionStyles(theme)}
+          onPress={triggerReaction}
+        />
+        <TouchableOpacity
+          style={ReactionStyles(theme)}
+          onPress={triggerReaction}
+        />
+        <TouchableOpacity
+          style={ReactionStyles(theme)}
+          onPress={triggerReaction}
+        />
+        <TouchableOpacity
+          style={ReactionStyles(theme)}
+          onPress={triggerReaction}
+        />
+        <TouchableOpacity
+          style={ReactionStyles(theme)}
+          onPress={triggerReaction}
+        />
+      </View>
+
+      {children}
+    </>
+  );
+};
 
 const MessageItemComp = ({
   senderMenu,
@@ -57,6 +99,8 @@ const MessageItemComp = ({
           maxWidth: '80%',
         }}
         closeOnTap
+        previewComponent={MessagePreview}
+        anchorEdge="bottom"
       >
         <View
           style={[
@@ -78,7 +122,6 @@ export default MessageItem;
 
 const styles = StyleSheet.create({
   messageContainer: {
-    position: 'relative',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
