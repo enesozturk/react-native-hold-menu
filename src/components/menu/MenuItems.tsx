@@ -11,7 +11,7 @@ const MenuItemsComponent = ({ items }: { items: MenuItemProps[] }) => {
       {items.map((item: MenuItemProps, index: number) => {
         return (
           <MenuItem
-            key={index}
+            key={item.key}
             item={item}
             isLast={items.length === index + 1}
           />
