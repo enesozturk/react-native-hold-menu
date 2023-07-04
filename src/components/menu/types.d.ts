@@ -1,6 +1,7 @@
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export type MenuItemProps = {
+  key: string;
   text: string;
   icon?: string | (() => React.ReactElement);
   onPress?: (...args: any[]) => void;
