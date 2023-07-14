@@ -2,24 +2,24 @@ import styleGuide from '../styleGuide';
 import {
   MENU_WIDTH,
   MENU_TRANSFORM_ORIGIN_TOLERENCE,
-  FONT_SCALE,
 } from '../constants';
 
-export const MenuItemHeight = () => {
+export const MenuItemHeight = (fontScale: number) => {
   'worklet';
   return (
-    styleGuide.typography.callout.lineHeight * FONT_SCALE +
+    styleGuide.typography.callout.lineHeight * fontScale +
     styleGuide.spacing * 2.5
   );
 };
 
 export const calculateMenuHeight = (
+  fontScale: number,
   itemLength: number,
   separatorCount: number
 ) => {
   'worklet';
   return (
-    MenuItemHeight() * itemLength +
+    MenuItemHeight(fontScale) * itemLength +
     (itemLength - 1) +
     separatorCount * styleGuide.spacing
   );
@@ -34,13 +34,14 @@ export type TransformOriginAnchorPosition =
   | 'bottom-center';
 
 export const menuAnimationAnchor = (
+  fontScale: number,
   anchorPoint: TransformOriginAnchorPosition,
   itemWidth: number,
   itemLength: number,
   itemsWithSeparatorLength: number
 ) => {
   'worklet';
-  const MenuHeight = calculateMenuHeight(itemLength, itemsWithSeparatorLength);
+  const MenuHeight = calculateMenuHeight(fontScale, itemLength, itemsWithSeparatorLength);
   const splittetAnchorName: string[] = anchorPoint.split('-');
 
   const Center1 = itemWidth;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 
 import Animated, {
   runOnJS,
@@ -37,6 +37,7 @@ const AnimatedView = Animated.createAnimatedComponent(BlurView);
 
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal();
+  const { fontScale } = useWindowDimensions();
 
   const [itemList, setItemList] = React.useState<MenuItemProps[]>([]);
 
@@ -45,6 +46,7 @@ const MenuListComponent = () => {
       item => item.withSeparator
     );
     return calculateMenuHeight(
+      fontScale,
       menuProps.value.items.length,
       itemsWithSeparator.length
     );
@@ -57,6 +59,7 @@ const MenuListComponent = () => {
     );
 
     const translate = menuAnimationAnchor(
+      fontScale,
       menuProps.value.anchorPosition,
       menuProps.value.itemWidth,
       menuProps.value.items.length,

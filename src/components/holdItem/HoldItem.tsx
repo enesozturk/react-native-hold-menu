@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { ViewProps } from 'react-native';
+import { ViewProps, useWindowDimensions } from 'react-native';
 
 //#region reanimated & gesture handler
 import {
@@ -71,6 +71,7 @@ const HoldItemComponent = ({
   //#region hooks
   const { state, menuProps, safeAreaInsets } = useInternal();
   const deviceOrientation = useDeviceOrientation();
+  const { fontScale } = useWindowDimensions();
   //#endregion
 
   //#region variables
@@ -91,7 +92,7 @@ const HoldItemComponent = ({
   const key = useMemo(() => `hold-item-${nanoid()}`, []);
   const menuHeight = useMemo(() => {
     const itemsWithSeparator = items.filter(item => item.withSeparator);
-    return calculateMenuHeight(items.length, itemsWithSeparator.length);
+    return calculateMenuHeight(fontScale, items.length, itemsWithSeparator.length);
   }, [items]);
 
   const isHold = !activateOn || activateOn === 'hold';
@@ -128,6 +129,7 @@ const HoldItemComponent = ({
     'worklet';
     if (!ctx.didMeasureLayout) {
       const measured = measure(containerRef);
+      if (!measured) return;
 
       itemRectY.value = measured.pageY;
       itemRectX.value = measured.pageX;
