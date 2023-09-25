@@ -114,19 +114,21 @@ const BackdropComponent = () => {
 
   return (
     <TapGestureHandler onHandlerStateChange={tapGestureEvent}>
-      <AnimatedBlurView
-        // @ts-ignore
-        tint="default"
-        animatedProps={animatedContainerProps}
-        style={[styles.container, animatedContainerStyle]}
-      >
-        <Animated.View
-          style={[
-            { ...StyleSheet.absoluteFillObject },
-            animatedInnerContainerStyle,
-          ]}
-        />
-      </AnimatedBlurView>
+      <Animated.View style={[styles.container, animatedContainerStyle]}>
+        <AnimatedBlurView
+          // @ts-ignore
+          tint="default"
+          animatedProps={animatedContainerProps}
+          style={[styles.container]}
+        >
+          <Animated.View
+            style={[
+              { ...StyleSheet.absoluteFillObject },
+              animatedInnerContainerStyle,
+            ]}
+          />
+        </AnimatedBlurView>
+      </Animated.View>
     </TapGestureHandler>
   );
 };

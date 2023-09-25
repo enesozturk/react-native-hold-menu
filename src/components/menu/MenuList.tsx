@@ -126,21 +126,25 @@ const MenuListComponent = () => {
   );
 
   return (
-    <AnimatedView
-      intensity={100}
-      animatedProps={animatedProps}
-      style={[styles.menuContainer, messageStyles]}
-    >
-      <Animated.View
-        style={[
-          StyleSheet.absoluteFillObject,
-          styles.menuInnerContainer,
-          animatedInnerContainerStyle,
-        ]}
+    <Animated.View style={[styles.menuContainer, messageStyles]}>
+      <AnimatedView
+        intensity={100}
+        animatedProps={animatedProps}
+        style={{
+          ...StyleSheet.absoluteFillObject,
+        }}
       >
-        <MenuItems items={itemList} />
-      </Animated.View>
-    </AnimatedView>
+        <Animated.View
+          style={[
+            StyleSheet.absoluteFillObject,
+            styles.menuInnerContainer,
+            animatedInnerContainerStyle,
+          ]}
+        >
+          <MenuItems items={itemList} />
+        </Animated.View>
+      </AnimatedView>
+    </Animated.View>
   );
 };
 
