@@ -26,7 +26,12 @@ enum CONTEXT_MENU_STATE {
   END,
 }
 
-const { height: WINDOW_HEIGHT, width: WINDOW_WIDTH } = Dimensions.get('screen');
+let { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } = Dimensions.get('screen');
+if (WINDOW_WIDTH > WINDOW_HEIGHT) {
+  const temp = WINDOW_WIDTH;
+  WINDOW_WIDTH = WINDOW_HEIGHT;
+  WINDOW_HEIGHT = temp;
+}
 
 const MENU_CONTAINER_WIDTH = 100;
 const MENU_WIDTH = (WINDOW_WIDTH * 60) / 100;
