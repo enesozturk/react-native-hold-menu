@@ -37,6 +37,34 @@ Values:
 <HoldMenuProvider theme={"dark"}>
 ```
 
+### `enableBlur`
+
+Enable or disable the backdrop blur
+
+#### Example
+
+```tsx
+<HoldMenuProvider enableBlur={false}>
+```
+
+| type    | default | required |
+| ------- | ------- | -------- |
+| boolean | true    | NO       |
+
+### `blurIntensity`
+
+the intensity of the backdrop blur
+
+#### Example
+
+```tsx
+<HoldMenuProvider blurIntensity={20}>
+```
+
+| type   | default | required |
+| ------ | ------- | -------- |
+| number | 100     | NO       |
+
 ### `safeAreaInsets`
 
 Set object of safe area inset values to prevent the menu to be opened under the unsafe area
@@ -56,7 +84,7 @@ Fires callback when menu is opened
 
 ```tsx
 const onOpen = useCallback(() => {
-  console.log('App onOpen')
+  console.log('App onOpen');
 }, []);
 
 <HoldMenuProvider onOpen={onOpen} />;
@@ -70,7 +98,7 @@ Fires callback when menu is opened
 
 ```tsx
 const onClose = useCallback(() => {
-  console.log('App onClose')
+  console.log('App onClose');
 }, []);
 
 <HoldMenuProvider onClose={onClose} />;
@@ -244,9 +272,9 @@ Set true if you want to close menu when tap to HoldItem
 
 Set delay before long tap will activate gesture. May be useful to increase this value in lists
 
-| type    | default | required |
-| ------- | ------- | -------- |
-| number  | 150     | NO       |
+| type   | default | required |
+| ------ | ------- | -------- |
+| number | 150     | NO       |
 
 #### Example
 

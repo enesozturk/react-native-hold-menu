@@ -1,4 +1,6 @@
-export interface HoldMenuProviderProps {
+import type { BackdropProps } from '../backdrop';
+
+export interface HoldMenuProviderProps extends BackdropProps {
   /**
    * Theme of hold menu. Effects to backdrop and context menu styles. Optional.
    * @type "light" | "dark"

@@ -23,6 +23,8 @@ export let AnimatedIcon: any;
 
 const ProviderComponent = ({
   children,
+  enableBlur,
+  blurIntensity,
   theme: selectedTheme,
   iconComponent,
   safeAreaInsets,
@@ -92,7 +94,7 @@ const ProviderComponent = ({
       <InternalContext.Provider value={internalContextVariables}>
         <PortalProvider>
           {children}
-          <Backdrop />
+          <Backdrop enableBlur={enableBlur} blurIntensity={blurIntensity} />
           <Menu />
         </PortalProvider>
       </InternalContext.Provider>
