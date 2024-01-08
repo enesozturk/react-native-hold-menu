@@ -329,12 +329,10 @@ const HoldItemComponent = ({
       disableMove
         ? 0
         : isActive.value
-        ? withSpring(tY, SPRING_CONFIGURATION)
-        : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION });
+          ? withSpring(tY, SPRING_CONFIGURATION)
+          : withTiming(-0.1, { duration: HOLD_ITEM_TRANSFORM_DURATION });
 
     return {
-      zIndex: 10,
-      position: 'absolute',
       top: itemRectY.value,
       left: itemRectX.value,
       width: itemRectWidth.value,
@@ -352,6 +350,7 @@ const HoldItemComponent = ({
       ],
     };
   });
+
   const portalContainerStyle = useMemo(
     () => [styles.holdItem, animatedPortalStyle],
     [animatedPortalStyle]
