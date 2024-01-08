@@ -1,5 +1,9 @@
 import React, { memo } from 'react';
 import { StyleSheet } from 'react-native';
+import {
+  TapGestureHandler,
+  TapGestureHandlerGestureEvent,
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedProps,
@@ -7,27 +11,26 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import {
-  TapGestureHandler,
-  TapGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
 
 // Components
 import { BlurView } from 'expo-blur';
 
 // Utils
-import { styles } from './styles';
 import {
   CONTEXT_MENU_STATE,
   HOLD_ITEM_TRANSFORM_DURATION,
   IS_IOS,
   WINDOW_HEIGHT,
 } from '../../constants';
-import {
-  BACKDROP_LIGHT_BACKGROUND_COLOR,
-  BACKDROP_DARK_BACKGROUND_COLOR,
-} from './constants';
 import { useInternal } from '../../hooks';
+import {
+  BACKDROP_DARK_BACKGROUND_COLOR,
+  BACKDROP_LIGHT_BACKGROUND_COLOR,
+} from './constants';
+import { styles } from './styles';
+
+// Types
+import { BackdropProps } from './types';
 
 const AnimatedBlurView = IS_IOS
   ? Animated.createAnimatedComponent(BlurView)
@@ -40,7 +43,10 @@ type Context = {
   };
 };
 
-const BackdropComponent = () => {
+const BackdropComponent = ({
+  enableBlur = true,
+  blurIntensity = 100,
+}: BackdropProps) => {
   const { state, theme } = useInternal();
 
   const tapGestureEvent = useAnimatedGestureHandler<
@@ -95,7 +101,11 @@ const BackdropComponent = () => {
   const animatedContainerProps = useAnimatedProps(() => {
     return {
       intensity: withTiming(
-        state.value === CONTEXT_MENU_STATE.ACTIVE ? 100 : 0,
+        state.value === CONTEXT_MENU_STATE.ACTIVE
+          ? enableBlur
+            ? blurIntensity
+            : 0
+          : 0,
         {
           duration: HOLD_ITEM_TRANSFORM_DURATION,
         }
@@ -109,7 +119,7 @@ const BackdropComponent = () => {
         ? BACKDROP_LIGHT_BACKGROUND_COLOR
         : BACKDROP_DARK_BACKGROUND_COLOR;
 
-    return { backgroundColor };
+    return { backgroundColor: enableBlur ? backgroundColor : 'transparent' };
   }, [theme]);
 
   return (
