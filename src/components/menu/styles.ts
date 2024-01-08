@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     overflow: 'hidden',
-    zIndex: 15,
   },
   menuInnerContainer: {
     display: 'flex',
