@@ -1,5 +1,5 @@
 import { TransformOriginAnchorPosition } from '../../utils/calculations';
-
+import { TextStyle } from 'react-native';
 export type MenuItemProps = {
   text: string;
   icon?: string | (() => React.ReactElement);
@@ -7,6 +7,7 @@ export type MenuItemProps = {
   isTitle?: boolean;
   isDestructive?: boolean;
   withSeparator?: boolean;
+  textStyle?: TextStyle;
 };
 
 export type MenuListProps = {
