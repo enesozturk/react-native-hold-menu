@@ -1,9 +1,7 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import MenuItem from './MenuItem';
-
-import isEqual from 'lodash.isequal';
-import { MenuItemProps } from './types';
+import type { MenuItemProps } from './types';
 
 const MenuItemsComponent = ({ items }: { items: MenuItemProps[] }) => {
   return (
@@ -21,6 +19,6 @@ const MenuItemsComponent = ({ items }: { items: MenuItemProps[] }) => {
   );
 };
 
-const MenuItems = memo(MenuItemsComponent, isEqual);
+const MenuItems = memo(MenuItemsComponent);
 
 export default MenuItems;

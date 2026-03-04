@@ -6,9 +6,7 @@ import List from './List';
 import StyleGuide from '../../utilities/styleGuide';
 import { useAppContext } from '../../hooks/useAppContext';
 
-interface HomeProps {}
-
-const Home = ({}: HomeProps) => {
+const Home = () => {
   const { theme } = useAppContext();
 
   useFocusEffect(() => {

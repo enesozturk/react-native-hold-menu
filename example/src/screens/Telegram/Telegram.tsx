@@ -8,9 +8,7 @@ import { useAppContext } from '../../hooks/useAppContext';
 
 const Tab = createBottomTabNavigator();
 
-interface TelegramProps {}
-
-const Telegram = ({}: TelegramProps) => {
+const Telegram = () => {
   const { theme } = useAppContext();
 
   const profileMenu = useMemo(

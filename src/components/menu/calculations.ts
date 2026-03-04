@@ -1,4 +1,4 @@
-import Animated from 'react-native-reanimated';
+import type { SharedValue } from 'react-native-reanimated';
 
 import { MENU_WIDTH } from '../../constants';
 import {
@@ -11,24 +11,29 @@ import {
 import type { MenuInternalProps } from './types';
 
 export const leftOrRight = (
-  menuProps: Animated.SharedValue<MenuInternalProps>
+	menuProps: SharedValue<MenuInternalProps>
 ) => {
-  'worklet';
+	'worklet';
 
-  const anchorPositionHorizontal = menuProps.value.anchorPosition.split('-')[1];
-  const itemWidth = menuProps.value.itemWidth;
+	const anchor = menuProps.value.anchorPosition;
+	const anchorPositionHorizontal =
+		typeof anchor === 'string' ? anchor.split('-')[1] : 'center';
+	// Provide fallback to 0 if itemWidth is not yet set
+	const itemWidth = menuProps.value.itemWidth || 0;
 
-  let leftPosition = 0;
-  anchorPositionHorizontal === 'right'
-    ? (leftPosition = -MENU_WIDTH + itemWidth)
-    : anchorPositionHorizontal === 'left'
-    ? (leftPosition = 0)
-    : (leftPosition =
-        -menuProps.value.itemWidth -
-        MENU_WIDTH / 2 +
-        menuProps.value.itemWidth / 2);
+	let leftPosition = 0;
+	if (anchorPositionHorizontal === 'right') {
+		leftPosition = -MENU_WIDTH + itemWidth;
+	} else if (anchorPositionHorizontal === 'left') {
+		leftPosition = 0;
+	} else {
+		// Handle case when itemWidth is 0 (not yet measured)
+		const halfMenuWidth = MENU_WIDTH / 2;
+		const halfItemWidth = itemWidth / 2;
+		leftPosition = itemWidth > 0 ? -halfMenuWidth + halfItemWidth : -halfMenuWidth;
+	}
 
-  return leftPosition;
+	return leftPosition;
 };
 
 export const getColor = (

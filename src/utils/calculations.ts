@@ -41,7 +41,9 @@ export const menuAnimationAnchor = (
 ) => {
   'worklet';
   const MenuHeight = calculateMenuHeight(itemLength, itemsWithSeparatorLength);
-  const splittetAnchorName: string[] = anchorPoint.split('-');
+  const anchor =
+    typeof anchorPoint === 'string' ? anchorPoint : 'top-center';
+  const splittetAnchorName: string[] = anchor.split('-');
 
   const Center1 = itemWidth;
   const Center2 = 0;

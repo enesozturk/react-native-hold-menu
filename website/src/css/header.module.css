@@ -72,7 +72,7 @@
   white-space: nowrap;
   font-family: var(--sans-serif);
   color: #fff !important;
-  cursor: url(/pointer.svg), pointer;
+  cursor: pointer;
   margin-left: 0;
 }
 
@@ -84,7 +84,7 @@
   padding: 0.9rem 1.5rem;
   appearance: none;
   outline: none;
-  cursor: url(/pointer.svg), pointer;
+  cursor: pointer;
   border: none;
   background: var(--ifm-color-emphasis-200);
   border-radius: 5px;

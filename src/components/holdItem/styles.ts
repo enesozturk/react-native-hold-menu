@@ -1,11 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  holdItem: { zIndex: 10, position: 'absolute' },
-  portalOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 15,
-  },
+  holdItem: { zIndex: 9999, position: 'absolute', elevation: 9999 },
 });
 
 export default styles;

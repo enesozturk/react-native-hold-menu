@@ -1,11 +1,16 @@
 module.exports = {
   title: 'React Native Hold Menu',
   tagline:
-    'A performant, easy to use hold to open context menu for React Native powered by Reanimated.',
+    'A lean, modern hold-to-open context menu for React Native powered by Reanimated 4.',
   url: 'https://enesozturk.github.io',
   baseUrl: '/react-native-hold-menu/',
+  trailingSlash: false,
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
   favicon: 'img/favicon.ico',
   organizationName: 'enesozturk',
   projectName: 'react-native-hold-menu',
@@ -17,7 +22,6 @@ module.exports = {
       items: [
         {
           to: 'docs/',
-          activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
         },
@@ -38,9 +42,8 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+            'https://github.com/enesozturk/react-native-hold-menu/tree/main/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

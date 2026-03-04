@@ -3,12 +3,10 @@ import { MenuItemProps } from '../components/menu/types';
 function fieldAreSame(obj1: MenuItemProps, obj2: MenuItemProps) {
   'worklet';
 
-  const keys = Object.keys(obj1);
+  const keys = Object.keys(obj1) as (keyof MenuItemProps)[];
 
   return keys.every(key => {
-    // @ts-ignore
     const val1 = obj1[key];
-    // @ts-ignore
     const val2 = obj2[key];
 
     if (val1 !== val2) {

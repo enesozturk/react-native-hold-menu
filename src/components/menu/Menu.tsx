@@ -20,15 +20,21 @@ const MenuComponent = () => {
   const { state, menuProps } = useInternal();
 
   const wrapperStyles = useAnimatedStyle(() => {
-    const anchorPositionVertical = menuProps.value.anchorPosition.split('-')[0];
+    // Add fallback values to prevent errors when menuProps are not yet initialized
+    const anchorPosition = menuProps.value.anchorPosition || 'top-center';
+    const anchorPositionVertical = anchorPosition.split('-')[0];
+    const itemHeight = menuProps.value.itemHeight || 0;
+    const itemY = menuProps.value.itemY || 0;
+    const itemX = menuProps.value.itemX || 0;
+    const itemWidth = menuProps.value.itemWidth || 0;
+    const tY = menuProps.value.transformValue || 0;
 
     const top =
       anchorPositionVertical === 'top'
-        ? menuProps.value.itemHeight + menuProps.value.itemY + 8
-        : menuProps.value.itemY - 8;
-    const left = menuProps.value.itemX;
-    const width = menuProps.value.itemWidth;
-    const tY = menuProps.value.transformValue;
+        ? itemHeight + itemY + 8
+        : itemY - 8;
+    const left = itemX;
+    const width = itemWidth;
 
     return {
       top,

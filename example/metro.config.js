@@ -1,49 +1,29 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-const path = require('path');
 const fs = require('fs');
-const blacklist = require('metro-config/src/defaults/blacklist');
-const escape = require('escape-string-regexp');
+const path = require('path');
+const { getDefaultConfig } = require('expo/metro-config');
+const exclusionList = require('metro-config/src/defaults/exclusionList');
 
 const root = path.resolve(__dirname, '..');
-const pak = JSON.parse(
+const packageJson = JSON.parse(
   fs.readFileSync(path.join(root, 'package.json'), 'utf8')
 );
+const escapeRegExp = value =>
+  value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
 
 const modules = [
-  '@babel/runtime',
-  ...Object.keys({
-    ...pak.dependencies,
-    ...pak.peerDependencies,
-  }),
+  ...Object.keys(packageJson.peerDependencies || {}),
+  ...Object.keys(packageJson.devDependencies || {}),
 ];
 
-module.exports = {
-  projectRoot: __dirname,
-  watchFolders: [root],
+const config = getDefaultConfig(__dirname);
 
-  resolver: {
-    blacklistRE: blacklist([
-      new RegExp(`^${escape(path.join(root, 'node_modules'))}\\/.*$`),
-    ]),
+config.watchFolders = [root];
+config.resolver.blockList = exclusionList([
+  new RegExp(`^${escapeRegExp(path.join(root, 'node_modules'))}\\/.*$`),
+]);
+config.resolver.extraNodeModules = modules.reduce((accumulator, name) => {
+  accumulator[name] = path.join(__dirname, 'node_modules', name);
+  return accumulator;
+}, {});
 
-    extraNodeModules: modules.reduce((acc, name) => {
-      acc[name] = path.join(__dirname, 'node_modules', name);
-      return acc;
-    }, {}),
-  },
-
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: false,
-      },
-    }),
-  },
-};
+module.exports = config;

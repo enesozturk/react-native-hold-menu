@@ -1,39 +1,35 @@
 {
   "name": "example-expo",
   "version": "1.0.0",
+  "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "web": "expo start --web"
   },
   "dependencies": {
-    "@expo/vector-icons": "^13.0.0",
-    "@faker-js/faker": "^7.3.0",
-    "@gorhom/portal": "^1.0.14",
-    "@react-navigation/bottom-tabs": "^6.3.2",
-    "@react-navigation/native": "^6.0.11",
-    "@react-navigation/stack": "^6.2.2",
-    "expo": "^47.0.0",
-    "expo-blur": "~12.0.1",
-    "expo-haptics": "~12.0.1",
-    "expo-splash-screen": "~0.17.5",
-    "expo-status-bar": "~1.4.2",
-    "lodash.isequal": "^4.5.0",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "react-native": "0.70.5",
-    "react-native-gesture-handler": "~2.8.0",
-    "react-native-reanimated": "~2.12.0",
-    "react-native-safe-area-context": "4.4.1",
-    "react-native-screens": "~3.18.0",
-    "react-native-web": "~0.18.9"
+    "@expo/vector-icons": "^15.1.1",
+    "@react-navigation/bottom-tabs": "^7.15.5",
+    "@react-navigation/native": "^7.1.33",
+    "@react-navigation/stack": "^7.8.4",
+    "expo": "^55.0.4",
+    "expo-blur": "*",
+    "expo-haptics": "*",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-native": "0.83.0",
+    "react-native-gesture-handler": "^2.30.0",
+    "react-native-hold-menu": "workspace:*",
+    "react-native-reanimated": "^4.2.2",
+    "react-native-safe-area-context": "^5.7.0",
+    "react-native-screens": "^4.24.0",
+    "react-native-web": "^0.21.2",
+    "react-native-worklets": "^0.7.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.3",
-    "babel-plugin-module-resolver": "^4.1.0"
-  },
-  "private": true
+    "@babel/core": "^7.29.0",
+    "babel-preset-expo": "^55.0.10"
+  }
 }

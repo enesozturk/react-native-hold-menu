@@ -6,25 +6,25 @@ slug: /props
 
 ## HoldMenuProvider
 
+`HoldMenuProvider` is now a pure provider and overlay host. It does **not** wrap `GestureHandlerRootView`.
+
 ### `iconComponent`
 
-If you want to use icon in your menu items, you need to set you Icon component to HoldMenuProvider to be able to use it. And than you can set just name of the icon in menu item list with `icon` prop like below.
+If you want to use icons in your menu items, pass your icon component to `HoldMenuProvider`.
 
 :::note
-Icon can be used with just **react-native-vector-icons** for now.
+Any icon component that accepts a `name` prop can be used.
 :::
 
 ```tsx
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import FeatherIcon from '@expo/vector-icons/Feather';
 
-/* ... */
 <HoldMenuProvider iconComponent={FeatherIcon}>
-
 ```
 
 ### `theme`
 
-If you want to set spesific theme or change depends on your theme, use `theme` prop like below.
+Use `theme` to force a specific menu theme or sync the menu with your app theme.
 
 Values:
 
@@ -34,29 +34,25 @@ Values:
 | dark  | false   |
 
 ```tsx
-<HoldMenuProvider theme={"dark"}>
+<HoldMenuProvider theme="dark">
 ```
 
 ### `safeAreaInsets`
 
-Set object of safe area inset values to prevent the menu to be opened under the unsafe area
-
-#### Example
+Set safe area inset values to prevent the menu from opening under unsafe areas.
 
 ```tsx
-const safeAreaInsets = useSafeAreaProvider();
+const safeAreaInsets = useSafeAreaInsets();
 <HoldMenuProvider safeAreaInsets={safeAreaInsets} />;
 ```
 
 ### `onOpen`
 
-Fires callback when menu is opened
-
-#### Example
+Fires when the menu opens.
 
 ```tsx
 const onOpen = useCallback(() => {
-  console.log('App onOpen')
+  console.log('App onOpen');
 }, []);
 
 <HoldMenuProvider onOpen={onOpen} />;
@@ -64,13 +60,11 @@ const onOpen = useCallback(() => {
 
 ### `onClose`
 
-Fires callback when menu is opened
-
-#### Example
+Fires when the menu closes.
 
 ```tsx
 const onClose = useCallback(() => {
-  console.log('App onClose')
+  console.log('App onClose');
 }, []);
 
 <HoldMenuProvider onClose={onClose} />;
@@ -86,61 +80,49 @@ Array of menu items.
 | ------------- | -------- | -------- |
 | text          | string   | YES      |
 | icon          | string   | NO       |
-| onPress       | function | YES      |
+| onPress       | function | NO       |
 | isTitle       | boolean  | NO       |
 | isDestructive | boolean  | NO       |
 | withSeparator | boolean  | NO       |
 
-#### Example
-
 ```tsx
 <HoldItem
   items={[
-    { text: 'Actions', isTitle },
+    { text: 'Actions', isTitle: true },
     { text: 'Action 1', onPress: () => {} },
-    { text: 'Action 2', isDestructive, icon: 'trash', onPress: () => {} },
+    { text: 'Action 2', isDestructive: true, icon: 'trash', onPress: () => {} },
   ]}
 />
 ```
 
-Check out the other examples [here](examples).
-
 ### `actionParams`
 
-Object of keys that same name with items to match parameters to onPress actions. If you want to pass different parameters for HoldItem to menu item `onPress` handlers ([check WhatsApp example](https://github.com/enesozturk/react-native-hold-menu/blob/main/example/src/screens/Whatsapp/MessageItem.tsx)), you need to use this prop to set params per HoldItem.
-
-> The reason provide action params with another prop is make it able to pass with shared value without performance issues.
-
-| type                      | required |
-| ------------------------- | -------- |
-| { [name: string]: any[] } | NO       |
-
-#### Example
+Use this to pass parameters to item `onPress` handlers without changing the shared-value payload shape.
 
 ```tsx
 const items = [
- {text: 'Reply', onPress: (messageId) => {}},
- {text: 'Copy', onPress: (messageText, index) => {}},
-]
+  { text: 'Reply', onPress: messageId => {} },
+  { text: 'Copy', onPress: (messageText, index) => {} },
+];
 
 <HoldItem
-   items={items}
-   actionParams={{
-     Reply: ['dd443224-7f43'],
-     Copy: ['Hello World!', 1]
-   }}
-><View/></HoldItem>
+  items={items}
+  actionParams={{
+    Reply: ['dd443224-7f43'],
+    Copy: ['Hello World!', 1],
+  }}
+>
+  <View />
+</HoldItem>;
 ```
 
 ### `activateOn`
 
-Type of behavior to activate menu action.
+Controls how the menu opens.
 
 | type                            | default | required |
 | ------------------------------- | ------- | -------- |
 | tap <br/> double-tap <br/> hold | hold    | NO       |
-
-#### Example
 
 ```tsx
 <HoldItem activateOn="double-tap" />
@@ -148,13 +130,11 @@ Type of behavior to activate menu action.
 
 ### `hapticFeedback`
 
-Type of haptic feedback behavior.
+Controls the haptic feedback style used on activation.
 
-| value                                                                                                             | default  | required |
-| ----------------------------------------------------------------------------------------------------------------- | -------- | -------- |
+| value                                                                                                               | default  | required |
+| ------------------------------------------------------------------------------------------------------------------- | -------- | -------- |
 | "None" <br/> "Selection" <br/> "Light" <br/> "Medium" <br/> "Heavy" <br/> "Success" <br/> "Warning" <br/> "Error" | "Medium" | NO       |
-
-#### Example
 
 ```tsx
 <HoldItem hapticFeedback="Heavy" />
@@ -162,15 +142,11 @@ Type of haptic feedback behavior.
 
 ### `menuAnchorPosition`
 
-Menu anchor position is calculated automaticly. But you can override the calculation by passing an anchor position.
-Auto calculation will be `top-left`, `top-center` or `top-right`. If you want to open menu from bottom, you need to use
-`bottom-left`, `bottom-center` or `bottom-right`. Or if you want to use auto calculation for bottom, see [`bottom`](#bottom) prop.
+Menu anchor position is calculated automatically. Override it by passing an anchor position.
 
-| value                                                                                                          | required |
-| -------------------------------------------------------------------------------------------------------------- | -------- |
-| "top-center" <br/> "top-left" <br/> "top-right" <br/> "bottom-center" <br/> "bottom-left" <br/> "bottom-right" | NO       |
-
-#### Example
+| value                                                                                                                  | required |
+| ---------------------------------------------------------------------------------------------------------------------- | -------- |
+| "top-center" <br/> "top-left" <br/> "top-right" <br/> "bottom-center" <br/> "bottom-left" <br/> "bottom-right"       | NO       |
 
 ```tsx
 <HoldItem menuAnchorPosition="top-center" />
@@ -178,48 +154,39 @@ Auto calculation will be `top-left`, `top-center` or `top-right`. If you want to
 
 ### `bottom`
 
-Hold Menu automaticly calculates if you do not set [`menuAnchorPosition`](#menuanchorposition).
-If you want to open menu from bottom like _Telegram bottom nav buttons in iOS_ and use auto anchor calculation,
-you should set `bottom` as true.
+If you want automatic bottom anchoring, set `bottom`.
 
 | type    | default | required |
 | ------- | ------- | -------- |
 | boolean | false   | NO       |
 
-#### Example
-
 ```tsx
-<HoldItem menuAnchorPosition="top-center" bottom />
+<HoldItem bottom />
 ```
 
 ### `disableMove`
 
-You may need disable move of holded item for your example. Set it true.
+Disable moving the held item while the menu is open.
 
 | type    | default | required |
 | ------- | ------- | -------- |
 | boolean | false   | NO       |
 
-#### Example
-
 ```tsx
-<HoldItem menuAnchorPosition="top-center" disableMove />
+<HoldItem disableMove />
 ```
 
-### `styles`
+### `containerStyles`
 
-`HoldItem` container styles. You may need **dynamic width or hight** for some examples like message boxes. See Whatsapp example.
+Container styles for the held item. Useful for variable width or message bubbles.
 
 | type                     | default | required |
 | ------------------------ | ------- | -------- |
 | ViewStyle \| ViewStyle[] | {}      | NO       |
 
-#### Example
-
 ```tsx
-// For Whatsapp example
 <HoldItem
-  styles={{
+  containerStyles={{
     position: 'relative',
     maxWidth: '80%',
   }}
@@ -228,13 +195,11 @@ You may need disable move of holded item for your example. Set it true.
 
 ### `closeOnTap`
 
-Set true if you want to close menu when tap to HoldItem
+Set `true` if tapping the active item should close the menu.
 
 | type    | default | required |
 | ------- | ------- | -------- |
 | boolean | false   | NO       |
-
-#### Example
 
 ```tsx
 <HoldItem closeOnTap />
@@ -242,13 +207,11 @@ Set true if you want to close menu when tap to HoldItem
 
 ### `longPressMinDurationMs`
 
-Set delay before long tap will activate gesture. May be useful to increase this value in lists
+Delay before a long press activates the menu.
 
-| type    | default | required |
-| ------- | ------- | -------- |
-| number  | 150     | NO       |
-
-#### Example
+| type   | default | required |
+| ------ | ------- | -------- |
+| number | 150     | NO       |
 
 ```tsx
 <HoldItem longPressMinDurationMs={250} />

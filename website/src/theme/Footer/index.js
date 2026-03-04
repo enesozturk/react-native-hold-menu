@@ -12,7 +12,7 @@ function Footer() {
       </div>
       <div className={styles.footerRight}>
         Built with{' '}
-        <a rel="nofollow" href="https://v2.docusaurus.io/" target="_blank">
+        <a rel="nofollow" href="https://docusaurus.io/" target="_blank">
           Docusaurus
         </a>{' '}
         ❤️

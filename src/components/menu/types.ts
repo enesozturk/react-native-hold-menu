@@ -1,9 +1,10 @@
-import { TransformOriginAnchorPosition } from '../../utils/calculations';
+import type { ReactNode } from 'react';
+import type { TransformOriginAnchorPosition } from '../../utils/calculations';
 
 export type MenuItemProps = {
   text: string;
-  icon?: string | (() => React.ReactElement);
-  onPress?: (...args: any[]) => void;
+  icon?: string | (() => ReactNode);
+  onPress?: (...args: unknown[]) => void;
   isTitle?: boolean;
   isDestructive?: boolean;
   withSeparator?: boolean;
@@ -14,7 +15,6 @@ export type MenuListProps = {
 };
 
 export type MenuInternalProps = {
-  items: MenuItemProps[];
   itemHeight: number;
   itemWidth: number;
   itemY: number;
@@ -22,7 +22,6 @@ export type MenuInternalProps = {
   anchorPosition: TransformOriginAnchorPosition;
   menuHeight: number;
   transformValue: number;
-  actionParams: {
-    [name: string]: (string | number)[];
-  };
+  itemCount: number;
+  separatorCount: number;
 };

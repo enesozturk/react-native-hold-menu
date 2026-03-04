@@ -1,7 +1,7 @@
 ---
 id: getting-started
 title: Getting Started
-description: A performant, easy to use hold to open context menu for React Native powered by Reanimated. 🔥
+description: Install and configure the lean Reanimated 4 release of react-native-hold-menu.
 hide_title: true
 slug: /
 hide_table_of_contents: true
@@ -9,56 +9,49 @@ hide_table_of_contents: true
 
 # React Native Hold Menu
 
-A performant, easy to use hold to open context menu for React Native powered by Reanimated.
+A lean, modern hold-to-open context menu for React Native powered by Reanimated 4.
 
-[![Reanimated v2 version](https://img.shields.io/github/package-json/v/enesozturk/react-native-hold-menu/develop?label=Reanimated%20v2&style=flat-square)](https://www.npmjs.com/package/react-native-hold-menu) [![npm](https://img.shields.io/npm/l/react-native-hold-menu?style=flat-square)](https://www.npmjs.com/package/react-native-hold-menu) [![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/react-native-hold-menu) [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/)
+[![npm](https://img.shields.io/npm/l/react-native-hold-menu?style=flat-square)](https://www.npmjs.com/package/react-native-hold-menu) [![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/react-native-hold-menu) [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.dev/)
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { Video } from '../components/video';
 
 <Video
-  title="React Native Bottom Sheet"
+  title="React Native Hold Menu"
   url={useBaseUrl('video/hold-menu-preview.mp4')}
 />
 
-## Features
+## Requirements
 
-- Powered with Reanimated v2. 🚀
-- Smooth interactions & animations.
-- Supports dark/light Mode. 🌚 🌝
-- Supports device orientation change.
-- Compatible with Expo.
-- Written in `TypeScript`.
+- `react-native >= 0.83`
+- `react >= 19.2`
+- `react-native-reanimated >= 4`
+- `react-native-worklets >= 0.7`
+- `react-native-gesture-handler >= 2`
+- `expo-blur` and `expo-haptics` installed in the host app
 
 ## Installation
 
-> This library currently written with Reanimated v2. If you use Reanimated v1 in your application, you may need waiting for next version of the Hold Menu. It is in my todo list.
-
-```cmd
-yarn add react-native-hold-menu
-```
-
-#### Dependencies
-
-This library needs these dependencies to be installed in your project before you can use it:
-
 ```bash
-yarn add react-native-reanimated@2.1.0 react-native-gesture-handler react-native-unimodules expo-blur expo-haptics
+pnpm add react-native-hold-menu react-native-reanimated react-native-worklets react-native-gesture-handler expo-blur expo-haptics
 ```
 
-:::info
-**React Native Gesture Handler** needs extra steps to finalize its installation, please follow their [installation instructions](https://github.com/software-mansion/react-native-gesture-handler).
+## Required setup
 
-**React Native Reanimated v2** needs extra steps to finalize its installation, please follow their [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs).
+1. Wrap your app root in `GestureHandlerRootView`.
+2. Add `react-native-worklets/plugin` as the last Babel plugin.
+3. Wrap your app tree with `HoldMenuProvider`.
 
-**React Native Unimodules** needs extra steps to finalize its installation, please follow their [installation instructions](https://docs.expo.io/bare/installing-unimodules/). And make sure you excluded unwanted modules in your app. You can check the [exampale project](https://github.com/enesozturk/react-native-hold-menu/tree/main/example).
-:::
+```js
+module.exports = {
+  presets: ['babel-preset-expo'],
+  plugins: ['react-native-worklets/plugin'],
+};
+```
 
-## Todo
+## What changed in 1.0
 
-- Support for Reanimated v1
-- Support for Animated
-
-## Contributors
-
-- [Mo Gorhom](https://twitter.com/gorhom)
+- The package no longer depends on `@gorhom/portal`.
+- `HoldMenuProvider` no longer renders `GestureHandlerRootView` for you.
+- `HoldItem.theme` was removed.
+- The package now targets the Reanimated 4 / worklets toolchain.

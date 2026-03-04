@@ -1,35 +1,31 @@
 import React from 'react';
 import Layout from '@theme/Layout';
-import useThemeContext from '@theme/hooks/useThemeContext';
 
 import styles from '../css/header.module.css';
 import CopySvg from '@site/static/svg/copy.svg';
-import DarkImage from '@site/static/img/masked-dark-phone.png';
 import LightImage from '@site/static/img/masked-light-phone.png';
 
 import Link from '@docusaurus/Link';
 
 function Content() {
-  const { isDarkTheme } = useThemeContext();
-
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
         <section className={styles.hero}>
           <div className={styles.phoneImageWrapperOnLeft}>
             <img
-              src={isDarkTheme ? DarkImage : LightImage}
+              src={LightImage}
               style={{ maxHeight: 450 }}
             />
           </div>
           <div className={styles.heroWrapper}>
             <h1 className={styles.heading}>
-              Make your components more interactable
+              Lean menus for modern React Native apps
             </h1>
             <h2 className={styles.subHeading}>
-              A performant, easy to use
+              A lean, easy to use
               <strong>hold to open context menu</strong> for React Native
-              powered by Reanimated.
+              powered by Reanimated 4.
             </h2>
             <div className={`${styles.flex} ${styles.buttonsWrapper}`}>
               <div className={styles.flexItem}>
@@ -42,11 +38,11 @@ function Content() {
                   className={styles.copyPaste}
                   onClick={() =>
                     navigator.clipboard.writeText(
-                      'yarn add react-native-hold-menu'
+                      'pnpm add react-native-hold-menu'
                     )
                   }
                 >
-                  yarn add react-native-hold-menu
+                  pnpm add react-native-hold-menu
                   <CopySvg className={styles.copyIcon} />
                 </button>
               </div>
@@ -54,7 +50,7 @@ function Content() {
           </div>
           <div className={styles.phoneImageWrapper}>
             <img
-              src={isDarkTheme ? DarkImage : LightImage}
+              src={LightImage}
               style={{ maxHeight: 450 }}
             />
           </div>

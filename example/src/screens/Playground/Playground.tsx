@@ -7,9 +7,7 @@ import styles from './styles';
 import { useAppContext } from '../../hooks/useAppContext';
 import StyleGuide from '../../utilities/styleGuide';
 
-interface PlaygroundProps {}
-
-const Playground = ({}: PlaygroundProps) => {
+const Playground = () => {
   const { theme } = useAppContext();
 
   const items = [

@@ -18,8 +18,11 @@ function useDeviceOrientation() {
       setDeviceOrientation(getWindowOrientation());
     }
     const changeEvent = Dimensions.addEventListener('change', updateState);
-    // @ts-ignore
-    return () => changeEvent.remove();
+    return () => {
+      if (typeof changeEvent.remove === 'function') {
+        changeEvent.remove();
+      }
+    };
   }, []);
 
   return deviceOrientation;

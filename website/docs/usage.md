@@ -10,20 +10,23 @@ hide_title: true
 
 ### HoldMenuProvider
 
-Before using Hold Menu in your application, you need to wrap your app with `HoldMenuProvider` first.
+Before using Hold Menu in your application, wrap your app root with `GestureHandlerRootView`, then add `HoldMenuProvider`.
 
 See all the [HoldMenuProvider props](/react-native-hold-menu/docs/props#holdmenuprovider).
 
 ```tsx
 import React from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { HoldMenuProvider } from 'react-native-hold-menu';
 
 const App = () => {
   return (
-    <HoldMenuProvider theme="light">
-      {/* Your app components */}
-    </HoldMenuProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <HoldMenuProvider theme="light">
+        {/* Your app components */}
+      </HoldMenuProvider>
+    </GestureHandlerRootView>
   );
 };
 
@@ -54,7 +57,7 @@ const MenuItems = [
 const Example = () => {
   return (
     <View style={styles.container}>
-      <HoldItem items={MenuItems}>
+      <HoldItem items={MenuItems} hapticFeedback="Medium">
         <View style={styles.item} />
       </HoldItem>
       <HoldItem items={MenuItems}>

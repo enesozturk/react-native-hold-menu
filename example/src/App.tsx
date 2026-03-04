@@ -33,8 +33,11 @@ const App = () => {
   });
 
   const toggleTheme = useCallback(() => {
-    setState({ ...state, theme: state.theme === 'light' ? 'dark' : 'light' });
-  }, [state]);
+    setState(currentState => ({
+      ...currentState,
+      theme: currentState.theme === 'light' ? 'dark' : 'light',
+    }));
+  }, []);
 
   const appContextVariables = useMemo(
     () => ({
@@ -55,11 +58,11 @@ const App = () => {
   }, [state]);
 
   const onOpen = useCallback(() => {
-    console.log('App onOpen')
+    console.warn('App onOpen');
   }, []);
 
   const onClose = useCallback(() => {
-    console.log('App onClose')
+    console.warn('App onClose');
   }, []);
 
   return (
@@ -78,7 +81,6 @@ const App = () => {
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="Home"
-              headerMode="screen"
               screenOptions={{
                 headerRight: () => <ToggleThemeButton theme={state.theme} />,
               }}

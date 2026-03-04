@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
   menuWrapper: {
     position: 'absolute',
     left: 0,
-    zIndex: 10,
+    zIndex: 10000,
+    elevation: 10000,
   },
   menuContainer: {
     position: 'absolute',
@@ -18,7 +19,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     overflow: 'hidden',
-    zIndex: 15,
+    zIndex: 10000,
+    elevation: 10000,
   },
   menuInnerContainer: {
     display: 'flex',
